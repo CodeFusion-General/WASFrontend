@@ -1,7 +1,8 @@
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import Header from './Header.jsx';
-import Slider from './MainPage/Slider.jsx';
-import LoginPage from './LoginPage/LoginPage.jsx';
+import Slider from './mainPage/Slider.jsx';
+import Login from './loginPage/Login.jsx';
+import UserAdd from "./userPages/userAddPage/UserAdd.jsx";
 
 const Dashboard = () => {
     return (
@@ -23,12 +24,17 @@ const router = createBrowserRouter([
                 element: <Slider />,
                 index: true,
             },
+            {
+                path: "/register",
+                element: <UserAdd />,
+                index: true,
+            },
         ],
     },
     //Pages without header.
     {
         path: "/login",
-        element: <LoginPage />,
+        element: <Login />,
     },
 ]);
 

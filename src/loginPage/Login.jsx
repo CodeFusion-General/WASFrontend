@@ -3,7 +3,7 @@ import React from 'react';
 import { FaUser, FaLock } from "react-icons/fa";
 const LoginPage = () => {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-cover bg-center" style={{ backgroundImage: `url('src/assets/WASBackground.jpg')` }}>
+    <div className="flex items-center justify-center min-h-screen bg-cover bg-center font-roboto-slab" style={{ backgroundImage: `url('src/assets/WASBackground.jpg')` }}>
       <div className="bg-white/10 border border-white/20 backdrop-blur-md shadow-lg text-white rounded-lg px-10 py-8 w-104">
         <h1 className="text-4xl text-center mb-10">Login</h1>
 

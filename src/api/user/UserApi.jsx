@@ -66,32 +66,28 @@ const getAllUsers = async () => {
     return apiCall(url, { headers: getHeaders() }, "Error getting all users:");
 };
 
-const addUser = async (id, name, surname, email, file) => {
-    let formData = new FormData();
-    formData.append('id', id);
-    formData.append('name', name);
-    formData.append('surname', surname);
-    formData.append('email', email);
-    formData.append('file', file);
-
-    const url = `${API_BASE_URL}/user/addUser`;
-
-    const config = {
-        headers: getHeaders(true)
-    };
+// `addAccount` fonksiyonu şimdi sadece `formData` alacak
+const addAccount = async (formData) => {
+    const url = `${API_BASE_URL}/account/addAccount`;
 
     try {
-        const response = await axios.post(url, formData, config);
-        checkResponseStatusCode(response.status);
-        return response.data;
-    } catch (error) {
-        if (!checkResponseStatusCode(error.response.status)) {
-            return;
+        const response = await axios.post(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        if (response.status === 201) {
+            return response.data;
+        } else {
+            throw new Error(`Unexpected response status: ${response.status}`);
         }
-        console.error("Error adding the user:", error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin");
+    } catch (error) {
+        console.error("Error adding the account:", error);
+        throw error;  // Hatanın üst komponente ulaşmasını sağlayın
     }
 };
+
 
 const updateUser = async (id, name, surname, email, file) => {
     let formData = new FormData();
@@ -685,7 +681,7 @@ export
     getAllTransactions,
     getTransactionsByStoreId,
     //add methods
-    addUser,
+    addAccount,
     addProduct,
     addProductField,
     addStore,

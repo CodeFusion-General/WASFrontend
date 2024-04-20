@@ -3,6 +3,7 @@ import Header from './Header.jsx';
 import Slider from './mainPage/Slider.jsx';
 import Login from './loginPage/Login.jsx';
 import UserAdd from "./userPages/userAddPage/UserAdd.jsx";
+import StoreList from './components/store/storeList/StoreList.jsx';
 
 const Dashboard = () => {
     return (
@@ -14,7 +15,6 @@ const Dashboard = () => {
 };
 
 const router = createBrowserRouter([
-    //Pages with header.
     {
         path: "/",
         element: <Dashboard />,
@@ -27,11 +27,14 @@ const router = createBrowserRouter([
             {
                 path: "/register",
                 element: <UserAdd />,
-                index: true,
             },
+            {
+                path: "/stores",
+                element: <StoreList />,
+            },
+
         ],
     },
-    //Pages without header.
     {
         path: "/login",
         element: <Login />,

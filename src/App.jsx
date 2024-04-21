@@ -27,8 +27,16 @@ const router = createBrowserRouter([
                 index: true,
             },
             {
-                path: "/register",
-                element: <UserAdd />,
+                path: "/employee-register",
+                element: <UserAdd
+                    type = "Employee"
+                />,
+            },
+            {
+                path: "/boss-register",
+                element: <UserAdd
+                    type = "Boss"
+                />,
             },
             {
                 path: "/stores",

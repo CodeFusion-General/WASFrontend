@@ -3,8 +3,8 @@ import {useEffect, useState} from "react";
 import { CiCircleCheck } from "react-icons/ci";
 import {addAccount} from "../../api/user/UserApi.jsx";
 
-export default function UserAdd() {
-
+export default function UserAdd(props) {
+    const {type} = props;
     const [account, setAccount] = useState({ username: '', password: '', password_again: '' });
     const [passwordsMatch, setPasswordsMatch] = useState(false);
     const [user, setUser] = useState({ email: '', name: '', surname: '' });
@@ -39,7 +39,7 @@ export default function UserAdd() {
         formData.append('email', user.email);
         formData.append('username', account.username);
         formData.append('password', account.password);
-        formData.append('role', 'EMPLOYEE');
+        formData.append('role', type.toString().toUpperCase());
 
         const fileInput = document.getElementById('photoInput');
         if (fileInput.files.length > 0) {
@@ -68,7 +68,7 @@ export default function UserAdd() {
             <form className="mx-auto max-w-screen-md mt-10"  onSubmit={handleRegister}>
                 <div className="space-y-12">
                     <div className="border-b border-gray-900/10 pb-12">
-                        <h2 className="font-semibold leading-7 text-gray-900 text-3xl">Add Employee</h2>
+                        <h2 className="font-semibold leading-7 text-gray-900 text-3xl">Add {type}</h2>
                         <h2 className="text-base font-semibold leading-7 text-gray-900 mt-5">Account Information</h2>
                         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                             <div className="sm:col-span-4">

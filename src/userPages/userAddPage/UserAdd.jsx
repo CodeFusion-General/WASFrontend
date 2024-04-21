@@ -1,13 +1,15 @@
+/* eslint-disable react/prop-types */
 import { UserCircleIcon } from '@heroicons/react/24/solid'
 import {useEffect, useState} from "react";
 import { CiCircleCheck } from "react-icons/ci";
 import {addAccount} from "../../api/user/UserApi.jsx";
 
+
 export default function UserAdd(props) {
     const {type} = props;
     const [account, setAccount] = useState({ username: '', password: '', password_again: '' });
     const [passwordsMatch, setPasswordsMatch] = useState(false);
-    const [user, setUser] = useState({ email: '', name: '', surname: '' });
+    const [user, setUser] = useState({ email: '', name: '', surname: '' , phone: ''});
     const [photo, setPhoto] = useState(null);
 
     const handlePhotoChange = (event) => {
@@ -27,6 +29,7 @@ export default function UserAdd(props) {
 
     const handleRegister = async (event) => {
         event.preventDefault();
+        
 
         if (!passwordsMatch) {
             alert("Passwords do not match.");
@@ -39,13 +42,14 @@ export default function UserAdd(props) {
         formData.append('email', user.email);
         formData.append('username', account.username);
         formData.append('password', account.password);
+        formData.append('phone', account.phone);
         formData.append('role', type.toString().toUpperCase());
 
         const fileInput = document.getElementById('photoInput');
         if (fileInput.files.length > 0) {
             formData.append('file', fileInput.files[0]);
         }
-
+        
         try {
             const result = await addAccount(formData);
             console.log(result);
@@ -74,7 +78,7 @@ export default function UserAdd(props) {
                             <div className="sm:col-span-4">
                                 <label htmlFor="username"
                                        className="block text-sm font-medium leading-6 text-gray-900">
-                                    Username
+                                    Username <span className="text-red-500">*</span>
                                 </label>
                                 <div className="mt-2">
                                     <div
@@ -96,7 +100,7 @@ export default function UserAdd(props) {
                             <div className="sm:col-span-3">
                                 <label htmlFor="password"
                                        className="block text-sm font-medium leading-6 text-gray-900">
-                                    Password
+                                    Password <span className="text-red-500">*</span>
                                 </label>
                                 <div className="mt-2">
                                     <div
@@ -114,10 +118,11 @@ export default function UserAdd(props) {
                                     </div>
                                 </div>
                             </div>
+                             <br/>
                             <div className="sm:col-span-3">
                                 <label htmlFor="password-again"
                                        className="block text-sm font-medium leading-6 text-gray-900">
-                                    Password Again
+                                    Password Again <span className="text-red-500">*</span>
                                 </label>
                                 <div className="mt-2">
                                     <div
@@ -132,7 +137,32 @@ export default function UserAdd(props) {
                                             }))}
                                             className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                         />
-                                        {passwordsMatch && <CiCircleCheck className="text-green-500 ml-2" size="24px"/>}
+                                        {passwordsMatch && <CiCircleCheck className="text-green-500 ml-2 to-transparent" size="24px"/>}
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <br/>
+                            <div className="sm:col-span-3">
+                                <label htmlFor="phone"
+                                       className="block text-sm font-medium leading-6 text-gray-900">
+                                    Phone<span className="text-red-500">*</span>
+                                </label>
+                                <div className="mt-2">
+                                    <div
+                                        className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                        <input
+                                            type="text"
+                                            name="phone"
+                                            id="phone"
+                                            maxLength={10}
+                                            onChange={e => setUser(prevState => ({
+                                                ...prevState,
+                                                phone: e.target.value
+                                            }))}
+                                            
+                                            className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -146,7 +176,7 @@ export default function UserAdd(props) {
                             <div className="sm:col-span-3">
                                 <label htmlFor="first-name"
                                        className="block text-sm font-medium leading-6 text-gray-900">
-                                    First name
+                                    First name <span className="text-red-500">*</span>
                                 </label>
                                 <div className="mt-2">
                                     <input
@@ -165,7 +195,7 @@ export default function UserAdd(props) {
                             <div className="sm:col-span-3">
                                 <label htmlFor="last-name"
                                        className="block text-sm font-medium leading-6 text-gray-900">
-                                    Last name
+                                    Last name <span className="text-red-500">*</span>
                                 </label>
                                 <div className="mt-2">
                                     <input
@@ -183,7 +213,7 @@ export default function UserAdd(props) {
 
                             <div className="sm:col-span-3">
                                 <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Email address
+                                    Email address <span className="text-red-500">*</span>
                                 </label>
                                 <div className="mt-2">
                                     <input

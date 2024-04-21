@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -20,11 +22,14 @@ const Sidebar = () => {
                             <a href="/" className="text-white hover:text-gray-300">Home</a>
                         </li>
                         <li className="px-6 py-2 border-b border-gray-900">
-                            <a href="/register" className="text-white hover:text-gray-300">Register</a>
+                            <a href="/boss-register" className="text-white hover:text-gray-300">Register</a>
                         </li>
                         <li className="px-6 py-2 border-b border-gray-900">
                             <a href="/stores" className="text-white hover:text-gray-300">Stores</a>
                         </li>
+                        <li className="px-6 py-2 border-b border-gray-900">
+                            <Link to="/store-employees" className="text-white hover:text-gray-300">Store Employees</Link>
+                        </li>                        
                     </ul>
                 </nav>
             )}

@@ -28,8 +28,13 @@ const Sidebar = () => {
                             <a href="/stores" className="text-white hover:text-gray-300">Stores</a>
                         </li>
                         <li className="px-6 py-2 border-b border-gray-900">
-                            <Link to="/store-employees" className="text-white hover:text-gray-300">Store Employees</Link>
-                        </li>                        
+                            <Link to="/store-employees" className="text-white hover:text-gray-300">Store
+                                Employees</Link>
+                        </li>
+                        <li className="px-6 py-2 border-b border-gray-900">
+                            <Link to="/product-list" className="text-white hover:text-gray-300">
+                                Products</Link>
+                        </li>
                     </ul>
                 </nav>
             )}

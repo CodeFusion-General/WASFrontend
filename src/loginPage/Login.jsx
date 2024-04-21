@@ -46,7 +46,7 @@ const LoginPage = () => {
     <div className="register-link text-sm text-center mt-5">
       <p>
         Don&apos;t have an account? 
-        <a href="#" className="text-white font-semibold hover:underline">
+        <a href="/boss-register" className="text-white font-semibold hover:underline">
           Sign up
         </a>
       </p>

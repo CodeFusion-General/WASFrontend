@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 
 const Sidebar = () => {
@@ -20,7 +21,7 @@ const Sidebar = () => {
                             <a href="/" className="text-white hover:text-gray-300">Home</a>
                         </li>
                         <li className="px-6 py-2 border-b border-gray-900">
-                            <a href="/register" className="text-white hover:text-gray-300">Register</a>
+                            <a href="/boss-register" className="text-white hover:text-gray-300">Register</a>
                         </li>
                         <li className="px-6 py-2 border-b border-gray-900">
                             <a href="/stores" className="text-white hover:text-gray-300">Stores</a>

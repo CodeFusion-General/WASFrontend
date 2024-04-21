@@ -5,6 +5,7 @@ import Login from './loginPage/Login.jsx';
 import UserAdd from "./userPages/userAddPage/UserAdd.jsx";
 import StoreList from './components/store/storeList/StoreList.jsx';
 import Sidebar from './Sidebar.jsx'
+import StoreEmployees from './components/store/storeEmployee/StoreEmployees.jsx';
 
 const Dashboard = () => {
     return (
@@ -42,7 +43,10 @@ const router = createBrowserRouter([
                 path: "/stores",
                 element: <StoreList />,
             },
-
+            {
+                path: "/store-employees",
+                element: <StoreEmployees/>,
+            },
         ],
     },
     {

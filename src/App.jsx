@@ -5,6 +5,7 @@ import Login from './loginPage/Login.jsx';
 import UserAdd from "./userPages/userAddPage/UserAdd.jsx";
 import StoreList from './components/store/storeList/StoreList.jsx';
 import Sidebar from './Sidebar.jsx'
+import StoreAdd from "./components/store/storeAdd/StoreAdd.jsx";
 
 const Dashboard = () => {
     return (
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
                 element: <UserAdd
                     type = "Boss"
                 />,
+            },
+            {
+              path: "/add-store",
+              element: <StoreAdd/>,
             },
             {
                 path: "/stores",

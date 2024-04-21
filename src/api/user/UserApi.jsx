@@ -52,20 +52,13 @@ const getResource = async (id) => {
 //#region UserAPI
 
 const getUsersByStoreIdAndRoles = async (storeId, roles) => {
-    const url = `${API_BASE_URL}/storeWithRole/${storeId}`;
-    const roleQuery = roles.map(role => `roles=${role}`).join('&');
-
-    try {
-        const response = await axios.get(`${url}?${roleQuery}`, { headers: getHeaders() });
-        if (response.status === 200) {
-            return response.data;
-        } else {
-            throw new Error(`Error getting users with storeId: ${storeId} and roles: ${roles.join(', ')}`);
-        }
-    } catch (error) {
-        console.error("Error in getUsersByStoreIdAndRoles:", error);
-        return [];
-    }
+    const roleQuery = roles.map(role => `roles=${encodeURIComponent(role)}`).join('&');
+    const url = `${API_BASE_URL}/storeWithRole/${storeId}?${roleQuery}`;
+    return apiCall(
+        url,
+        { headers: getHeaders() },
+        `Error getting users with storeId: ${storeId} and roles: ${roles.join(', ')}`
+    );
 };
 
 const getUsersByStoreId = async (storeId) => {

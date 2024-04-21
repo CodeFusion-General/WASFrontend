@@ -4,11 +4,13 @@ import Slider from './mainPage/Slider.jsx';
 import Login from './loginPage/Login.jsx';
 import UserAdd from "./userPages/userAddPage/UserAdd.jsx";
 import StoreList from './components/store/storeList/StoreList.jsx';
+import Sidebar from './Sidebar.jsx'
 
 const Dashboard = () => {
     return (
         <div>
             <Header />
+            <Sidebar />
             <Outlet />
         </div>
     );

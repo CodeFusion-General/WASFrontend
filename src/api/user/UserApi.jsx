@@ -76,7 +76,7 @@ const getAllUsers = async () => {
     return apiCall(url, { headers: getHeaders() }, "Error getting all users:");
 };
 
-// `addAccount` fonksiyonu şimdi sadece `formData` alacak
+
 const addAccount = async (formData) => {
     const url = `${API_BASE_URL}/account/addAccount`;
 

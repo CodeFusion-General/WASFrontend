@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import Cookies from "js-cookie";
 const API_BASE_URL = "http://localhost:8080";
 
 //add region in here
@@ -8,7 +8,8 @@ const API_BASE_URL = "http://localhost:8080";
 
 const checkResponseStatusCode = (status) => {
     if (status === 403) {
-        alert("Bu işlemi yapabilmek için giriş yapmalısınız");
+        alert("You must log in to perform this action.");
+        Cookies.remove('user_token');
         window.location.href = `http://localhost:5173/login`;
         return false;
     }
@@ -23,16 +24,21 @@ const apiCall = async (url, config, errorHandler) => {
             return;
         }
         console.error(errorHandler, error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin");
     }
 };
 
 const getHeaders = (isMultipart = false) => {
+    const token = Cookies.get('token');
+
     if (isMultipart) {
-        return {};
+        return {
+            'Content-Type': 'multipart/form-data',
+            "Authorization": `Bearer ${token}`
+        };
     }
     return {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
     };
 };
 
@@ -82,9 +88,7 @@ const addAccount = async (formData) => {
 
     try {
         const response = await axios.post(url, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
+            headers: getHeaders(true)
         });
 
         if (response.status === 201) {
@@ -122,7 +126,6 @@ const updateUser = async (id, name, surname, email, file) => {
             return;
         }
         console.error("Error updating the user:", error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin");
     }
 };
 
@@ -138,7 +141,6 @@ const deleteUser = async (id) => {
             return;
         }
         console.error("Error deleting the user:", error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin");
     }
 };
 
@@ -157,7 +159,6 @@ const getProductsByStoreId = async (storeId) => {
         }
     } catch (error) {
         console.error("Error in getProductsByStoreId:", error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin");
     }
 };
 
@@ -173,7 +174,6 @@ const getAllProducts = async () => {
         }
     } catch (error) {
         console.error("Error in getAllProducts:", error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin");
     }
 };
 
@@ -201,9 +201,7 @@ const addProduct = async (productDTO, file) => {
 
     const url = `${API_BASE_URL}/product/addProduct`;
     const config = {
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
+        headers: getHeaders(true)
     };
 
     try {
@@ -215,7 +213,6 @@ const addProduct = async (productDTO, file) => {
         }
     } catch (error) {
         console.error("Error in addProduct:", error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin");
     }
 };
 
@@ -226,9 +223,7 @@ const updateProduct = async (id, productDTO, file) => {
 
     const url = `${API_BASE_URL}/product/updateProduct/${id}`;
     const config = {
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
+        headers: getHeaders(true)
     };
 
     try {
@@ -240,7 +235,6 @@ const updateProduct = async (id, productDTO, file) => {
         }
     } catch (error) {
         console.error("Error updating the product:", error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin");
     }
 };
 
@@ -256,7 +250,6 @@ const deleteProduct = async (id) => {
         }
     } catch (error) {
         console.error("Error in deleteProduct:", error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin");
     }
 };
 
@@ -273,7 +266,6 @@ const getProductFieldById = async (id) => {
         }
     } catch (error) {
         console.error("Error in getProductFieldById:", error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin");
     }
 };
 
@@ -289,7 +281,6 @@ const getAllProductFields = async () => {
         }
     } catch (error) {
         console.error("Error in getAllProductFields:", error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin");
     }
 };
 
@@ -298,9 +289,7 @@ const getProductFieldsByProductId = async (productId) => {
 
     try {
         const response = await axios.get(url, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: getHeaders()
         });
 
         if (response.status === 200) {
@@ -310,7 +299,6 @@ const getProductFieldsByProductId = async (productId) => {
         }
     } catch (error) {
         console.error(`Could not fetch product fields for product id ${productId}`, error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
     }
 };
 
@@ -319,9 +307,7 @@ const addProductField = async (productFieldDTO) => {
 
     try {
         const response = await axios.post(url, productFieldDTO, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: getHeaders()
         });
 
         if (response.status === 201) {
@@ -331,7 +317,6 @@ const addProductField = async (productFieldDTO) => {
         }
     } catch (error) {
         console.error("Could not add product field", error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
     }
 };
 
@@ -340,9 +325,7 @@ const updateProductField = async (id, productFieldDTO) => {
 
     try {
         const response = await axios.put(url, productFieldDTO, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: getHeaders()
         });
 
         if (response.status === 200) {
@@ -352,7 +335,6 @@ const updateProductField = async (id, productFieldDTO) => {
         }
     } catch (error) {
         console.error(`Could not update product field with id ${id}`, error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
     }
 };
 
@@ -362,9 +344,7 @@ const deleteProductField = async (id) => {
 
     try {
         const response = await axios.delete(url, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: getHeaders()
         });
 
         if (response.status === 204) {
@@ -374,7 +354,6 @@ const deleteProductField = async (id) => {
         }
     } catch (error) {
         console.error(`Could not delete product field with id ${id}`, error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
     }
 };
 
@@ -385,9 +364,7 @@ const getTransactionById = async (id) => {
 
     try {
         const response = await axios.get(url, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: getHeaders()
         });
 
         if (response.status === 200) {
@@ -397,7 +374,6 @@ const getTransactionById = async (id) => {
         }
     } catch (error) {
         console.error(`Could not fetch transaction for transaction id ${id}`, error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
     }
 };
 
@@ -406,9 +382,7 @@ const getAllTransactions = async () => {
 
     try {
         const response = await axios.get(url, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: getHeaders()
         });
 
         if (response.status === 200) {
@@ -419,7 +393,6 @@ const getAllTransactions = async () => {
 
     } catch (error) {
         console.error("Could not fetch all transactions", error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
     }
 };
 
@@ -428,9 +401,7 @@ const getTransactionsByStoreId = async (storeId) => {
 
     try {
         const response = await axios.get(url, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: getHeaders()
         });
 
         if (response.status === 200) {
@@ -440,7 +411,6 @@ const getTransactionsByStoreId = async (storeId) => {
         }
     } catch (error) {
         console.error(`Could not fetch transactions for store id ${storeId}`, error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
     }
 };
 
@@ -459,9 +429,7 @@ const addTransaction = async (transactionDTO, file) => {
 
     try {
         const response = await axios.post(url, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
+            headers: getHeaders(true)
         });
 
         if (response.status === 201) {
@@ -472,7 +440,6 @@ const addTransaction = async (transactionDTO, file) => {
         }
     } catch (error) {
         console.error('Could not add transaction', error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
     }
 };
 
@@ -491,9 +458,7 @@ const updateTransaction = async (id, transactionDTO, file) => {
 
     try {
         const response = await axios.put(url, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
+            headers: getHeaders(true)
         });
 
         if (response.status === 200) {
@@ -504,7 +469,6 @@ const updateTransaction = async (id, transactionDTO, file) => {
         }
     } catch (error) {
         console.error('Could not update transaction', error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
     }
 };
 
@@ -513,9 +477,7 @@ const deleteTransaction = async (id) => {
 
     try {
         const response = await axios.delete(url, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: getHeaders()
         });
 
         if (response.status === 204) {
@@ -525,7 +487,6 @@ const deleteTransaction = async (id) => {
         }
     } catch (error) {
         console.error('Could not delete transaction', error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
     }
 };
 

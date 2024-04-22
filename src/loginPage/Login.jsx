@@ -12,7 +12,12 @@ const LoginPage = () => {
       window.location.href = '/';
     }
     catch (error) {
-      alert('Login failed: '+ error.message);
+      if(error.message === "Unexpected error: User not found"){
+        alert('Login failed: User not found.');
+      }
+      else {
+        alert('Login failed: Password wrong.');
+      }
     }
 
   }

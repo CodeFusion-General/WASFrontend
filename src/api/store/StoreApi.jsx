@@ -1,67 +1,68 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const API_BASE_URL = "http://localhost:8080";
+
+const checkResponseStatusCode = (status) => {
+    if (status === 403) {
+        alert("You must log in to perform this action.");
+        Cookies.remove('user_token');
+        window.location.href = `http://localhost:5173/login`;
+        return false;
+    }
+    return true;
+};
+
+const apiCall = async (url, config, errorHandler) => {
+    try {
+        return await axios.get(url, config);
+    } catch (error) {
+        if (!checkResponseStatusCode(error.response.status)) {
+            return;
+        }
+        console.error(errorHandler, error);
+    }
+};
+
+const getHeaders = (isMultipart = false) => {
+    const token = Cookies.get('token');
+
+    if (isMultipart) {
+        return {
+            'Content-Type': 'multipart/form-data',
+            "Authorization": `Bearer ${token}`
+        };
+    }
+    return {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+    };
+};
 const getStoreById = async (id) => {
     const url = `${API_BASE_URL}/store/getStoreById/${id}`;
-
-    try {
-        const response = await axios.get(url, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (response.status === 200) {
-            return response.data;
-        } else {
-            throw new Error(`Unexpected response status while getting store: ${response.status}`);
-        }
-    } catch (error) {
-        console.error(`Could not fetch store for id ${id}`, error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
-    }
+    return apiCall(
+        url,
+        { headers: getHeaders() },
+        `Unexpected response status while getting store.`
+    );
 };
 
 const getAllStores = async () => {
     const url = `${API_BASE_URL}/store/allStore`;
-
-    try {
-        const response = await axios.get(url, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (response.status === 200) {
-            return response.data;
-        } else {
-            throw new Error(`Unexpected response status while getting all stores: ${response.status}`);
-        }
-    } catch (error) {
-        console.error("Could not fetch stores", error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
-    }
+    return apiCall(
+        url,
+        { headers: getHeaders() },
+        `Unexpected response status while getting all stores.`
+    );
 };
 
 const getStoresByStoreId = async (storeId) => {
     const url = `${API_BASE_URL}/store/${storeId}`;
-
-    try {
-        const response = await axios.get(url, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (response.status === 200) {
-            return response.data;
-        } else {
-            throw new Error(`Unexpected response status while getting stores by store id: ${response.status}`);
-        }
-    } catch (error) {
-        console.error(`Could not fetch stores for store id ${storeId}`, error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
-    }
+    return apiCall(
+        url,
+        { headers: getHeaders() },
+        `Unexpected response status while getting stores by store id.`
+    );
 };
 
 const addStore = async (formData) => {
@@ -69,9 +70,7 @@ const addStore = async (formData) => {
 
     try {
         const response = await axios.post(url, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
+            headers: getHeaders(true)
         });
 
         if (response.status === 201) {
@@ -80,8 +79,10 @@ const addStore = async (formData) => {
             throw new Error(`Unexpected response status: ${response.status}`);
         }
     } catch (error) {
+        if (!checkResponseStatusCode(error.response.status)) {
+            return;
+        }
         console.error("Error adding the store:", error);
-        throw error;
     }
 };
 
@@ -101,9 +102,7 @@ const updateStore = async (id, storeDTO, file) => {
 
     try {
         const response = await axios.put(url, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
+            headers: getHeaders(true)
         });
 
         if (response.status === 200) {
@@ -112,8 +111,10 @@ const updateStore = async (id, storeDTO, file) => {
             throw new Error(`Unexpected response status while updating store: ${response.status}`);
         }
     } catch (error) {
+        if (!checkResponseStatusCode(error.response.status)) {
+            return;
+        }
         console.error(`Could not update store with id ${id}`, error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
     }
 };
 
@@ -122,9 +123,7 @@ const deleteStore = async (id) => {
 
     try {
         const response = await axios.delete(url, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: getHeaders()
         });
 
         if (response.status === 204) {
@@ -133,8 +132,10 @@ const deleteStore = async (id) => {
             throw new Error(`Unexpected response status while deleting store: ${response.status}`);
         }
     } catch (error) {
+        if (!checkResponseStatusCode(error.response.status)) {
+            return;
+        }
         console.error(`Could not delete store with id ${id}`, error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
     }
 };
 

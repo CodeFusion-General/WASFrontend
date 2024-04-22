@@ -1,7 +1,26 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
+import React, {useState} from 'react';
 import { FaUser, FaLock } from "react-icons/fa";
+import {login} from '../api/authentication/AuthenticationApi';
 const LoginPage = () => {
+  const [authenticate, setAuthenticate] = useState({username : '', password : '' });
+  const handleLogin = async () => {
+
+    try {
+      await login(authenticate.username, authenticate.password);
+      alert('Login successful');
+      window.location.href = '/';
+    }
+    catch (error) {
+      if(error.message === "Unexpected error: User not found"){
+        alert('Login failed: User not found.');
+      }
+      else {
+        alert('Login failed: Password wrong.');
+      }
+    }
+
+  }
   return (
     <div className="flex items-center justify-center min-h-screen bg-cover bg-center font-roboto-slab" style={{ backgroundImage: `url('src/assets/WASBackground.jpg')` }}>
       <div className="bg-white/10 border border-white/20 backdrop-blur-md shadow-lg text-white rounded-lg px-10 py-8 w-104">
@@ -14,6 +33,7 @@ const LoginPage = () => {
               className="w-full h-12 bg-transparent outline-none pl-2 pr-10 rounded-full text-base text-white"
               type="text"
               placeholder="Username"
+              onChange={e => setAuthenticate({ ...authenticate, username: e.target.value })}
             />
           </div>
         </div>
@@ -25,6 +45,7 @@ const LoginPage = () => {
               className="w-full h-12 bg-transparent outline-none pl-2 pr-10 rounded-full text-base text-white"
               type="password"
               placeholder="Password"
+              onChange={e => setAuthenticate({ ...authenticate, password: e.target.value })}
             />
           </div>
         </div>
@@ -39,7 +60,10 @@ const LoginPage = () => {
       </a>
     </div>
 
-    <button className="w-full h-11 bg-white rounded-full shadow text-base text-gray-800 font-semibold hover:bg-gray-100 transition-colors">
+    <button
+        className="w-full h-11 bg-white rounded-full shadow text-base text-gray-800 font-semibold hover:bg-gray-100 transition-colors"
+        onClick={handleLogin}
+    >
       Login
     </button>
 

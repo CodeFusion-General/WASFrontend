@@ -2,7 +2,7 @@
 import { UserCircleIcon } from '@heroicons/react/24/solid'
 import {useEffect, useState} from "react";
 import { CiCircleCheck } from "react-icons/ci";
-import {addAccount} from "../../api/user/UserApi.jsx";
+import {addAccount} from "../../../api/user/UserApi.jsx";
 
 
 export default function UserAdd(props) {

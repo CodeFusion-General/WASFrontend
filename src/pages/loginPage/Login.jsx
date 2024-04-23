@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, {useState} from 'react';
 import { FaUser, FaLock } from "react-icons/fa";
-import {login} from '../api/authentication/AuthenticationApi';
+import {login} from '../../api/authentication/AuthenticationApi.jsx';
 const LoginPage = () => {
   const [authenticate, setAuthenticate] = useState({username : '', password : '' });
   const handleLogin = async () => {

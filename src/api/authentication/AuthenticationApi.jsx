@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import {jwtDecode} from 'jwt-decode';
 
 const API_BASE_URL = "http://localhost:8080";
 
@@ -30,13 +31,30 @@ const login = async (username, password) => {
     }
 }
 
+const decodeUserToken = () => {
+    const token = Cookies.get('user_token');
+
+    if(!token) {
+        return null;
+    }
+
+    try {
+        const decodedToken = jwtDecode(token);
+        return {username: decodedToken.sub, roles: decodedToken.roles};
+    } catch(e) {
+        console.error('Error while decoding token:', e);
+        return null;
+    }
+}
+
+
 const logout = () => {
-    alert("Successfully logged out.");
     Cookies.remove('user_token');
     window.location.href = "http://localhost:5173/login";
 }
 
 export {
     login,
-    logout
+    logout,
+    decodeUserToken
 };

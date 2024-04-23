@@ -8,7 +8,6 @@ const LoginPage = () => {
 
     try {
       await login(authenticate.username, authenticate.password);
-      alert('Login successful');
       window.location.href = '/';
     }
     catch (error) {

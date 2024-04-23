@@ -24,6 +24,8 @@ const apiCall = async (url, config, errorHandler) => {
     }
 };
 
+//#region Get ApiCalls
+
 const getHeaders = (isMultipart = false) => {
     const token = Cookies.get('token');
 
@@ -65,6 +67,9 @@ const getStoresByStoreId = async (storeId) => {
     );
 };
 
+//#endregion
+
+//#region Add ApiCalls
 const addStore = async (formData) => {
     const url = `${API_BASE_URL}/store/addStore`;
 
@@ -85,6 +90,10 @@ const addStore = async (formData) => {
         console.error("Error adding the store:", error);
     }
 };
+
+//#endregion
+
+//#region Update ApiCalls
 
 const updateStore = async (id, storeDTO, file) => {
     const url = `${API_BASE_URL}/store/updateStore/${id}`;
@@ -118,6 +127,10 @@ const updateStore = async (id, storeDTO, file) => {
     }
 };
 
+//#endregion
+
+//#region Delete ApiCalls
+
 const deleteStore = async (id) => {
     const url = `${API_BASE_URL}/store/deleteStore/${id}`;
 
@@ -138,6 +151,8 @@ const deleteStore = async (id) => {
         console.error(`Could not delete store with id ${id}`, error);
     }
 };
+
+//#endregion
 
 export {
     //get methods

@@ -8,6 +8,7 @@ import Sidebar from './Sidebar.jsx'
 import StoreAdd from "./components/store/storeAdd/StoreAdd.jsx";
 import StoreEmployees from './components/store/storeEmployee/StoreEmployees.jsx';
 import ProductsList from './components/Products/productList/ProductList.jsx'
+import ProductDetails from "./components/Products/productDetails/ProductDetails.jsx";
 const Dashboard = () => {
     return (
         <div>
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
             {
                 path: "/product-list",
                 element: <ProductsList/>,
+            },
+            {
+                path: "/product-details",
+                element: <ProductDetails/>,
             },
 
         ],

@@ -1,8 +1,9 @@
-import { Fragment } from 'react'
+import {Fragment, useEffect} from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import {logout} from "../../api/authentication/AuthenticationApi.jsx";
-
+import {logout, decodeUserToken} from "../../api/authentication/AuthenticationApi.jsx";
+import {getResource} from "../../api/resource/ResourceApi.jsx";
+import Cookies from "js-cookie";
 const navigation = [
     { name: 'Dashboard', href: '#', current: true },
     { name: 'Team', href: '#', current: false },
@@ -14,7 +15,13 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
+
 function Navbar() {
+
+    useEffect(() => {
+        const decodedToken = decodeUserToken();
+
+    }, [Cookies.get("user_token")]);
     return (
         <Disclosure as="nav" className="bg-gray-800">
             {({ open }) => (

@@ -1,10 +1,10 @@
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
-import Header from './Header.jsx';
-import Slider from './mainPage/Slider.jsx';
-import Login from './loginPage/Login.jsx';
-import UserAdd from "./userPages/userAddPage/UserAdd.jsx";
+import Header from './components/navBar/Header.jsx';
+import Slider from './pages/mainPage/Slider.jsx';
+import Login from './pages/loginPage/Login.jsx';
+import UserAdd from "./pages/userPages/userAddPage/UserAdd.jsx";
 import StoreList from './components/store/storeList/StoreList.jsx';
-import Sidebar from './Sidebar.jsx'
+import Sidebar from './components/sideBar/Sidebar.jsx'
 import StoreAdd from "./components/store/storeAdd/StoreAdd.jsx";
 import StoreEmployees from './components/store/storeEmployee/StoreEmployees.jsx';
 import ProductsList from './components/Products/productList/ProductList.jsx'

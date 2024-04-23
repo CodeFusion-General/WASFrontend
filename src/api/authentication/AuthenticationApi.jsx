@@ -33,7 +33,7 @@ const login = async (username, password) => {
 const logout = () => {
     alert("Successfully logged out.");
     Cookies.remove('user_token');
-    window.location.href = "http://localhost:5173/";
+    window.location.href = "http://localhost:5173/login";
 }
 
 export {

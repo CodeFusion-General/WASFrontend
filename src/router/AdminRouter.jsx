@@ -10,16 +10,13 @@ const BossRouter = ({ element }) => {
     if (
       !credentials ||
       !credentials.roles ||
-      (!credentials.roles.includes("BOSS") &&
-        !credentials.roles.includes("ADMIN"))
+      !credentials.roles.includes("ADMIN")
     ) {
       navigate("/");
     }
   }, [navigate, credentials]);
 
-  return credentials &&
-    credentials.roles &&
-    (credentials.roles.includes("BOSS") || credentials.roles.includes("ADMIN"))
+  return credentials && credentials.roles && credentials.roles.includes("ADMIN")
     ? element
     : null;
 };

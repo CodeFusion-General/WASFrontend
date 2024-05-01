@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ProductDetails from "../productDetails/ProductDetails.jsx";
+import AddProductModal from '../addProductModal/AddProductModal.jsx';
 
 var path = 'src/assets/sevketiphone.jpg';
 
@@ -12,8 +13,16 @@ function ProductList() {
         { id: 5, category: 'Phone', name: 'Oppo Reno 7', model: 'Pro', imageUrl: path, product_code: '123460', profit: -50, quantity: '5000', store_id: '5' },
     ]);
     const [selectedProduct, setSelectedProduct] = useState(null);
+    const [showAddModal, setShowAddModal] = useState(false);
 
     const getRowColor = (profit) => profit > 0 ? 'bg-green-300' : 'bg-red-300';
+
+    const toggleAddModal = () => setShowAddModal(!showAddModal);
+
+    const addNewProduct = (newProduct) => {
+        setProducts([...products, newProduct]);
+        toggleAddModal();
+    };
 
     return (
         <div className="max-w-6xl mx-auto p-5">
@@ -52,6 +61,15 @@ function ProductList() {
             ) : (
                 <ProductDetails product={selectedProduct} />
             )}
+            <div className="flex justify-center mb-4">
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={toggleAddModal}
+                >
+                    Add Product
+                </button>
+            </div>
+            <AddProductModal isOpen={showAddModal} onClose={toggleAddModal} onAddProduct={addNewProduct} />
         </div>
     );
 }

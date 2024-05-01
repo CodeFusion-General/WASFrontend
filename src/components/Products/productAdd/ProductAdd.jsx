@@ -55,23 +55,27 @@ function AddProductModal({ isOpen, onClose }) {
                     style={{ maxHeight: '400px' }}
                 />
                 <div className="mt-2">
-                    <label htmlFor="imageFile" className="block text-sm font-medium text-gray-700">Product Image:</label>
-                    <input
-                        id="imageFile"
-                        name="imageFile"
-                        type="file"
-                        className="form-input mt-1 block w-full"
-                        onChange={(event) => {
-                            const file = event.target.files[0];
-                            if (file) {
-                                setProduct({
-                                    ...product,
-                                    imageUrl: URL.createObjectURL(file),
-                                    imageFile: file
-                                });
-                            }
-                        }}
-                    />
+                    <label htmlFor="imageFile" className="block text-sm font-medium leading-6 text-gray-900">Product Image:</label>
+                    <div className="mt-2">
+                        <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                            <input
+                                id="imageFile"
+                                name="imageFile"
+                                type="file"
+                                className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                onChange={(event) => {
+                                    const file = event.target.files[0];
+                                    if (file) {
+                                        setProduct({
+                                            ...product,
+                                            imageUrl: URL.createObjectURL(file),
+                                            imageFile: file
+                                        });
+                                    }
+                                }}
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className="md:flex-1 md:pl-5 mt-5 md:mt-0">
@@ -83,7 +87,7 @@ function AddProductModal({ isOpen, onClose }) {
                 <InputField id="productCode" label="Product Code:" name="productCode" value={product.productCode} onChange={handleChange} />
                 <InputField id="storeId" label="Store ID:" name="storeId" value={product.storeId} onChange={handleChange} />
                 <div className="mb-4" id='product-fields'>
-                    <label className="block text-sm font-medium text-gray-700">Product Fields:</label>
+                    <label className="block text-sm font-medium leading-6 text-gray-900">Product Fields:</label>
                     {product.productFields.map((field, index) => (
                         <div key={index}>
                             <InputField id={`name${index}`} label="Field Name:" name="name" value={field.name} onChange={(e) => handleChange(e, index)} />
@@ -92,13 +96,13 @@ function AddProductModal({ isOpen, onClose }) {
                     ))}
                 </div>
                 <div className="flex mt-4">
-                    <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2' onClick={addInputField}>
+                    <button className="mt-4 py-2 px-4 mr-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={addInputField}>
                         Add Field
                     </button>
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2" onClick={handleSubmit}>
+                    <button className="mt-4 py-2 px-4 mr-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={handleSubmit}>
                         Add Product
                     </button>
-                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={onClose}>
+                    <button className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" onClick={onClose}>
                         Cancel
                     </button>
                 </div>
@@ -110,15 +114,19 @@ function AddProductModal({ isOpen, onClose }) {
 function InputField({ id, label, type = 'text', name, value, onChange }) {
     return (
         <div className="mb-4">
-            <label htmlFor={id} className="block text-sm font-medium text-gray-700">{label}</label>
-            <input
-                id={id}
-                name={name}
-                type={type}
-                className="form-input mt-1 block w-full"
-                value={value}
-                onChange={onChange}
-            />
+            <label htmlFor={id} className="block text-sm font-medium leading-6 text-gray-900">{label}</label>
+            <div className="mt-2">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                    <input
+                        id={id}
+                        name={name}
+                        type={type}
+                        className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                        value={value}
+                        onChange={onChange}
+                    />
+                </div>
+            </div>
         </div>
     );
 }

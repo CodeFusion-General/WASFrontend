@@ -11,6 +11,7 @@ import ProductsList from './components/Products/productList/ProductList.jsx'
 import ProductDetails from "./components/Products/productDetails/ProductDetails.jsx";
 import BossRouter from "./router/BossRouter.jsx";
 import ManagerRouter from "./router/ManagerRouter.jsx";
+import ProductAdd from "./components/Products/productAdd/ProductAdd.jsx";
 
 const Dashboard = () => {
     return (
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
             {
                 path: "/product-details",
                 element: <ProductDetails/>,
+            },
+            {
+                path: "/add-product",
+                element: <ProductAdd/>,
             },
 
         ],

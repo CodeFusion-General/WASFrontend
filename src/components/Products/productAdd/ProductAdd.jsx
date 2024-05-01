@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { addProduct } from '../../../api/product/ProductApi';
+import { useNavigate } from 'react-router-dom';
 
 function AddProductModal({ isOpen, onClose }) {
+    const navigate = useNavigate();
     const [product, setProduct] = useState({
         name: '',
         model: '',
@@ -22,32 +24,38 @@ function AddProductModal({ isOpen, onClose }) {
             const file = document.querySelector('input[type="file"]').files[0];
             const result = await addProduct(product, file);
             console.log("Product added successfully", result);
-            onClose();
+            navigate('/product-list')
         } catch (error) {
             console.error("Failed to add product", error);
         }
     };
 
-    if (!isOpen) return null;
-
     return (
         <div className="flex flex-wrap md:flex-nowrap bg-white shadow-lg rounded-lg mx-auto p-5 my-10">
             <div className="md:flex-1">
                 <img
-                    src={product.imageUrl || 'path/to/your/placeholder/image.jpg'}
+                    src={product.imageUrl || 'path/to/your/placeholder/image.jpg'} // This will display the image after it is uploaded and URL is set
                     alt={product.name}
                     className="rounded-t-lg md:rounded-lg w-full object-cover"
                     style={{ maxHeight: '400px' }}
                 />
                 <div className="mt-2">
-                    <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700">Image URL:</label>
+                    <label htmlFor="imageFile" className="block text-sm font-medium text-gray-700">Product Image:</label>
                     <input
-                        id="imageUrl"
-                        name="imageUrl"
-                        type="text"
+                        id="imageFile"
+                        name="imageFile"
+                        type="file"
                         className="form-input mt-1 block w-full"
-                        value={product.imageUrl}
-                        onChange={handleChange}
+                        onChange={(event) => {
+                            const file = event.target.files[0];
+                            if (file) {
+                                setProduct({
+                                    ...product,
+                                    imageUrl: URL.createObjectURL(file), // Temporarily set URL for preview
+                                    imageFile: file // Save the file in state to be used when submitting the form
+                                });
+                            }
+                        }}
                     />
                 </div>
             </div>

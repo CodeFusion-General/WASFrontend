@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { addProduct } from '../../../api/product/ProductApi';
 import { useNavigate } from 'react-router-dom';
 
-function AddProductModal({ isOpen, onClose }) {
+function ProductAdd({ isOpen, onClose }) {
     const navigate = useNavigate();
     const [product, setProduct] = useState({
         name: '',
@@ -46,15 +46,47 @@ function AddProductModal({ isOpen, onClose }) {
     };
 
     return (
-        <div className="flex flex-wrap md:flex-nowrap bg-white shadow-lg rounded-lg mx-auto p-5 my-10">
-            <div className="md:flex-1">
-                <img
-                    src={product.imageUrl || 'path/to/your/placeholder/image.jpg'}
-                    alt={product.name}
-                    className="rounded-t-lg md:rounded-lg w-full object-cover"
-                    style={{ maxHeight: '400px' }}
-                />
-                <div className="mt-2">
+        <div className="flex items-center justify-center min-h-screen bg-white">
+            <div className="shadow-lg rounded-lg p-5 my-10 w-full max-w-4xl flex flex-col items-center">
+                {/* Form Section */}
+                <div className="w-full max-w-md">
+                    <InputField id="name" label="Product Name:" name="name" value={product.name} onChange={handleChange} />
+                    <InputField id="model" label="Model:" name="model" value={product.model} onChange={handleChange} />
+                    <InputField id="category" label="Category:" name="category" value={product.category} onChange={handleChange} />
+                    <InputField id="quantity" label="Quantity:" name="quantity" type="number" value={product.quantity} onChange={handleChange} />
+                    <InputField id="profit" label="Profit:" name="profit" type="number" value={product.profit} onChange={handleChange} />
+                    <InputField id="productCode" label="Product Code:" name="productCode" value={product.productCode} onChange={handleChange} />
+                    <InputField id="storeId" label="Store ID:" name="storeId" value={product.storeId} onChange={handleChange} />
+                    <div className="mb-4" id='product-fields'>
+                        <label className="block text-sm font-medium leading-6 text-gray-900">Product Fields:</label>
+                        {product.productFields.map((field, index) => (
+                            <div key={index}>
+                                <InputField id={`name${index}`} label="Field Name:" name="name" value={field.name} onChange={(e) => handleChange(e, index)} />
+                                <InputField id={`feature${index}`} label="Feature:" name="feature" value={field.feature} onChange={(e) => handleChange(e, index)} />
+                            </div>
+                        ))}
+                    </div>
+                    <div className="flex justify-center space-x-2 mt-4">
+                        <button className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={addInputField}>
+                            Add Field
+                        </button>
+                        <button className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={handleSubmit}>
+                            Add Product
+                        </button>
+                        <button className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" onClick={onClose}>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+    
+                {/* Image Upload Section */}
+                <div className="w-full max-w-md mt-8">
+                    <img
+                        src={product.imageUrl || 'path/to/your/placeholder/image.jpg'}
+                        alt={product.name}
+                        className="rounded-lg w-full object-cover mb-2"
+                        style={{ maxHeight: '400px' }}
+                    />
                     <label htmlFor="imageFile" className="block text-sm font-medium leading-6 text-gray-900">Product Image:</label>
                     <div className="mt-2">
                         <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
@@ -76,35 +108,6 @@ function AddProductModal({ isOpen, onClose }) {
                             />
                         </div>
                     </div>
-                </div>
-            </div>
-            <div className="md:flex-1 md:pl-5 mt-5 md:mt-0">
-                <InputField id="name" label="Product Name:" name="name" value={product.name} onChange={handleChange} />
-                <InputField id="model" label="Model:" name="model" value={product.model} onChange={handleChange} />
-                <InputField id="category" label="Category:" name="category" value={product.category} onChange={handleChange} />
-                <InputField id="quantity" label="Quantity:" name="quantity" type="number" value={product.quantity} onChange={handleChange} />
-                <InputField id="profit" label="Profit:" name="profit" type="number" value={product.profit} onChange={handleChange} />
-                <InputField id="productCode" label="Product Code:" name="productCode" value={product.productCode} onChange={handleChange} />
-                <InputField id="storeId" label="Store ID:" name="storeId" value={product.storeId} onChange={handleChange} />
-                <div className="mb-4" id='product-fields'>
-                    <label className="block text-sm font-medium leading-6 text-gray-900">Product Fields:</label>
-                    {product.productFields.map((field, index) => (
-                        <div key={index}>
-                            <InputField id={`name${index}`} label="Field Name:" name="name" value={field.name} onChange={(e) => handleChange(e, index)} />
-                            <InputField id={`feature${index}`} label="Feature:" name="feature" value={field.feature} onChange={(e) => handleChange(e, index)} />
-                        </div>
-                    ))}
-                </div>
-                <div className="flex mt-4">
-                    <button className="mt-4 py-2 px-4 mr-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={addInputField}>
-                        Add Field
-                    </button>
-                    <button className="mt-4 py-2 px-4 mr-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={handleSubmit}>
-                        Add Product
-                    </button>
-                    <button className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" onClick={onClose}>
-                        Cancel
-                    </button>
                 </div>
             </div>
         </div>
@@ -131,4 +134,4 @@ function InputField({ id, label, type = 'text', name, value, onChange }) {
     );
 }
 
-export default AddProductModal;
+export default ProductAdd;

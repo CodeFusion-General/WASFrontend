@@ -19,10 +19,10 @@ const Sidebar = () => {
                 <nav>
                     <ul className="mt-10">
                         <li className="px-6 py-2 border-b border-gray-900">
-                            <a href="/public" className="text-white hover:text-gray-300">Home</a>
+                            <a href="/" className="text-white hover:text-gray-300">Home</a>
                         </li>
                         <li className="px-6 py-2 border-b border-gray-900">
-                            <a href="/boss-register" className="text-white hover:text-gray-300">Register</a>
+                            <a href="/register" className="text-white hover:text-gray-300">Register</a>
                         </li>
                         <li className="px-6 py-2 border-b border-gray-900">
                             <a href="/stores" className="text-white hover:text-gray-300">Stores</a>

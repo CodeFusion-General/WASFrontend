@@ -21,17 +21,46 @@ function ProductDetails({ product, onUpdate, onDelete }) {
     };
 
     return (
-        <div className="flex flex-wrap md:flex-nowrap bg-white shadow-lg rounded-lg mx-auto p-5 my-10">
-            <div className="md:flex-1">
-                <img
-                    src={product.imageUrl || 'path/to/your/placeholder/image.jpg'}
-                    alt={product.name}
-                    className="rounded-t-lg md:rounded-lg w-full object-cover"
-                    style={{ maxHeight: '400px' }}
-                />
-                <div className="mt-2">
-                    <label htmlFor="imageFile" className="block text-sm font-medium leading-6 text-gray-900">Product Image:</label>
-                    <div className="mt-2 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600 sm:max-w-md">
+        <div className="flex items-center justify-center min-h-screen bg-white">
+            <div className="shadow-lg rounded-lg p-5 my-10 w-full max-w-4xl flex flex-col items-center">
+
+    
+                {/* Form Fields Section */}
+                <div className="w-full max-w-md">
+                    {['name', 'model', 'category', 'quantity', 'profit', 'productCode', 'storeId'].map(field => (
+                        <div className="mb-4">
+                            <label htmlFor={field} className="block text-sm font-medium leading-6 text-gray-900">{`${field[0].toUpperCase() + field.slice(1).replace(/([A-Z])/g, ' $1')}:`}</label>
+                            <div className="mt-2 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
+                                <input
+                                    id={field}
+                                    name={field}
+                                    type={field === 'quantity' || field === 'profit' ? 'number' : 'text'}
+                                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                    value={editableProduct[field]}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                        </div>
+                    ))}
+                    <div className="flex justify-center space-x-2 mt-4">
+                        <button className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={handleUpdate}>
+                            Update
+                        </button>
+                        <button className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" onClick={handleDelete}>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+                {/* Image Upload Section */}
+                <div className="w-full max-w-md mt-8">
+                    <img
+                        src={product.imageUrl || 'path/to/your/placeholder/image.jpg'}
+                        alt={product.name}
+                        className="rounded-lg w-full object-cover"
+                        style={{ maxHeight: '400px' }}
+                    />
+                    <label htmlFor="imageFile" className="block text-sm font-medium leading-6 text-gray-900 mt-2">Product Image:</label>
+                    <div className="mt-2 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
                         <input
                             id="imageFile"
                             name="imageFile"
@@ -49,31 +78,6 @@ function ProductDetails({ product, onUpdate, onDelete }) {
                             }}
                         />
                     </div>
-                </div>
-            </div>
-            <div className="md:flex-1 md:pl-5 mt-5 md:mt-0">
-                {['name', 'model', 'category', 'quantity', 'profit', 'productCode', 'storeId'].map(field => (
-                    <div className="mb-4">
-                        <label htmlFor={field} className="block text-sm font-medium leading-6 text-gray-900">{`${field[0].toUpperCase() + field.slice(1).replace(/([A-Z])/g, ' $1')}:`}</label>
-                        <div className="mt-2 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600 sm:max-w-md">
-                            <input
-                                id={field}
-                                name={field}
-                                type={field === 'quantity' || field === 'profit' ? 'number' : 'text'}
-                                className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                value={editableProduct[field]}
-                                onChange={handleChange}
-                            />
-                        </div>
-                    </div>
-                ))}
-                <div className="flex mt-4">
-                    <button className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mr-2" onClick={handleUpdate}>
-                        Update
-                    </button>
-                    <button className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" onClick={handleDelete}>
-                        Delete
-                    </button>
                 </div>
             </div>
         </div>

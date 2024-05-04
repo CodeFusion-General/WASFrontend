@@ -1,18 +1,24 @@
-import {useNavigate} from "react-router-dom";
-import {decodeUserToken} from "../api/authentication/AuthenticationApi.jsx";
-import {useEffect} from "react";
+import { useNavigate } from "react-router-dom";
+import { decodeUserToken } from "../api/authentication/AuthenticationApi.jsx";
+import { useEffect } from "react";
 
-const AdminRouter = ({ element }) => {
-    const navigate = useNavigate();
-    const credentials = decodeUserToken();
+const BossRouter = ({ element }) => {
+  const navigate = useNavigate();
+  const credentials = decodeUserToken();
 
-    useEffect(() => {
-        if (!credentials || (!credentials.roles.includes("ADMIN"))) {
-            navigate("/");
-        }
-    }, [navigate, credentials.roles]);
+  useEffect(() => {
+    if (
+      !credentials ||
+      !credentials.roles ||
+      !credentials.roles.includes("ADMIN")
+    ) {
+      navigate("/");
+    }
+  }, [navigate, credentials]);
 
-    return credentials && (credentials.roles.includes("ADMIN")) ? element : null;
+  return credentials && credentials.roles && credentials.roles.includes("ADMIN")
+    ? element
+    : null;
 };
 
-export default AdminRouter;
+export default BossRouter;

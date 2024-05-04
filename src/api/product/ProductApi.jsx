@@ -26,7 +26,7 @@ const apiCall = async (url, config, errorHandler) => {
 
 //#region Get ApiCalls
 const getHeaders = (isMultipart = false) => {
-    const token = Cookies.get('token');
+    const token = Cookies.get('user_token');
 
     if (isMultipart) {
         return {

@@ -1,17 +1,20 @@
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
+//components
 import Navbar from './components/navbar/Navbar.jsx';
-import Slider from './pages/mainPage/Slider.jsx';
-import Login from './pages/loginPage/Login.jsx';
-import UserAdd from "./pages/userPages/userAddPage/UserAdd.jsx";
-import StoreList from './components/store/storeList/StoreList.jsx';
 import Sidebar from './components/sidebar/Sidebar.jsx'
-import StoreAdd from "./components/store/storeAdd/StoreAdd.jsx";
-import StoreEmployees from './components/store/storeEmployee/StoreEmployees.jsx';
-import ProductsList from './components/Products/productList/ProductList.jsx'
-import ProductDetails from "./components/Products/productDetails/ProductDetails.jsx";
+//router
 import BossRouter from "./router/BossRouter.jsx";
 import ManagerRouter from "./router/ManagerRouter.jsx";
-import ProductAdd from "./components/Products/productAdd/ProductAdd.jsx";
+//pages
+import Slider from './pages/mainPage/Slider.jsx';
+import Login from './pages/loginPage/LoginPage.jsx';
+import UserAdd from "./pages/userPages/userAdd/UserAdd.jsx";
+import StoreList from './pages/storePages/storeList/StoreList.jsx';
+import StoreAdd from "./pages/storePages/storeAdd/StoreAdd.jsx";
+import StoreEmployee from './pages/storePages/storeEmployee/StoreEmployee.jsx';
+import ProductsList from './pages/productPages/productList/ProductList.jsx'
+import ProductDetail from "./pages/productPages/productDetail/ProductDetail.jsx";
+import ProductAdd from "./pages/productPages/productAdd/ProductAdd.jsx";
 
 const Dashboard = () => {
     return (
@@ -63,7 +66,7 @@ const router = createBrowserRouter([
             {
                 path: "/store-employees",
                 element: <ManagerRouter
-                    element={<StoreEmployees/>}
+                    element={<StoreEmployee/>}
                 />,
             },
             {
@@ -72,7 +75,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/product-details",
-                element: <ProductDetails/>,
+                element: <ProductDetail/>,
             },
             {
                 path: "/add-product",

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { addProduct } from '../../../api/product/ProductApi';
+import { addProduct } from '../../../api/product/ProductApi.jsx';
 import { useNavigate } from 'react-router-dom';
 
 function AddProductModal({ isOpen, onClose }) {

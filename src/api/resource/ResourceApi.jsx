@@ -28,7 +28,7 @@ const apiCall = async (url, config, errorHandler) => {
 };
 
 const getHeaders = (isMultipart = false) => {
-    const token = Cookies.get('token');
+    const token = Cookies.get('user_token');
 
     if (isMultipart) {
         return {
@@ -54,6 +54,16 @@ const getResource = async (id) => {
     );
 };
 
+const getUserPhoto = async  (id) => {
+    const url = `${API_BASE_URL}/user/downloadResourceFile/${id}`;
+    return apiCall(
+        url,
+        {headers: getHeaders(), responseType:"blob"},
+        "Error getting photo:"
+    )
+}
+
 export {
-    getResource
+    getResource,
+    getUserPhoto
 }

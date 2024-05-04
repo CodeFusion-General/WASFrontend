@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getUsersByStoreIdAndRoles } from '../../../api/user/UserApi';
+import { getUsersByStoreIdAndRoles } from '../../../api/user/UserApi.jsx';
 
 const fakeData = [
   {
@@ -20,7 +20,7 @@ const fakeData = [
   },
 ];
 
-const StoreEmployees = ({ storeId }) => {
+const StoreEmployee = ({ storeId }) => {
     const [employees, setEmployees] = useState([]);
 
     useEffect(() => {
@@ -59,11 +59,11 @@ const StoreEmployees = ({ storeId }) => {
     );
 };
 
-export default StoreEmployees;
+export default StoreEmployee;
 
 /*
 
-const StoreEmployees = ({ storeId }) => {
+const StoreEmployee = ({ storeId }) => {
 const [employees, setEmployees] = useState([]);
 const [loading, setLoading] = useState(true);
 
@@ -129,6 +129,6 @@ return (
     );
 };
 
-export default StoreEmployees;
+export default StoreEmployee;
 
 */

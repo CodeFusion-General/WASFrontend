@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 // Dummy image path - replace with your actual path or URL
 const placeholderImage = 'src/assets/sevketiphone.jpg';
 
-function ProductDetails({ product, onUpdate, onDelete }) {
+function ProductDetail({ product, onUpdate, onDelete }) {
     const [editableProduct, setEditableProduct] = useState(product);
 
     const handleChange = (e) => {
@@ -99,4 +99,4 @@ function ProductDetails({ product, onUpdate, onDelete }) {
     );
 }
 
-export default ProductDetails;
+export default ProductDetail;

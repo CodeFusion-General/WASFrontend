@@ -40,7 +40,8 @@ const decodeUserToken = () => {
 
     try {
         const decodedToken = jwtDecode(token);
-        return {username: decodedToken.sub, roles: decodedToken.roles};
+       
+        return {username: decodedToken.sub, roles: decodedToken.roles, userId: decodedToken.userId};
     } catch(e) {
         console.error('Error while decoding token:', e);
         return null;

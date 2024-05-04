@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ProductDetails from "../productDetails/ProductDetails.jsx";
+import ProductDetail from "../productDetail/ProductDetail.jsx";
 import { useNavigate } from 'react-router-dom';
 
 var path = 'src/assets/sevketiphone.jpg';
@@ -68,7 +68,7 @@ function ProductList() {
                     </tbody>
                 </table>
             ) : (
-                <ProductDetails product={selectedProduct} />
+                <ProductDetail product={selectedProduct} />
             )}
         </div>
     );

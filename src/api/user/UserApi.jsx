@@ -29,7 +29,7 @@ const apiCall = async (url, config, errorHandler) => {
 };
 
 const getHeaders = (isMultipart = false) => {
-    const token = Cookies.get('token');
+    const token = Cookies.get('user_token');
 
     if (isMultipart) {
         return {

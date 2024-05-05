@@ -50,19 +50,29 @@ function ProductAdd({ isOpen, onClose }) {
             <div className="shadow-lg rounded-lg p-5 my-10 w-full max-w-4xl flex flex-col items-center">
                 {/* Form Section */}
                 <div className="w-full max-w-md">
-                    <InputField id="name" label="Product Name:" name="name" value={product.name} onChange={handleChange} />
-                    <InputField id="model" label="Model:" name="model" value={product.model} onChange={handleChange} />
-                    <InputField id="category" label="Category:" name="category" value={product.category} onChange={handleChange} />
-                    <InputField id="quantity" label="Quantity:" name="quantity" type="number" value={product.quantity} onChange={handleChange} />
-                    <InputField id="profit" label="Profit:" name="profit" type="number" value={product.profit} onChange={handleChange} />
-                    <InputField id="productCode" label="Product Code:" name="productCode" value={product.productCode} onChange={handleChange} />
-                    <InputField id="storeId" label="Store ID:" name="storeId" value={product.storeId} onChange={handleChange} />
+                    <div className='flex gap-6 mb-4'>
+                        <InputField id="name" label="Product Name:" name="name" value={product.name} onChange={handleChange} />
+                        <InputField id="model" label="Model:" name="model" value={product.model} onChange={handleChange} />
+                    </div>
+                    <div className='flex gap-6 mb-4'>
+                        <InputField id="category" label="Category:" name="category" value={product.category} onChange={handleChange} />
+                        <InputField id="quantity" label="Quantity:" name="quantity" type="number" value={product.quantity} onChange={handleChange} />
+                    </div>
+                    <div className='flex gap-6 mb-4'>
+                        <InputField id="profit" label="Profit:" name="profit" type="number" value={product.profit} onChange={handleChange} />
+                        <InputField id="productCode" label="Product Code:" name="productCode" value={product.productCode} onChange={handleChange} />
+                    </div>
+                    <div className='flex gap-6 mb-4'>
+                        <InputField id="storeId" label="Store ID:" name="storeId" value={product.storeId} onChange={handleChange} />
+                    </div>
                     <div className="mb-4" id='product-fields'>
                         <label className="block text-sm font-medium leading-6 text-gray-900">Product Fields:</label>
                         {product.productFields.map((field, index) => (
                             <div key={index}>
-                                <InputField id={`name${index}`} label="Field Name:" name="name" value={field.name} onChange={(e) => handleChange(e, index)} />
-                                <InputField id={`feature${index}`} label="Feature:" name="feature" value={field.feature} onChange={(e) => handleChange(e, index)} />
+                                <div className="flex gap-6 mb-4">
+                                    <InputField id={`name${index}`} label="Field Name:" name="name" value={field.name} onChange={(e) => handleChange(e, index)} />  
+                                    <InputField id={`feature${index}`} label="Feature:" name="feature" value={field.feature} onChange={(e) => handleChange(e, index)} />    
+                                </div>
                             </div>
                         ))}
                     </div>

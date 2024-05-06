@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-// Dummy image path - replace with your actual path or URL
 const placeholderImage = 'src/assets/sevketiphone.jpg';
 
 function ProductDetail({ product, onUpdate, onDelete }) {
@@ -24,7 +23,7 @@ function ProductDetail({ product, onUpdate, onDelete }) {
         <div className="flex flex-wrap md:flex-nowrap bg-white shadow-lg rounded-lg mx-auto p-5 my-10">
             <div className="md:flex-1">
                 <img
-                    src={product.imageUrl || 'path/to/your/placeholder/image.jpg'} // This will display the image after it is uploaded and URL is set
+                    src={product.imageUrl || 'path/to/your/placeholder/image.jpg'} 
                     alt={product.name}
                     className="rounded-t-lg md:rounded-lg w-full object-cover"
                     style={{ maxHeight: '400px' }}
@@ -37,13 +36,12 @@ function ProductDetail({ product, onUpdate, onDelete }) {
                         type="file"
                         className="form-input mt-1 block w-full"
                         onChange={(event) => {
-                            // Create a URL for the selected file to display it immediately in the img tag above
                             const file = event.target.files[0];
                             if (file) {
                                 setProduct({
                                     ...product,
-                                    imageUrl: URL.createObjectURL(file), // Temporarily set URL for preview
-                                    imageFile: file // Save the file in state to be used when submitting the form
+                                    imageUrl: URL.createObjectURL(file), 
+                                    imageFile: file 
                                 });
                             }
                         }}

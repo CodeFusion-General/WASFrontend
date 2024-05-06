@@ -34,7 +34,7 @@ function AddProductModal({ isOpen, onClose }) {
         <div className="flex flex-wrap md:flex-nowrap bg-white shadow-lg rounded-lg mx-auto p-5 my-10">
             <div className="md:flex-1">
                 <img
-                    src={product.imageUrl || 'path/to/your/placeholder/image.jpg'} // This will display the image after it is uploaded and URL is set
+                    src={product.imageUrl || 'path/to/your/placeholder/image.jpg'} 
                     alt={product.name}
                     className="rounded-t-lg md:rounded-lg w-full object-cover"
                     style={{ maxHeight: '400px' }}
@@ -51,8 +51,8 @@ function AddProductModal({ isOpen, onClose }) {
                             if (file) {
                                 setProduct({
                                     ...product,
-                                    imageUrl: URL.createObjectURL(file), // Temporarily set URL for preview
-                                    imageFile: file // Save the file in state to be used when submitting the form
+                                    imageUrl: URL.createObjectURL(file), 
+                                    imageFile: file 
                                 });
                             }
                         }}

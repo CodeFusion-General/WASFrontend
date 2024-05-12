@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { FaHome, FaRegUser, FaStore, FaUsers, FaBox } from 'react-icons/fa'; // Ensure these are imported for use
+import {Link} from 'react-router-dom';
+import {FaBox, FaHome, FaRegUser, FaStore, FaUsers} from 'react-icons/fa'; // Ensure these are imported for use
 
 const Sidebar = () => {
     return (
@@ -14,7 +14,7 @@ const Sidebar = () => {
             </div>
             <nav>
                 <ul className="mt-4">
-                    <li className="px-6 py-2 border-b border-gray-700 flex items-center">
+                    <li className="px-6 pb-2 border-b border-gray-700 flex items-center">
                         <FaHome className="mr-4"/> {/* Home icon */}
                         <a href="/" className="flex-grow text-white hover:text-blue-500">Home</a>
                     </li>

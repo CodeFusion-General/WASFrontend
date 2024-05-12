@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 // Dummy image path - replace with your actual path or URL
 const placeholderImage = 'src/assets/sevketiphone.jpg';
 
@@ -17,10 +18,37 @@ function ProductDetails({ product, onUpdate, onDelete }) {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-white">
-            <div className="shadow-lg rounded-lg p-5 my-10 w-full max-w-4xl flex flex-col items-center">
+        <div className="flex flex-wrap md:flex-nowrap bg-white shadow-lg rounded-lg mx-auto p-5 my-10">
+            <div className="md:flex-1">
+                <img
+                    src={product.imageUrl || placeholderImage} 
+                    alt={product.name}
+                    className="rounded-t-lg md:rounded-lg w-full object-cover"
+                    style={{ maxHeight: '400px' }}
+                />
+                <div className="mt-2">
+                    <label htmlFor="imageFile" className="block text-sm font-medium text-gray-700">Product Image:</label>
+                    <input
+                        id="imageFile"
+                        name="imageFile"
+                        type="file"
+                        className="form-input mt-1 block w-full"
+                        onChange={(event) => {
+                            const file = event.target.files[0];
+                            if (file) {
+                                setEditableProduct({
+                                    ...editableProduct,
+                                    imageUrl: URL.createObjectURL(file),
+                                    imageFile: file
+                                });
+                            }
+                        }}
+                    />
+                </div>
+            </div>
+            <div className="w-full max-w-md flex flex-col items-center">
                 {/* Form Fields Section */}
-                <div className="w-full max-w-md">
+                <div className="w-full">
                     {['name', 'model', 'category', 'quantity', 'profit', 'productCode', 'storeId'].reduce((acc, field, index, array) => {
                         // Grouping fields in pairs
                         if (index % 2 === 0) {
@@ -65,35 +93,8 @@ function ProductDetails({ product, onUpdate, onDelete }) {
                         </button>
                     </div>
                 </div>
-                {/* Image Upload Section */}
-                <div className="w-full max-w-md mt-8">
-                    <img
-                        src={product.imageUrl || 'path/to/your/placeholder/image.jpg'}
-                        alt={product.name}
-                        className="rounded-lg w-full object-cover"
-                        style={{ maxHeight: '400px' }}
-                    />
-                    <label htmlFor="imageFile" className="block text-sm font-medium leading-6 text-gray-900 mt-2">Product Image:</label>
-                    <input
-                        id="imageFile"
-                        name="imageFile"
-                        type="file"
-                        className="block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                        onChange={(event) => {
-                            const file = event.target.files[0];
-                            if (file) {
-                                setProduct({
-                                    ...product,
-                                    imageUrl: URL.createObjectURL(file),
-                                    imageFile: file
-                                });
-                            }
-                        }}
-                    />
-                </div>
             </div>
         </div>
-
     );
 }
 

@@ -49,7 +49,7 @@ const StoreEmployee = ({ storeId }) => {
                                 <td className="py-4 px-6">{user.name}</td>
                                 <td className="py-4 px-6">{user.surname}</td>
                                 <td className="py-4 px-6">{user.phone}</td>
-                                <td className="py-4 px-6">{user.role}</td> {/* Display the role */}
+                                <td className="py-4 px-6">{user.role}</td> 
                             </tr>
                         ))}
                     </tbody>

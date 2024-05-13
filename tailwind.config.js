@@ -47,7 +47,12 @@ export default {
         'gradient-gray-600-to-800-b': 'linear-gradient(to bottom, #4B5563, #1F2937)',
         'gradient-gray-600-to-900-b': 'linear-gradient(to bottom, #4B5563, #111827)',
       },
+      boxShadow: {
+        //'colorful-black': '0 4px 6px -1px rgba(0, 0, 0, 0.7), 0 2px 4px -2px rgba(0, 0, 0, 0.3)', // Black shadow
+        'colorful-b': '0 8px 10px -1px rgba(0, 0, 0, 0.8), 0 4px 5px -2px rgba(0, 0, 0, 0.4)', // Thicker downward shadow
+        'colorful-r': '4px 4px 10px -1px rgba(0, 0, 0, 0.8), 2px 2px 5px -2px rgba(0, 0, 0, 0.4)', // Thicker right shadow
 
+      },
       fontFamily: {
         'roboto-slab': ['"Roboto Slab"', 'serif'],
       },

@@ -8,8 +8,8 @@ const Sidebar = () => {
             <div className="flex items-center justify-center p-2 border-b border-gray-700">
                 <img
                     className="h-12 w-auto"  // Adjusted size for better visibility
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
+                    src="src\assets\logowis.png"
+                    alt="Warehouse Information Systems Logo"
                 />
             </div>
             <nav>

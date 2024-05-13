@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
-import { useNavigate } from 'react-router-dom';
 import ProductDetail from "../productDetail/ProductDetail.jsx";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
@@ -44,40 +44,38 @@ function ProductList() {
     };
 
     const header = (
-        <div className="table-header flex justify-between items-center">
+        <div className="table-header flex justify-between items-center border-b border-gray-300 py-2 px-4">
             <h2 className="text-2xl font-semibold">Products</h2>
-            <span className="p-input-icon-left flex items-center">
-            {/*<i className="ml-30 pi pi-search"/>*/}
-            <input type="text" className="ml-2 p-inputtext p-component" placeholder="Global Search" onChange={(e) => setGlobalFilter(e.target.value)} />
-        </span>
+            <input type="text" className="p-inputtext p-component" placeholder="Global Search" onChange={(e) => setGlobalFilter(e.target.value)} />
         </div>
     );
 
     return (
-        <div className="max-w-6xl mx-auto p-5">
+        <div className="max-w-6xl mx-auto p-5 bg-white shadow-lg rounded-lg">
             <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">All Products</h1>
-            <div className="flex justify-start items-start gap-2 mb-4">
+            <div className="flex justify-start items-center gap-4 mb-6">
                 {!selectedProduct && (
-                    <Button label="Add Product" className="p-button-raised p-button-primary" onClick={handleAddProductClick} />
+                    <Button label="Add Product" className="p-button-raised bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow" onClick={handleAddProductClick} />
                 )}
-                <Button icon="pi pi-file" className="p-button-rounded p-button-success" onClick={() => dt.current.exportCSV()} tooltip="CSV" />
-                <Button icon="pi pi-file-excel" className="p-button-rounded p-button-success" onClick={exportExcel} tooltip="XLS" />
+                <Button icon="pi pi-file" className="p-button-rounded bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow" onClick={() => dt.current.exportCSV()} tooltip="CSV" />
+                <Button icon="pi pi-file-excel" className="p-button-rounded bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow" onClick={exportExcel} tooltip="XLS" />
             </div>
             {!selectedProduct ? (
                 <DataTable ref={dt} value={products} globalFilter={globalFilter} header={header} paginator rows={10}
                            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products" className="w-full"
+                           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
+                           className="w-full border-collapse border border-gray-300"
                            resizableColumns columnResizeMode="fit"
                            sortMode="multiple">
-                    <Column field="name" header="Product" sortable filter filterPlaceholder="Search by name" />
-                    <Column field="model" header="Model" sortable filter filterPlaceholder="Search by model" />
-                    <Column field="product_code" header="Code" sortable filter filterPlaceholder="Search by code" />
-                    <Column field="profit" header="Profit" sortable filter filterPlaceholder="Search by profit" />
-                    <Column field="quantity" header="Quantity" sortable filter filterPlaceholder="Search by quantity" />
-                    <Column body={statusBodyTemplate} header="Status" />
+                    <Column field="name" header="Product" sortable filter filterPlaceholder="Search by name" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
+                    <Column field="model" header="Model" sortable filter filterPlaceholder="Search by model" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
+                    <Column field="product_code" header="Code" sortable filter filterPlaceholder="Search by code" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
+                    <Column field="profit" header="Profit" sortable filter filterPlaceholder="Search by profit" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
+                    <Column field="quantity" header="Quantity" sortable filter filterPlaceholder="Search by quantity" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
+                    <Column body={statusBodyTemplate} header="Status" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
                     <Column body={(rowData) => (
-                        <Button onClick={() => setSelectedProduct(rowData)} label="View Details" className="p-button-rounded p-button-success" />
-                    )} header="Actions" />
+                        <Button onClick={() => setSelectedProduct(rowData)} label="View Details" className="p-button-rounded bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow" />
+                    )} header="Actions" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
                 </DataTable>
             ) : (
                 <ProductDetail product={selectedProduct} />

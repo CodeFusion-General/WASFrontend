@@ -21,7 +21,10 @@ const Dashboard = () => {
         <div>
             <Navbar />
             <Sidebar />
-            <Outlet />
+            <div className="ml-64">
+                <Outlet />
+            </div>
+
         </div>
     );
 };

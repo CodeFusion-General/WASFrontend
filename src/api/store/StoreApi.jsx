@@ -58,7 +58,7 @@ const getAllStores = async () => {
     );
 };
 
-const getStoresByStoreId = async (storeId) => {
+const getStoresByUserId = async (storeId) => {
     const url = `${API_BASE_URL}/store/${storeId}`;
     return apiCall(
         url,
@@ -66,6 +66,7 @@ const getStoresByStoreId = async (storeId) => {
         `Unexpected response status while getting stores by store id.`
     );
 };
+
 
 //#endregion
 
@@ -158,7 +159,7 @@ export {
     //get methods
     getStoreById,
     getAllStores,
-    getStoresByStoreId,
+    getStoresByUserId,
     //add methods
     addStore,
     //update methods

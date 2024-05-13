@@ -51,7 +51,7 @@ function ProductList() {
     );
 
     return (
-        <div className="max-w-6xl mx-auto p-5 bg-white shadow-lg rounded-lg">
+        <div className="max-w-6xl mx-auto p-5 bg-white shadow-lg rounded-lg mt-16">
             <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">All Products</h1>
             <div className="flex justify-start items-center gap-4 mb-6">
                 {!selectedProduct && (

@@ -11,8 +11,6 @@ function ProductAdd({ isOpen, onClose }) {
         quantity: 0,
         profit: 0.0,
         productCode: '',
-        imageUrl: '',
-        storeId: '',
         productFields: [{ name: '', feature: '' }]
     });
 
@@ -33,6 +31,7 @@ function ProductAdd({ isOpen, onClose }) {
             productFields: [...prev.productFields, { name: '', feature: '' }]
         }));
     };
+
     const removeInputField = () => {
         if (product.productFields.length > 1) {
             setProduct(prev => {
@@ -55,15 +54,16 @@ function ProductAdd({ isOpen, onClose }) {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-gray-800 to-gray-700">
-            <div className="p-5 my-10 w-full max-w-4xl bg-gray-800 rounded-lg shadow-2xl">
+        <div className="flex items-center justify-center min-h-screen bg-gray-100 mt-16">
+            <div className="p-5 my-10 w-full max-w-4xl bg-white rounded-lg shadow-lg">
+                <h2 className="text-2xl font-bold mb-6 text-gray-800">Add Product</h2>
                 <div className="grid grid-cols-2 gap-6">
                     {Object.entries(product).filter(entry => typeof entry[1] === 'string' || typeof entry[1] === 'number').map(([key, value]) => (
-                        <InputField id={key} label={key[0].toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1') + ':'} name={key} value={value} onChange={handleChange}/>
+                        <InputField key={key} id={key} label={key[0].toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1') + ':'} name={key} value={value} onChange={handleChange}/>
                     ))}
                 </div>
                 <div className="mt-6" id='product-fields'>
-                    <label className="block text-lg font-medium leading-6 text-white">Product Fields:</label>
+                    <label className="block text-lg font-medium leading-6 text-gray-700">Product Fields:</label>
                     {product.productFields.map((field, index) => (
                         <div key={index} className="flex gap-6">
                             <InputField id={`name${index}`} label="Field Name:" name="name" value={field.name}
@@ -71,13 +71,13 @@ function ProductAdd({ isOpen, onClose }) {
                             <InputField id={`feature${index}`} label="Feature:" name="feature"
                                         value={field.feature} onChange={(e) => handleChange(e, index)}/>
                             <button
-                                className="py-2 px-4 mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md"
+                                className="py-2 px-4 mt-4 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-md"
                                 onClick={addInputField}>
                                 Add Field
                             </button>
                             {product.productFields.length > 1 && (
                                 <button
-                                    className="py-2 px-4 mt-4 bg-red-600 hover:bg-red-700 text-white font-medium rounded-md"
+                                    className="py-2 px-4 mt-4 bg-red-500 hover:bg-red-600 text-white font-medium rounded-md"
                                     onClick={removeInputField}
                                     disabled={product.productFields.length === 1}
                                 >
@@ -87,20 +87,13 @@ function ProductAdd({ isOpen, onClose }) {
                         </div>
                     ))}
                 </div>
-                <div className="w-full mt-8 px-20">
-                    <img
-                        src={product.imageUrl || 'path/to/your/placeholder/image.jpg'}
-                        alt={product.name}
-                        className="rounded-lg w-full object-cover mb-2"
-                        style={{ maxHeight: '400px' }}
-                    />
-                    <label htmlFor="imageFile" className="block mb-2 text-sm font-medium text-gray-300 dark:text-white">Product Image:</label>
-                
+                <div className="w-full mt-8">
+                    <label htmlFor="imageFile" className="block mb-2 text-sm font-medium text-gray-700">Product Image:</label>
                     <input
                         id="imageFile"
                         name="imageFile"
                         type="file"
-                        className="block w-full text-sm text-gray-900 border border-gray-700 rounded-lg cursor-pointer bg-gray-700 dark:text-gray-700 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                        className="block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
                         onChange={(event) => {
                             const file = event.target.files[0];
                             if (file) {
@@ -112,18 +105,24 @@ function ProductAdd({ isOpen, onClose }) {
                             }
                         }}
                     />
-                
-                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
-
+                    <p className="mt-1 text-sm text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
+                    {product.imageUrl && (
+                        <img
+                            src={product.imageUrl}
+                            alt={product.name}
+                            className="rounded-lg w-full object-cover mt-2"
+                            style={{ maxHeight: '400px' }}
+                        />
+                    )}
                 </div>
                 <div className="flex justify-between mt-6">
                     <button
-                        className="py-2 px-4 bg-green-600 hover:bg-green-700 text-white font-medium rounded-md"
+                        className="py-2 px-4 bg-green-500 hover:bg-green-600 text-white font-medium rounded-md"
                         onClick={handleSubmit}>
                         Add Product
                     </button>
                     <button
-                        className="py-2 px-4 bg-red-600 hover:bg-red-700 text-white font-medium rounded-md"
+                        className="py-2 px-4 bg-red-500 hover:bg-red-600 text-white font-medium rounded-md"
                         onClick={onClose}>
                         Cancel
                     </button>
@@ -136,12 +135,12 @@ function ProductAdd({ isOpen, onClose }) {
 function InputField({ id, label, type = 'text', name, value, onChange }) {
     return (
         <div className="mb-4">
-            <label htmlFor={id} className="block text-sm font-medium text-gray-300">{label}</label>
+            <label htmlFor={id} className="block text-sm font-medium text-gray-700">{label}</label>
             <input
                 id={id}
                 name={name}
                 type={type}
-                className="w-full p-2 mt-1 text-sm text-white bg-gray-700 rounded-md focus:ring focus:ring-blue-500"
+                className="w-full p-2 mt-1 text-sm text-gray-900 bg-gray-100 rounded-md focus:ring focus:ring-blue-500"
                 value={value}
                 onChange={onChange}
             />

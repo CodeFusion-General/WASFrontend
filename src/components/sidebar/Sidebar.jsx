@@ -4,7 +4,7 @@ import {FaBox, FaHome, FaRegUser, FaStore, FaUsers} from 'react-icons/fa'; // En
 
 const Sidebar = () => {
     return (
-        <div className="fixed top-0 bottom-0 left-0 z-30 w-64 bg-gray-900 text-gray-100 rounded-br-lg shadow-lg">
+        <div className="fixed top-0 bottom-0 left-0 z-30 w-64 bg-gray-900 text-gray-100 rounded-br-lg shadow-colorful-r">
             <div className="flex items-center justify-center p-2 border-b border-gray-700">
                 <img
                     className="h-12 w-auto"  // Adjusted size for better visibility

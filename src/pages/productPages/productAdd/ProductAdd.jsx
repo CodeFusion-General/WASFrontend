@@ -7,12 +7,12 @@ import { useNavigate } from 'react-router-dom';
 function ProductAdd({ isOpen, onClose }) {
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
+    const [photo, setPhoto] = useState(null);
     const [product, setProduct] = useState({
         name: '',
         model: '',
         category: 0,
         store: 1,
-        quantity: 0,
         productCode: '',
         productFields: []
     });
@@ -105,9 +105,19 @@ function ProductAdd({ isOpen, onClose }) {
     };
 
     const handleSubmit = async () => {
+
         try {
-            const file = document.querySelector('input[type="file"]').files[0];
-            const result = await addProduct(product, file);
+            const formData = new FormData();
+            formData.append("name", product.name);
+            formData.append("model", product.model);
+            formData.append("category", product.category);
+            formData.append("store", product.store);
+            formData.append("productCode", product.productCode);
+            const photoData = document.getElementById('imageFile');
+            if (photoData.files.length > 0) {
+                formData.append("file", photoData.files[0]);
+            }
+            const result = await addProduct(product, photo);
             console.log("Product added successfully", result);
             navigate('/product-list');
         } catch (error) {
@@ -210,19 +220,18 @@ function ProductAdd({ isOpen, onClose }) {
                         onChange={(event) => {
                             const file = event.target.files[0];
                             if (file) {
-                                setProduct({
-                                    ...product,
-                                    imageUrl: URL.createObjectURL(file),
-                                    imageFile: file
-                                });
+                                const reader = new FileReader();
+                                reader.onload = (e) => {
+                                    setPhoto(e.target.result);
+                                };
+                                reader.readAsDataURL(file);
                             }
                         }}
                     />
                     <p className="mt-1 text-sm text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
-                    {product.imageUrl && (
+                    {photo && (
                         <img
-                            src={product.imageUrl}
-                            alt={product.name}
+                            src={photo}
                             className="rounded-lg w-full object-cover mt-2"
                             style={{ maxHeight: '400px' }}
                         />

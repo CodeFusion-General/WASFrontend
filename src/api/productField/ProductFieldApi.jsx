@@ -24,7 +24,7 @@ const apiCall = async (url, config, errorHandler) => {
     }
 };
 
-//#region Get ApiCalls
+
 const getHeaders = (isMultipart = false) => {
     const token = Cookies.get('user_token');
 
@@ -40,7 +40,7 @@ const getHeaders = (isMultipart = false) => {
     };
 };
 
-
+//#region Get ApiCalls
 
 const getProductFieldById = async (id) => {
     const url = `${API_BASE_URL}/productField/${id}`;

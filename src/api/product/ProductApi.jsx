@@ -13,17 +13,6 @@ const checkResponseStatusCode = (status) => {
     return true;
 };
 
-const apiCall = async (url, config, errorHandler) => {
-    try {
-        return await axios.get(url, config);
-    } catch (error) {
-        if (!checkResponseStatusCode(error.response.status)) {
-            return;
-        }
-        console.error(errorHandler, error);
-    }
-};
-
 //#region Get ApiCalls
 const getHeaders = (isMultipart = false) => {
     const token = Cookies.get('user_token');

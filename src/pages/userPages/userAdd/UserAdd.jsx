@@ -29,7 +29,7 @@ export default function UserAdd(props) {
 
     const handleRegister = async (event) => {
         event.preventDefault();
-        
+
 
         if (!passwordsMatch) {
             alert("Passwords do not match.");
@@ -49,7 +49,7 @@ export default function UserAdd(props) {
         if (fileInput.files.length > 0) {
             formData.append('file', fileInput.files[0]);
         }
-        
+
         try {
             const result = await addAccount(formData);
             console.log(result);
@@ -118,7 +118,7 @@ export default function UserAdd(props) {
                                     </div>
                                 </div>
                             </div>
-                             <br/>
+                            <br/>
                             <div className="sm:col-span-3">
                                 <label htmlFor="password-again"
                                        className="block text-sm font-medium leading-6 text-gray-900">
@@ -140,7 +140,7 @@ export default function UserAdd(props) {
                                         {passwordsMatch && <CiCircleCheck className="text-green-500 ml-2 to-transparent" size="24px"/>}
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <br/>
                             <div className="sm:col-span-3">
@@ -160,7 +160,7 @@ export default function UserAdd(props) {
                                                 ...prevState,
                                                 phone: e.target.value
                                             }))}
-                                            
+
                                             className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                         />
                                     </div>

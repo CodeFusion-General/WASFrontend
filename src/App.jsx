@@ -6,7 +6,7 @@ import Sidebar from './components/sidebar/Sidebar.jsx'
 import BossRouter from "./router/BossRouter.jsx";
 import ManagerRouter from "./router/ManagerRouter.jsx";
 //pages
-import Slider from './pages/mainPage/Slider.jsx';
+import MainPage from './pages/mainPage/MainPage.jsx';
 import Login from './pages/loginPage/LoginPage.jsx';
 import UserAdd from "./pages/userPages/userAdd/UserAdd.jsx";
 import StoreList from './pages/storePages/storeList/StoreList.jsx';
@@ -25,6 +25,7 @@ const Dashboard = () => {
                 <Outlet />
             </div>
 
+
         </div>
     );
 };
@@ -39,7 +40,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <Slider />,
+                element: <MainPage />,
                 index: true,
             },
             {

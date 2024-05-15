@@ -107,17 +107,8 @@ function ProductAdd({ isOpen, onClose }) {
     const handleSubmit = async () => {
 
         try {
-            const formData = new FormData();
-            formData.append("name", product.name);
-            formData.append("model", product.model);
-            formData.append("category", product.category);
-            formData.append("store", product.store);
-            formData.append("productCode", product.productCode);
-            const photoData = document.getElementById('imageFile');
-            if (photoData.files.length > 0) {
-                formData.append("file", photoData.files[0]);
-            }
-            const result = await addProduct(product, photo);
+            const photoData = document.getElementById('imageFile').files[0];
+            const result = await addProduct(product, photoData);
             console.log("Product added successfully", result);
             navigate('/product-list');
         } catch (error) {

@@ -1,5 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import {addProductFields} from "../productField/ProductFieldApi.jsx";
 
 const API_BASE_URL = "http://localhost:8080";
 
@@ -77,26 +78,45 @@ const getProductById = async (id) => {
 
 const addProduct = async (productDTO, file) => {
     let formData = new FormData();
-
-    formData.append('productDTO', JSON.stringify(productDTO));
+    formData.append("name", productDTO.name);
+    formData.append("model", productDTO.model);
+    formData.append("category", productDTO.category);
+    formData.append("store", productDTO.store);
+    formData.append("productCode", productDTO.productCode);
+    formData.append("productFields", "");
+    formData.append("transactions", "");
     formData.append('file', file);
 
-    const url = `${API_BASE_URL}/product/addProduct`;
+    const url = `${API_BASE_URL}/product/addProductID`;
     const config = {
         headers: getHeaders(true)
     };
 
     try {
         const response = await axios.post(url, formData, config);
+        console.log("Response Status:", response.status);
+        console.log("Response Data:", response.data);
         if (response.status === 201) {
-            return response.data;
+            const id = response.data;
+            const fields = await addProductFields(productDTO.productFields, id);
+            console.log("Fields:", fields);
+            if (fields.status === 201) {
+                return {product : response.data, fields: fields.data};
+            } else {
+                if (checkResponseStatusCode(fields.status)) {
+                    throw new Error("Error adding product fields");
+                }
+            }
         } else {
-            throw new Error("Unexpected response status while adding product");
+            if (checkResponseStatusCode(response.status)) {
+                throw new Error("Unexpected response status while adding product");
+            }
         }
     } catch (error) {
         console.error("Error in addProduct:", error);
     }
 };
+
 
 const updateProduct = async (id, productDTO, file) => {
     let formData = new FormData();

@@ -107,6 +107,24 @@ const addProductField = async (productFieldDTO) => {
         console.error("Could not add product field", error);
     }
 };
+const addProductFields = async (productFieldDTO, productID) => {
+    console.log(productID);
+    const url = `${API_BASE_URL}/productField/addProductFields/${productID}`;
+
+    try {
+        const response = await axios.post(url, productFieldDTO, {
+            headers: getHeaders()
+        });
+
+        if (response.status === 201) {
+            return {data : response.data, status : response.status};
+        } else {
+            throw new Error(`Unexpected response status while adding product field: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Could not add product field", error);
+    }
+};
 
 const updateProductField = async (id, productFieldDTO) => {
     const url = `${API_BASE_URL}/productField/updateProductField/${id}`;
@@ -152,6 +170,7 @@ export {
     getAllProductFields,
     //add methods
     addProductField,
+    addProductFields,
     //update methods
     updateProductField,
     //delete methods

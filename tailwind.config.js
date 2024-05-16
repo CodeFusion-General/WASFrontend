@@ -61,7 +61,7 @@ export default {
 
       },
       fontFamily: {
-        'roboto-slab': ['"Roboto Slab"', 'serif'],
+        poppins: ['Poppins', 'sans-serif'],
       },
     },
   },

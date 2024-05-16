@@ -27,8 +27,9 @@ const apiCall = async (url, config, errorHandler) => {
 
 //#region Get ApiCalls
 const getHeaders = (isMultipart = false) => {
-    const token = Cookies.get('user_oken');
+    const token = Cookies.get('user_token');
 
+    console.log()
     if (isMultipart) {
         return {
             'Content-Type': 'multipart/form-data',
@@ -83,10 +84,13 @@ const getAllTransactions = async () => {
 const getTransactionsByProductId = async (productId) => {
     const url = `${API_BASE_URL}/transaction/product/${productId}`;
 
+
     try {
         const response = await axios.get(url, {
             headers: getHeaders()
         });
+
+        console.log(response.data)
 
         if (response.status === 200) {
             return response.data;

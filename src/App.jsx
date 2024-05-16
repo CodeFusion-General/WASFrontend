@@ -15,6 +15,8 @@ import StoreEmployee from './pages/storePages/storeEmployee/StoreEmployee.jsx';
 import ProductsList from './pages/productPages/productList/ProductList.jsx'
 import ProductDetail from "./pages/productPages/productDetail/ProductDetail.jsx";
 import ProductAdd from "./pages/productPages/productAdd/ProductAdd.jsx";
+//global
+import {GlobalProvider} from "./api/globalContext/GlobalContext.jsx";
 
 const Dashboard = () => {
     return (
@@ -97,7 +99,9 @@ const router = createBrowserRouter([
 function App() {
     return (
         <div className="App">
-            <RouterProvider router={router} />
+            <GlobalProvider>
+                <RouterProvider router={router} />
+            </GlobalProvider>
         </div>
     );
 }

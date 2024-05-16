@@ -65,11 +65,11 @@ function StoreList() {
                                     src={store.base64String}
                                     className="object-cover w-full h-full"
                                     alt={`${store.resourceFile.name}`}
-                                    onError={(e) => { e.target.src = 'path/to/default/image.jpg'; }}
+                                    onError={(e) => { e.target.src = 'src/assets/store.png'; }}
                                 />
                             ) : (
                                 <img
-                                    src="path/to/default/image.jpg"
+                                    src="src/assets/store.png"
                                     className="object-cover w-full h-full"
                                     alt="Default"
                                 />

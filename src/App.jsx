@@ -15,6 +15,9 @@ import StoreEmployee from './pages/storePages/storeEmployee/StoreEmployee.jsx';
 import ProductsList from './pages/productPages/productList/ProductList.jsx'
 import ProductDetail from "./pages/productPages/productDetail/ProductDetail.jsx";
 import ProductAdd from "./pages/productPages/productAdd/ProductAdd.jsx";
+import TransactionList from "./pages/transactionPages/transactionList/TransactionList.jsx";
+import TransactionAdd from "./pages/transactionPages/transactionAdd/TransactionAdd.jsx";
+import TransactionDetails from "./pages/transactionPages/transactionDetails/TransactionDetails.jsx";
 //global
 import {GlobalProvider} from "./api/globalContext/GlobalContext.jsx";
 
@@ -26,16 +29,11 @@ const Dashboard = () => {
             <div className="ml-64">
                 <Outlet />
             </div>
-
-
         </div>
     );
 };
 
-
-
 const router = createBrowserRouter([
-
     {
         path: "/",
         element: <Dashboard />,
@@ -48,46 +46,57 @@ const router = createBrowserRouter([
             {
                 path: "/employee-register",
                 element: <BossRouter
-                    element={<UserAdd type = "Employee"/>}
+                    element={<UserAdd type="Employee" />}
                 />,
             },
             {
                 path: "/register",
                 element: <UserAdd
-                    type = "Boss"
+                    type="Boss"
                 />,
             },
             {
                 path: "/add-store",
                 element: <BossRouter
-                    element={<StoreAdd/>}
+                    element={<StoreAdd />}
                 />,
             },
             {
                 path: "/stores",
                 element: <BossRouter
-                    element={<StoreList/>}
+                    element={<StoreList />}
                 />,
             },
             {
                 path: "/store-employees",
                 element: <ManagerRouter
-                    element={<StoreEmployee/>}
+                    element={<StoreEmployee />}
                 />,
             },
             {
                 path: "/product-list",
-                element: <ProductsList/>,
+                element: <ProductsList />,
             },
             {
                 path: "/product-details",
-                element: <ProductDetail/>,
+                element: <ProductDetail />,
             },
             {
                 path: "/add-product",
-                element: <ProductAdd/>,
+                element: <ProductAdd />,
             },
-
+            {
+                path: "/transactions/:productId",
+                element: <TransactionList />,
+            },
+            {
+                path: "/add-transaction/:productId",
+                element: <TransactionAdd />,
+            },
+            {
+                path: "/transaction-details/:transactionId",
+                element: <TransactionDetails />,
+            },
         ],
     },
     {

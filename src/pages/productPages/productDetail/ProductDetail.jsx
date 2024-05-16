@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 // Dummy image path - replace with your actual path or URL
 const placeholderImage = 'src/assets/sevketiphone.jpg';
 
 function ProductDetails({ product, onUpdate, onDelete }) {
     const [editableProduct, setEditableProduct] = useState(product);
+    const navigate = useNavigate();
     const handleChange = (e) => {
         setEditableProduct({ ...editableProduct, [e.target.name]: e.target.value });
     };
@@ -15,6 +17,10 @@ function ProductDetails({ product, onUpdate, onDelete }) {
         if (window.confirm("Are you sure you want to delete this product?")) {
             onDelete(editableProduct.id);
         }
+    };
+
+    const handleNavigateToTransactions = () => {
+        navigate (`/transactions/${editableProduct.id}`);
     };
 
     return (
@@ -90,6 +96,9 @@ function ProductDetails({ product, onUpdate, onDelete }) {
                         </button>
                         <button className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" onClick={handleDelete}>
                             Delete
+                        </button>
+                        <button className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-500 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" onClick={handleNavigateToTransactions}>
+                            View Transactions
                         </button>
                     </div>
                 </div>

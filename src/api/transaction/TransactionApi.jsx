@@ -94,7 +94,7 @@ const getTransactionsByProductId = async (productId) => {
             throw new Error(`Unexpected response status while getting transactions by product id: ${response.status}`);
         }
     } catch (error) {
-        console.error(`Could not fetch transactions for store id ${productId}`, error);
+        console.error(`Could not fetch transactions for product id ${productId}`, error);
     }
 };
 

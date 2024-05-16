@@ -5,6 +5,7 @@ import {jwtDecode} from 'jwt-decode';
 const API_BASE_URL = "http://localhost:8080";
 
 const login = async (username, password) => {
+    console.log(username, password)
     const url = `${API_BASE_URL}/account/login`;
     const body = {
         username: username,

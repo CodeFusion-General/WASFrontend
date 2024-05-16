@@ -17,7 +17,8 @@ function TransactionList() {
     useEffect(() => {
         const fetchTransactions = async () => {
             const fetchedTransactions = await getTransactionsByProductId(productId);
-            setTransactions(fetchedTransactions);
+            // Check if fetchedTransactions is an array, if not, convert it to an array
+            setTransactions(Array.isArray(fetchedTransactions) ? fetchedTransactions : [fetchedTransactions]);
         };
         fetchTransactions();
     }, [productId]);

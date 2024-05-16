@@ -80,8 +80,8 @@ const getAllTransactions = async () => {
     }
 };
 
-const getTransactionsByStoreId = async (storeId) => {
-    const url = `${API_BASE_URL}/transaction/store/${storeId}`;
+const getTransactionsByProductId = async (productId) => {
+    const url = `${API_BASE_URL}/transaction/product/${productId}`;
 
     try {
         const response = await axios.get(url, {
@@ -91,10 +91,10 @@ const getTransactionsByStoreId = async (storeId) => {
         if (response.status === 200) {
             return response.data;
         } else {
-            throw new Error(`Unexpected response status while getting transactions by store id: ${response.status}`);
+            throw new Error(`Unexpected response status while getting transactions by product id: ${response.status}`);
         }
     } catch (error) {
-        console.error(`Could not fetch transactions for store id ${storeId}`, error);
+        console.error(`Could not fetch transactions for store id ${productId}`, error);
     }
 };
 
@@ -172,4 +172,13 @@ const deleteTransaction = async (id) => {
     } catch (error) {
         console.error('Could not delete transaction', error);
     }
+};
+
+export {
+    getTransactionById,
+    getAllTransactions,
+    getTransactionsByProductId,
+    addTransaction,
+    updateTransaction,
+    deleteTransaction,
 };

@@ -62,10 +62,12 @@ function ProductList(storeId) {
             <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">All Products</h1>
             <div className="flex justify-start items-center gap-4 mb-6">
                 {!selectedProduct && (
-                    <Button label="Add Product" className="p-button-raised bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow" onClick={handleAddProductClick} />
+                    <>
+                        <Button label="Add Product" className="p-button-raised bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow" onClick={handleAddProductClick} />
+                        <Button icon="pi pi-file" className="p-button-rounded bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow" onClick={() => dt.current.exportCSV()} tooltip="CSV" />
+                        <Button icon="pi pi-file-excel" className="p-button-rounded bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow" onClick={exportExcel} tooltip="XLS" />
+                    </>
                 )}
-                <Button icon="pi pi-file" className="p-button-rounded bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow" onClick={() => dt.current.exportCSV()} tooltip="CSV" />
-                <Button icon="pi pi-file-excel" className="p-button-rounded bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow" onClick={exportExcel} tooltip="XLS" />
             </div>
             {!selectedProduct ? (
                 <DataTable ref={dt} value={products} globalFilter={globalFilter} header={header} paginator rows={10}

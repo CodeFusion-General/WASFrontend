@@ -1,6 +1,8 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {getProductsByStoreId} from "../../../api/product/ProductApi.jsx";
+import { getProductsByStoreId } from "../../../api/product/ProductApi.jsx";
+import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
+import { GlobalContext } from "../../../api/globalContext/GlobalContext.jsx";
 import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -13,21 +15,26 @@ import 'primereact/resources/primereact.min.css';         // core css
 import 'primeicons/primeicons.css';                       // icons
 import 'primeflex/primeflex.css';                         // primeflex
 
-function ProductList(storeId) {
+function ProductList() {
     const navigate = useNavigate();
-    const [products, setProducts] = useState();
-    /*const [products, setProducts] = useState([
-        { id: 1, category: 'Phone', name: 'Iphone 15', model: 'Pro Max', product_code: '123456', profit: 10, quantity: '1000', store_id: '1' },
-        { id: 2, category: 'Phone', name: 'Samsung Galaxy S22', model: 'S22 Ultra', product_code: '123457', profit: -20, quantity: '2000', store_id: '2' },
-        { id: 3, category: 'Phone', name: 'Xiaomi Redmi Note 11', model: 'Pro', product_code: '123458', profit: 30, quantity: '3000', store_id: '3' },
-        { id: 4, category: 'Phone', name: 'Huawei P50', model: 'Pro', product_code: '123459', profit: 40, quantity: '4000', store_id: '4' },
-        { id: 5, category: 'Phone', name: 'Oppo Reno 7', model: 'Pro', product_code: '123460', profit: -50, quantity: '5000', store_id: '5' },
-    ]);*/
-    useEffect(() => {
-        getProductsByStoreId(storeId).then((response) => {
+    const [products, setProducts] = useState([]);
+    const { globalValue } = useContext(GlobalContext);
+    const tokenStoreId = () => {
+        if (decodeUserToken().role === "MANAGER" || decodeUserToken().role === "USER") {
+            return decodeUserToken().storeId;
+        } else {
+            return null;
+        }
+    };
 
+    useEffect(() => {
+        getProductsByStoreId(tokenStoreId() || globalValue).then((response) => {
+            setProducts(response);
+        }).catch((error) => {
+            console.error("Error in getProductsByStoreId:", error);
         });
-    }, []);
+    }, [globalValue]);
+
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [globalFilter, setGlobalFilter] = useState(null);
     const dt = useRef(null);
@@ -76,9 +83,9 @@ function ProductList(storeId) {
                            sortMode="multiple">
                     <Column field="name" header="Product" sortable filter filterPlaceholder="Search by name" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
                     <Column field="model" header="Model" sortable filter filterPlaceholder="Search by model" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
-                    <Column field="product_code" header="Code" sortable filter filterPlaceholder="Search by code" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
+                    <Column field="productCode" header="Product Code" sortable filter filterPlaceholder="Search by code" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
                     <Column field="profit" header="Profit" sortable filter filterPlaceholder="Search by profit" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
-                    <Column field="quantity" header="Quantity" sortable filter filterPlaceholder="Search by quantity" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
+                    <Column field="currentStock" header="Current Stock" sortable filter filterPlaceholder="Search by quantity" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
                     <Column body={statusBodyTemplate} header="Status" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
                     <Column body={(rowData) => (
                         <Button onClick={() => setSelectedProduct(rowData)} label="View Details" className="p-button-rounded bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow" />

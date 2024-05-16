@@ -87,7 +87,7 @@ const addProduct = async (productDTO, file) => {
     formData.append("transactions", "");
     formData.append('file', file);
 
-    const url = `${API_BASE_URL}/product/addProductID`;
+    const url = `${API_BASE_URL}/product/addProduct`;
     const config = {
         headers: getHeaders(true)
     };
@@ -95,9 +95,9 @@ const addProduct = async (productDTO, file) => {
     try {
         const response = await axios.post(url, formData, config);
         console.log("Response Status:", response.status);
-        console.log("Response Data:", response.data);
+        console.log("Response Data:", response.data.id);
         if (response.status === 201) {
-            const id = response.data;
+            const id = response.data.id;
             const fields = await addProductFields(productDTO.productFields, id);
             console.log("Fields:", fields);
             if (fields.status === 201) {

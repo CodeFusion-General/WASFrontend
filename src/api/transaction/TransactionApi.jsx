@@ -64,21 +64,7 @@ const getTransactionById = async (id) => {
 
 const getAllTransactions = async () => {
     const url = `${API_BASE_URL}/transaction/allTransaction`;
-
-    try {
-        const response = await axios.get(url, {
-            headers: getHeaders()
-        });
-
-        if (response.status === 200) {
-            return response.data;
-        } else {
-            throw new Error(`Unexpected response status while getting all transactions: ${response.status}`);
-        }
-
-    } catch (error) {
-        console.error("Could not fetch all transactions", error);
-    }
+    return apiCall(url, { headers : getHeaders() }, "Could not fetch all transactions");
 };
 
 const getTransactionsByProductId = async (productId) => {
@@ -101,6 +87,24 @@ const getTransactionsByProductId = async (productId) => {
         console.error(`Could not fetch transactions for product id ${productId}`, error);
     }
 };
+
+const getDailyTotalTransactions = async (storeId) => {
+    const url = `${API_BASE_URL}/transaction/daily-totals/${storeId}`;
+
+    try {
+        const response = await axios.get(url, {
+            headers: getHeaders()
+        });
+
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error(`Unexpected response status while getting daily total transactions: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Could not fetch daily total transactions', error);
+    }
+}
 
 const addTransaction = async (transactionDTO, file) => {
     const url = `${API_BASE_URL}/transaction/addTransaction`;
@@ -182,6 +186,7 @@ export {
     getTransactionById,
     getAllTransactions,
     getTransactionsByProductId,
+    getDailyTotalTransactions,
     addTransaction,
     updateTransaction,
     deleteTransaction,

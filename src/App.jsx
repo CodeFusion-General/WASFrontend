@@ -18,6 +18,7 @@ import ProductAdd from "./pages/productPages/productAdd/ProductAdd.jsx";
 import TransactionList from "./pages/transactionPages/transactionList/TransactionList.jsx";
 import TransactionAdd from "./pages/transactionPages/transactionAdd/TransactionAdd.jsx";
 import TransactionDetails from "./pages/transactionPages/transactionDetails/TransactionDetails.jsx";
+import StoreDashboard from "./pages/storePages/storeDashboard/StoreDashboard.jsx";
 //global
 import {GlobalProvider} from "./api/globalContext/GlobalContext.jsx";
 
@@ -97,6 +98,10 @@ const router = createBrowserRouter([
                 path: "/transaction-details/:transactionId",
                 element: <TransactionDetails />,
             },
+            {
+                path: "/store",
+                element: <StoreDashboard />,
+            }
         ],
     },
     {

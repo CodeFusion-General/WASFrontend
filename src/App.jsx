@@ -15,7 +15,6 @@ import StoreEmployee from './pages/storePages/storeEmployee/StoreEmployee.jsx';
 import ProductsList from './pages/productPages/productList/ProductList.jsx'
 import ProductDetail from "./pages/productPages/productDetail/ProductDetail.jsx";
 import ProductAdd from "./pages/productPages/productAdd/ProductAdd.jsx";
-import UserProfile from "./pages/userPages/userProfile/UserProfile.jsx";
 
 const Dashboard = () => {
     return (
@@ -84,10 +83,6 @@ const router = createBrowserRouter([
             {
                 path: "/add-product",
                 element: <ProductAdd/>,
-            },
-            {
-                path: "/profile",
-                element: <UserProfile/>,
             },
 
         ],

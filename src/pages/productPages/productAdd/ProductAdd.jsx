@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { addProduct } from '../../../api/product/ProductApi.jsx';
-import {addCategory} from "../../../api/category/CategoryApi.jsx";
-import { getAllCategories } from "../../../api/category/CategoryApi.jsx";
+import { addCategory, getAllCategories } from "../../../api/category/CategoryApi.jsx";
 import { useNavigate } from 'react-router-dom';
 
 function ProductAdd({ isOpen, onClose }) {
@@ -14,6 +13,7 @@ function ProductAdd({ isOpen, onClose }) {
         category: 0,
         store: 1,
         productCode: '',
+        quantity: '',
         productFields: []
     });
     const [newCategory, setNewCategory] = useState('');
@@ -86,14 +86,14 @@ function ProductAdd({ isOpen, onClose }) {
         const newCategoryObj = {
             id: categories.length + 1,
             name: newCategory,
-            prototypes: product.productFields.map(field => ({ name: field.name}))
+            prototypes: product.productFields.map(field => ({ name: field.name }))
         };
         addCategory(newCategoryObj)
             .then(() => alert("Category added successfully"))
             .catch((error) => {
-            console.error("Failed to add category", error);
-            return;
-        });
+                console.error("Failed to add category", error);
+                return;
+            });
         setCategories([...categories, newCategoryObj]);
         setProduct({
             ...product,
@@ -105,7 +105,6 @@ function ProductAdd({ isOpen, onClose }) {
     };
 
     const handleSubmit = async () => {
-
         try {
             const photoData = document.getElementById('imageFile').files[0];
             const result = await addProduct(product, photoData);
@@ -120,43 +119,57 @@ function ProductAdd({ isOpen, onClose }) {
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="p-5 my-10 w-full max-w-4xl bg-white rounded-lg shadow-lg mt-16">
                 <h2 className="text-2xl font-bold mb-6 text-gray-800">Add Product</h2>
-                <div className="grid grid-cols-2 gap-6">
-                    {Object.entries(product)
-                        .filter(([key, value]) => typeof value === 'string' || typeof value === 'number')
-                        .map(([key, value]) => {
-                            if (key !== 'category') {
-                                return (
-                                    <InputField
-                                        key={key}
-                                        id={key}
-                                        label={key[0].toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1') + ':'}
-                                        name={key}
-                                        value={value}
-                                        onChange={handleChange}
-                                    />
-                                );
-                            } else {
-                                return (
-                                    <div key={key} className="mb-4">
-                                        <label htmlFor="category" className="block text-sm font-medium text-gray-700">Category:</label>
-                                        <select
-                                            id="category"
-                                            name="category"
-                                            value={product.category}
-                                            onChange={handleCategoryPrototype}
-                                            className="w-full p-2 mt-1 text-sm text-gray-900 bg-gray-100 rounded-md focus:ring focus:ring-blue-500"
-                                        >
-                                            <option value="">Select a category</option>
-                                            <option value="new">New Category</option>
-                                            {Array.isArray(categories) && categories.map(category => (
-                                                <option key={category.id} value={category.id}>{category.name}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                );
-                            }
-                        })
-                    }
+                <div className="product-fields">
+                    <div className="field-pair">
+                        <InputField
+                            id="name"
+                            label="Name:"
+                            name="name"
+                            value={product.name}
+                            onChange={handleChange}
+                        />
+                        <InputField
+                            id="model"
+                            label="Model:"
+                            name="model"
+                            value={product.model}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="field-pair">
+                        <InputField
+                            id="category"
+                            label="Category:"
+                            name="category"
+                            value={product.category}
+                            onChange={handleCategoryPrototype}
+                            isSelect
+                            options={categories}
+                        />
+                        <InputField
+                            id="store"
+                            label="Store:"
+                            name="store"
+                            value={product.store}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="field-pair">
+                        <InputField
+                            id="productCode"
+                            label="Product Code:"
+                            name="productCode"
+                            value={product.productCode}
+                            onChange={handleChange}
+                        />
+                        <InputField
+                            id="quantity"
+                            label="Quantity:"
+                            name="quantity"
+                            value={product.quantity}
+                            onChange={handleChange}
+                        />
+                    </div>
                 </div>
                 {showNewCategoryInput && (
                     <div className="mt-6 mb-4">
@@ -181,20 +194,22 @@ function ProductAdd({ isOpen, onClose }) {
                 )}
                 <div className="mt-6" id='product-fields'>
                     <label className="block mb-4 text-lg font-medium leading-6 text-gray-700">Product Fields:</label>
-                    {product.productFields.map((field, index) => (
-                        <div key={index} className="flex gap-6">
-                            <InputField id={`name${index}`} label="Field Name:" name="name" value={field.name}
-                                        onChange={(e) => handleChange(e, index)} />
-                            <InputField id={`feature${index}`} label="Feature:" name="feature"
-                                        value={field.feature} onChange={(e) => handleChange(e, index)} />
-                            <button
-                                className="py-2 px-4 mt-4 bg-red-500 hover:bg-red-600 text-white font-medium rounded-md"
-                                onClick={() => removeInputField(index)}
-                            >
-                                Delete Field
-                            </button>
-                        </div>
-                    ))}
+                    <div className="product-fields">
+                        {product.productFields.map((field, index) => (
+                            <div key={index} className="field-pair">
+                                <InputField id={`name${index}`} label="Field Name:" name="name" value={field.name}
+                                            onChange={(e) => handleChange(e, index)} />
+                                <InputField id={`feature${index}`} label="Feature:" name="feature"
+                                            value={field.feature} onChange={(e) => handleChange(e, index)} />
+                                <button
+                                    className="py-2 px-4 mt-4 bg-red-500 hover:bg-red-600 text-white font-medium rounded-md"
+                                    onClick={() => removeInputField(index)}
+                                >
+                                    Delete Field
+                                </button>
+                            </div>
+                        ))}
+                    </div>
                     <button
                         className="py-2 px-4 mt-4 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-md"
                         onClick={() => addInputField()}>
@@ -245,18 +260,34 @@ function ProductAdd({ isOpen, onClose }) {
     );
 }
 
-function InputField({ id, label, type = 'text', name, value, onChange }) {
+function InputField({ id, label, type = 'text', name, value, onChange, isSelect = false, options = [] }) {
     return (
-        <div className="mb-4">
+        <div className="mb-4 input-field">
             <label htmlFor={id} className="block text-sm font-medium text-gray-700">{label}</label>
-            <input
-                id={id}
-                name={name}
-                type={type}
-                className="w-full p-2 mt-1 text-sm text-gray-900 bg-gray-100 rounded-md focus:ring focus:ring-blue-500"
-                value={value}
-                onChange={onChange}
-            />
+            {isSelect ? (
+                <select
+                    id={id}
+                    name={name}
+                    className="w-full p-2 mt-1 text-sm text-gray-900 bg-gray-100 rounded-md focus:ring focus:ring-blue-500"
+                    value={value}
+                    onChange={onChange}
+                >
+                    <option value="">Select a category</option>
+                    <option value="new">New Category</option>
+                    {options.map(option => (
+                        <option key={option.id} value={option.id}>{option.name}</option>
+                    ))}
+                </select>
+            ) : (
+                <input
+                    id={id}
+                    name={name}
+                    type={type}
+                    className="w-full p-2 mt-1 text-sm text-gray-900 bg-gray-100 rounded-md focus:ring focus:ring-blue-500"
+                    value={value}
+                    onChange={onChange}
+                />
+            )}
         </div>
     );
 }

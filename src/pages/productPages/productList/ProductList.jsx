@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+/*import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getProductsByStoreId } from "../../../api/product/ProductApi.jsx";
 import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
@@ -101,3 +101,4 @@ function ProductList() {
 }
 
 export default ProductList;
+*/

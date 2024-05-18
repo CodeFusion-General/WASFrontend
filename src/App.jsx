@@ -21,7 +21,7 @@ import TransactionDetails from "./pages/transactionPages/transactionDetails/Tran
 import StoreDashboard from "./pages/storePages/storeDashboard/StoreDashboard.jsx";
 //import UserProfile from "./pages/userPages/userProfile/UserProfile.jsx";
 //global
-import {GlobalProvider} from "./api/globalContext/GlobalContext.jsx";
+import {GlobalStoreIdProvider} from "./api/store/GlobalStoreId.jsx";
 
 const Dashboard = () => {
     return (
@@ -118,9 +118,9 @@ const router = createBrowserRouter([
 function App() {
     return (
         <div className="App">
-            <GlobalProvider>
+            <GlobalStoreIdProvider>
                 <RouterProvider router={router} />
-            </GlobalProvider>
+            </GlobalStoreIdProvider>
         </div>
     );
 }

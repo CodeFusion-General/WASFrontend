@@ -1,6 +1,5 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import {addProductFields} from "../productField/ProductFieldApi.jsx";
 
 const API_BASE_URL = "http://localhost:8080";
 
@@ -41,8 +40,15 @@ const apiCall = async (url, config, errorHandler) => {
     }
 };
 
-const
+const getTop3NotifiticationsByUserId = async (userId) => {
+    const url = `${API_BASE_URL}/notification/user/${userId}/top3`;
+    return apiCall(
+        url,
+        { headers: getHeaders() },
+        "Error getting top 3 notifications:"
+    );
+}
 
 export {
-
+    getTop3NotifiticationsByUserId
 };

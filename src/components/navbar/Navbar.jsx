@@ -4,8 +4,8 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { logout, decodeUserToken } from "../../api/authentication/AuthenticationApi.jsx";
 import { getUserPhoto } from "../../api/resource/ResourceApi.jsx";
 import { format } from 'date-fns';
-import { useNavigate  } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
+import { getTop3NotifiticationsByUserId} from "../../api/notification/NotificationApi.jsx";
 
 const navigation = [
     { name: 'Dashboard', href: '#', current: true },
@@ -22,13 +22,13 @@ function classNames(...classes) {
 const getNotificationLevelColor = (level) => {
     switch (level) {
         case 'INFO':
-            return 'bg-blue-100 text-blue-800';
+            return 'text-blue-800 bg-blue-100';
         case 'SUCCESS':
-            return 'bg-green-100 text-green-800';
+            return 'text-green-800 bg-green-100';
         case 'ERROR':
-            return 'bg-red-100 text-red-800';
+            return 'text-red-800 bg-red-100';
         case 'WARNING':
-            return 'bg-yellow-100 text-yellow-800';
+            return 'text-yellow-800 bg-yellow-100';
         default:
             return '';
     }
@@ -38,6 +38,8 @@ const getNotificationLevelColor = (level) => {
 const initialNotifications = [
     {
         id: 1,
+        isDeleted: false,
+        isSeen: false,
         recordDate: new Date(),
         subject: 'New comment on your post',
         description: 'You have a new comment on your post',
@@ -46,11 +48,12 @@ const initialNotifications = [
         isTelegram: true,
         text: 'Check out the new comment on your post',
         user: { id: 1, name: 'John Doe' }, // Simplified user entity
-        store: { id: 1, name: 'Main Store' }, // Simplified store entity
         notificationLevel: 'INFO',
     },
     {
         id: 2,
+        isDeleted: false,
+        isSeen: true,
         recordDate: new Date(),
         subject: 'Your profile has been updated',
         description: 'Your profile information has been updated successfully',
@@ -59,11 +62,12 @@ const initialNotifications = [
         isTelegram: false,
         text: 'Your profile has been updated',
         user: { id: 1, name: 'John Doe' },
-        store: { id: 1, name: 'Main Store' },
         notificationLevel: 'SUCCESS',
     },
     {
         id: 3,
+        isDeleted: false,
+        isSeen: false,
         recordDate: new Date(),
         subject: 'New friend request',
         description: 'You have a new friend request',
@@ -72,11 +76,12 @@ const initialNotifications = [
         isTelegram: true,
         text: 'You have received a new friend request',
         user: { id: 1, name: 'John Doe' },
-        store: { id: 1, name: 'Main Store' },
         notificationLevel: 'WARNING',
     },
     {
         id: 4,
+        isDeleted: false,
+        isSeen: true,
         recordDate: new Date(),
         subject: 'System update available',
         description: 'A new system update is available for your device',
@@ -85,11 +90,12 @@ const initialNotifications = [
         isTelegram: true,
         text: 'Update your system to the latest version',
         user: { id: 2, name: 'Jane Doe' },
-        store: { id: 2, name: 'Secondary Store' },
         notificationLevel: 'INFO',
     },
     {
         id: 5,
+        isDeleted: false,
+        isSeen: false,
         recordDate: new Date(),
         subject: 'Password change required',
         description: 'It\'s time to update your password for security reasons',
@@ -98,7 +104,6 @@ const initialNotifications = [
         isTelegram: false,
         text: 'Please update your password',
         user: { id: 3, name: 'Jim Beam' },
-        store: { id: 3, name: 'Tertiary Store' },
         notificationLevel: 'WARNING',
     },
 ];
@@ -107,8 +112,22 @@ function Navbar() {
     const [photo, setPhoto] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
-    const [notifications] = useState(initialNotifications);
+    const [notifications,setNotifications] = useState(initialNotifications);
 
+    useEffect(() => {
+        const decodedToken = decodeUserToken();
+        if(decodedToken) {
+            getTop3NotifiticationsByUserId(decodedToken.userId)
+                .then(response => {
+                    setNotifications(response.data);
+                    console.log('Notifications loaded successfully', response.data)
+                })
+                .catch(error => {
+                        console.error('Failed to load notifications', error);
+                    }
+                );
+        }
+    }, []);
     const viewAllNotifications = () => {
         navigate('/notifications');
     };
@@ -192,13 +211,16 @@ function Navbar() {
                                                                 href={`/notification/${notification.id}`}
                                                                 className={classNames(
                                                                     active ? 'bg-gray-100' : '',
-                                                                    'block px-4 py-2 text-sm text-gray-700'
+                                                                    'block px-4 py-2 text-sm text-gray-700 relative'
                                                                 )}
                                                             >
+                                                                {!notification.isSeen && (
+                                                                    <span className="absolute top-2 right-2 h-2 w-2 bg-red-500 rounded-full" />
+                                                                )}
                                                                 <div
                                                                     className={classNames(
-                                                                        'px-2 py-1 rounded-full text-xs font-semibold mb-1',
-                                                                        getNotificationLevelColor(notification.notificationLevel)
+                                                                        'px-2 py-1 rounded-full text-xs font-semibold mb-1 inline-block',
+                                                                        getNotificationLevelColor(notification.notificationLevel[0])
                                                                     )}
                                                                 >
                                                                     {notification.notificationLevel}
@@ -254,6 +276,16 @@ function Navbar() {
                                                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                         >
                                                             Your Profile
+                                                        </a>
+                                                    )}
+                                                </Menu.Item>
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <a
+                                                            href="#"
+                                                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                                        >
+                                                            Settings
                                                         </a>
                                                     )}
                                                 </Menu.Item>

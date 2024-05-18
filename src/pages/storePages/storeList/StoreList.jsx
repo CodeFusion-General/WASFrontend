@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { getStoresByUserId } from "../../../api/store/StoreApi.jsx";
 import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
-import { GlobalContext } from "../../../api/globalContext/GlobalContext.jsx";
+import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
 
 function StoreList() {
     const [stores, setStores] = useState([]);
     const [selectedStoreId, setSelectedStoreId] = useState(null); // Add state for selected store ID
-    const { setGlobalValue } = useContext(GlobalContext);
+    const { setGlobalStoreId } = useContext(GlobalStoreId);
 
     useEffect(() => {
         const fetchStores = async () => {
@@ -54,7 +54,7 @@ function StoreList() {
 
     const handleSelectStore = (storeId) => {
         setSelectedStoreId(storeId);
-        setGlobalValue(storeId);
+        setGlobalStoreId(storeId);
     };
 
     return (

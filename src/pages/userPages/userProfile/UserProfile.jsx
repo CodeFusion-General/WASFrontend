@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+/*import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUserById } from '../../../api/user/UserApi';
 import { Button } from 'primereact/button';
@@ -95,3 +95,4 @@ function UserProfile() {
 }
 
 export default UserProfile;
+*/

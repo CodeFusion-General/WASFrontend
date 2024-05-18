@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { getStoresByUserId } from "../../../api/store/StoreApi.jsx";
 import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
-import { GlobalContext } from "../../../api/globalContext/GlobalContext.jsx";
+import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
 
 function StoreList() {
     const [stores, setStores] = useState([]);
-    const { setGlobalValue, globalValue } = useContext(GlobalContext);
+    const { setGlobalStoreId, globalStoreId } = useContext(GlobalStoreId);
+
 
     useEffect(() => {
         const fetchStores = async () => {
@@ -52,7 +53,7 @@ function StoreList() {
     };
 
     const handleSelectStore = (storeId) => {
-        setGlobalValue(storeId);
+        setGlobalStoreId(storeId);
     };
 
     return (
@@ -61,7 +62,7 @@ function StoreList() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center">
                 {Array.isArray(stores) && stores.map((store) => (
                     <div key={store.id}
-                         className={`p-6 shadow-lg rounded-lg flex flex-col items-center transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-2xl border-2 m-2 ${globalValue === store.id ? 'bg-green-200 border-green-600' : 'bg-white border-gray-300'}`}>
+                         className={`p-6 shadow-lg rounded-lg flex flex-col items-center transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-2xl border-2 m-2 ${globalStoreId === store.id ? 'bg-green-200 border-green-600' : 'bg-white border-gray-300'}`}>
                         <h2 className="text-xl font-semibold mb-2">{store.name}</h2>
                         <div className="h-32 w-32 mb-3 overflow-hidden rounded-full border-8 border-gray-200">
                             {store.base64String ? (

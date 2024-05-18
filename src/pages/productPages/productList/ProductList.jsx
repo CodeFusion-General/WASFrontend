@@ -2,7 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { getProductsByStoreId } from "../../../api/product/ProductApi.jsx";
 import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
-import { GlobalContext } from "../../../api/globalContext/GlobalContext.jsx";
+import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
 import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -18,7 +18,7 @@ import 'primeflex/primeflex.css';                         // primeflex
 function ProductList() {
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
-    const { globalValue } = useContext(GlobalContext);
+    const { globalStoreId } = useContext(GlobalStoreId);
     const tokenStoreId = () => {
         if (decodeUserToken().role === "MANAGER" || decodeUserToken().role === "USER") {
             return decodeUserToken().storeId;
@@ -28,12 +28,12 @@ function ProductList() {
     };
 
     useEffect(() => {
-        getProductsByStoreId(tokenStoreId() || globalValue).then((response) => {
+        getProductsByStoreId(tokenStoreId() || globalStoreId).then((response) => {
             setProducts(response);
         }).catch((error) => {
             console.error("Error in getProductsByStoreId:", error);
         });
-    }, [globalValue]);
+    }, [globalStoreId]);
 
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [globalFilter, setGlobalFilter] = useState(null);

@@ -79,17 +79,17 @@ function MainPage() {
         {
             imageUrl: 'https://images.pexels.com/photos/163726/belgium-antwerp-shipping-container-163726.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
             title: 'Efficient Container Management',
-            description: 'Our container management solutions ensure optimal organization and handling of shipping containers. With advanced tracking and inventory systems, we help you manage your container fleet efficiently, reduce turnaround times, and enhance overall logistics performance. Keep track of every container\'s location and status with our comprehensive management tools, ensuring seamless operations and timely deliveries.',
+            description: 'Our container management solutions optimize logistics with advanced tracking and inventory systems. Efficiently manage your fleet, reduce turnaround times, and ensure timely deliveries with our comprehensive tools.',
         },
         {
             imageUrl: 'https://images.pexels.com/photos/2797828/pexels-photo-2797828.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
             title: 'Optimized Yard Management',
-            description: 'Our yard management system streamlines the organization and movement of trailers within your facility. With real-time visibility and efficient scheduling, we help you minimize delays, improve safety, and enhance the overall productivity of your yard operations. Ensure that every trailer is in the right place at the right time with our cutting-edge solutions.',
+            description: 'Our yard management system streamlines trailer organization and movement, providing real-time visibility and efficient scheduling to minimize delays, improve safety, and boost productivity. Ensure every trailer is in the right place at the right time with our cutting-edge solutions.',
         },
         {
             imageUrl: 'https://images.pexels.com/photos/4484151/pexels-photo-4484151.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
             title: 'Efficient Inventory Scanning Solutions',
-            description: 'Our advanced inventory scanning system ensures accurate and real-time tracking of your warehouse items. By utilizing state-of-the-art barcode scanners and integrated software, we streamline your inventory management processes, reduce errors, and improve operational efficiency. Stay ahead with precise data and quick access to inventory information, enhancing overall productivity and decision-making.',
+            description: 'Our inventory scanning system ensures accurate, real-time tracking with advanced barcode scanners and software, streamlining management and improving efficiency.',
         },
     ];
 
@@ -119,7 +119,8 @@ function MainPage() {
                         <div className="text-6xl text-gold mb-4">📦</div>
                         <h2 className="text-2xl font-bold text-gray-900 mb-4">Stores</h2>
                         <p className="text-gray-700">
-                            Find essential tools and resources for efficient warehouse management and inventory tracking. Optimize your storage and distribution with ease.                        </p>
+                            Find essential tools and resources for efficient warehouse management and inventory tracking. Optimize your storage and distribution with ease.
+                        </p>
                         <div className="text-gold mt-4">⬛</div>
                     </div>
                     <div className="bg-white p-8 rounded-lg shadow-md transition-transform transform hover:scale-105 flex flex-col items-center text-center w-full md:w-1/3">
@@ -176,23 +177,23 @@ function MainPage() {
             <div className="w-full py-16 bg-gray-100">
                 <div className="max-w-6xl mx-auto px-32">
                     <h2 className="text-3xl font-bold text-center mb-8">Our Services</h2>
-                    <div className="flex justify-center flex-wrap gap-8">
+                    <div className="flex justify-center flex-wrap md:flex-nowrap gap-8">
                         {imageSections.map((section, index) => {
                             const { ref, inView } = useInView({
                                 triggerOnce: false,
                                 threshold: 0.1,
                             });
 
-                            const isOdd = index % 2 !== 0;
+                            // Adjust animation direction based on section title
                             const animationClass = inView
-                                ? isOdd
+                                ? section.title === 'Efficient Inventory Scanning Solutions' || section.title === 'Optimized Yard Management'
                                     ? 'slide-in-right'
                                     : 'slide-in-left'
                                 : scrollDirection === 'down'
-                                    ? isOdd
+                                    ? section.title === 'Efficient Inventory Scanning Solutions' || section.title === 'Optimized Yard Management'
                                         ? 'slide-out-left'
                                         : 'slide-out-right'
-                                    : isOdd
+                                    : section.title === 'Efficient Inventory Scanning Solutions' || section.title === 'Optimized Yard Management'
                                         ? 'slide-out-right'
                                         : 'slide-out-left';
 

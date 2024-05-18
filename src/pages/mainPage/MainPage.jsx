@@ -1,13 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 import Slider from './Slider.jsx';
 import "../../index.css";
-import logo from '../../assets/WASLogo.png';
+import logo from '../../assets/wislogo.png';
 import warehouseImage from '../../assets/WASLogo.png';
 import Footer from '../../components/footer/Footer.jsx';
 import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 
 function MainPage() {
     const [openIndex, setOpenIndex] = useState(null);
+    const [scrollDirection, setScrollDirection] = useState('down');
+
+    useEffect(() => {
+        let lastScrollTop = 0;
+        const handleScroll = () => {
+            const st = window.pageYOffset || document.documentElement.scrollTop;
+            if (st > lastScrollTop) {
+                setScrollDirection('down');
+            } else {
+                setScrollDirection('up');
+            }
+            lastScrollTop = st <= 0 ? 0 : st;
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     const handleToggle = (index) => {
         setOpenIndex(openIndex === index ? null : index);
@@ -52,24 +72,24 @@ function MainPage() {
 
     const imageSections = [
         {
-            imageUrl: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2620&q=80',
-            title: 'Anında Stil ve Kişiselleştirme',
-            description: 'Tarzınıza uygun tasarımları hızlı bir şekilde üretiyor ve kendi benzersiz görünümünüzü yaratmanıza yardımcı olacak kişiselleştirme seçenekleri sunuyoruz. Modayı sizin için anlık ve kişiselleştirilmiş hale getiriyoruz.',
+            imageUrl: 'https://images.pexels.com/photos/906494/pexels-photo-906494.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            title: 'Inventory Management',
+            description: 'Efficiently track and manage your inventory with our state-of-the-art system. Real-time updates and detailed analytics help you maintain optimal stock levels and reduce overhead costs.',
         },
         {
-            imageUrl: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80',
-            title: 'Trendleri Anında Yakalayın',
-            description: 'En son moda trendleri ile güncel kalın. Hızlı üretim süreçleriyle güncel trendlere ayak uydurmanızı kolaylaştırıyoruz. Tarzınızı en son trendlerle birleştirin.',
+            imageUrl: 'https://images.pexels.com/photos/163726/belgium-antwerp-shipping-container-163726.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            title: 'Efficient Container Management',
+            description: 'Our container management solutions ensure optimal organization and handling of shipping containers. With advanced tracking and inventory systems, we help you manage your container fleet efficiently, reduce turnaround times, and enhance overall logistics performance. Keep track of every container\'s location and status with our comprehensive management tools, ensuring seamless operations and timely deliveries.',
         },
         {
-            imageUrl: 'https://images.unsplash.com/photo-1661961112951-f2bfd1f253ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2672&q=80',
-            title: 'Sürdürülebilir Moda',
-            description: 'Çevre bilincimizi hızlı üretim ve sürdürülebilirlik ilkeleriyle birleştirerek moda sektörüne yenilikçi yaklaşımlara öncülük ediyor, hem çevrenin hem de tarzınızın korunmasını sağlıyoruz.',
+            imageUrl: 'https://images.pexels.com/photos/2797828/pexels-photo-2797828.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            title: 'Optimized Yard Management',
+            description: 'Our yard management system streamlines the organization and movement of trailers within your facility. With real-time visibility and efficient scheduling, we help you minimize delays, improve safety, and enhance the overall productivity of your yard operations. Ensure that every trailer is in the right place at the right time with our cutting-edge solutions.',
         },
         {
-            imageUrl: 'https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2253&q=80',
-            title: 'Kişiye Özel Deneyimler',
-            description: 'Müşteri memnuniyetini ön planda tutarak kişiye özel deneyimler sunuyoruz. Hızlı teslimat ve özenli hizmet sayesinde modayı sizin için unutulmaz bir yolculuğa dönüştürüyoruz.',
+            imageUrl: 'https://images.pexels.com/photos/4484151/pexels-photo-4484151.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            title: 'Efficient Inventory Scanning Solutions',
+            description: 'Our advanced inventory scanning system ensures accurate and real-time tracking of your warehouse items. By utilizing state-of-the-art barcode scanners and integrated software, we streamline your inventory management processes, reduce errors, and improve operational efficiency. Stay ahead with precise data and quick access to inventory information, enhancing overall productivity and decision-making.',
         },
     ];
 
@@ -99,15 +119,14 @@ function MainPage() {
                         <div className="text-6xl text-gold mb-4">📦</div>
                         <h2 className="text-2xl font-bold text-gray-900 mb-4">Stores</h2>
                         <p className="text-gray-700">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
-                        </p>
+                            Find essential tools and resources for efficient warehouse management and inventory tracking. Optimize your storage and distribution with ease.                        </p>
                         <div className="text-gold mt-4">⬛</div>
                     </div>
                     <div className="bg-white p-8 rounded-lg shadow-md transition-transform transform hover:scale-105 flex flex-col items-center text-center w-full md:w-1/3">
                         <div className="text-6xl text-gold mb-4">🛒</div>
                         <h2 className="text-2xl font-bold text-gray-900 mb-4">Products</h2>
                         <p className="text-gray-700">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+                            Explore top-quality items and solutions for effective warehouse management. Enhance your inventory tracking and streamline distribution seamlessly.
                         </p>
                         <div className="text-gold mt-4">⬛</div>
                     </div>
@@ -115,7 +134,7 @@ function MainPage() {
                         <div className="text-6xl text-gold mb-4">👤</div>
                         <h2 className="text-2xl font-bold text-gray-900 mb-4">Personals</h2>
                         <p className="text-gray-700">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+                            Meet our dedicated team and discover their expertise. Enhance your warehouse operations with their skills and streamline your processes effectively
                         </p>
                         <div className="text-gold mt-4">⬛</div>
                     </div>
@@ -158,26 +177,50 @@ function MainPage() {
                 <div className="max-w-6xl mx-auto px-32">
                     <h2 className="text-3xl font-bold text-center mb-8">Our Services</h2>
                     <div className="flex justify-center flex-wrap gap-8">
-                        {imageSections.map((section, index) => (
-                            <div key={index} className="relative group w-full sm:w-1/2 md:w-1/4 flex flex-col items-center">
-                                <div className="relative w-full pb-[100%] overflow-hidden rounded-lg shadow-lg transition-transform transform hover:scale-105">
-                                    <img src={section.imageUrl} alt={section.title} className="absolute inset-0 w-full h-full object-cover" />
-                                    <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                        <div className="flex space-x-4">
-                                            {socialMediaIcons.map((icon, idx) => (
-                                                <a key={idx} href={icon.link} target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-300">
-                                                    {icon.icon}
-                                                </a>
-                                            ))}
+                        {imageSections.map((section, index) => {
+                            const { ref, inView } = useInView({
+                                triggerOnce: false,
+                                threshold: 0.1,
+                            });
+
+                            const isOdd = index % 2 !== 0;
+                            const animationClass = inView
+                                ? isOdd
+                                    ? 'slide-in-right'
+                                    : 'slide-in-left'
+                                : scrollDirection === 'down'
+                                    ? isOdd
+                                        ? 'slide-out-left'
+                                        : 'slide-out-right'
+                                    : isOdd
+                                        ? 'slide-out-right'
+                                        : 'slide-out-left';
+
+                            return (
+                                <div
+                                    key={index}
+                                    ref={ref}
+                                    className={`relative group w-full sm:w-1/2 md:w-1/4 flex flex-col items-center ${animationClass}`}
+                                >
+                                    <div className="relative w-full pb-[100%] overflow-hidden rounded-lg shadow-lg transition-transform transform hover:scale-105">
+                                        <img src={section.imageUrl} alt={section.title} className="absolute inset-0 w-full h-full object-cover" />
+                                        <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                            <div className="flex space-x-4">
+                                                {socialMediaIcons.map((icon, idx) => (
+                                                    <a key={idx} href={icon.link} target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-300">
+                                                        {icon.icon}
+                                                    </a>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
+                                    <div className="p-4 text-center">
+                                        <h3 className="text-lg font-bold mb-2">{section.title}</h3>
+                                        <p className="text-sm text-gray-700">{section.description}</p>
+                                    </div>
                                 </div>
-                                <div className="p-4 text-center">
-                                    <h3 className="text-lg font-bold mb-2">{section.title}</h3>
-                                    <p className="text-sm text-gray-700">{section.description}</p>
-                                </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
             </div>

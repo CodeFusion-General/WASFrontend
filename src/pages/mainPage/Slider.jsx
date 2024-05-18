@@ -6,34 +6,33 @@ function Slider() {
     const slides = [
         {
             url: 'https://images.pexels.com/photos/236705/pexels-photo-236705.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-            title: 'Deneme1',
-            description: 'Bu bir deneme yazısıdır',
+            title: 'Spacious and Modern Warehouses',
+            description: 'Our state-of-the-art warehouses offer ample space and advanced infrastructure for efficient storage and operations.',
         },
         {
             url: 'https://images.pexels.com/photos/209251/pexels-photo-209251.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-            title: 'Deneme2',
-            description: 'Bu bir deneme yazısıdır',
+            title: 'High-Tech Loading Docks',
+            description: 'Our modern loading docks are designed for efficient and fast logistics operations, ensuring smooth and quick loading and unloading processes.',
         },
         {
             url: 'https://images.pexels.com/photos/236698/pexels-photo-236698.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-            title: 'Deneme3',
-            description: 'Bu bir deneme yazısıdır',
+            title: 'Versatile Warehouse Space',
+            description: 'Our versatile warehouse space is designed to accommodate a variety of storage and operational needs, ensuring flexibility and efficiency for your business.',
         },
-
         {
             url: 'https://images.pexels.com/photos/1427541/pexels-photo-1427541.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-            title: 'Deneme4',
-            description: 'Bu bir deneme yazısıdır',
+            title: 'Efficient Container Storage',
+            description: 'Our facility provides organized and secure container storage, ensuring easy access and streamlined logistics for your shipping needs.',
         },
         {
             url: 'https://images.pexels.com/photos/4484078/pexels-photo-4484078.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-            title: 'Deneme5',
-            description: 'Bu bir deneme yazısıdır',
+            title: 'Dedicated Warehouse Staff',
+            description: 'Our skilled and dedicated staff ensure efficient warehouse operations and accurate inventory management, providing top-notch service and support.',
         },
         {
             url: 'https://images.pexels.com/photos/4481259/pexels-photo-4481259.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-            title: 'Deneme5',
-            description: 'Bu bir deneme yazısıdır',
+            title: 'Coordinated Teamwork',
+            description: 'Our team works collaboratively to ensure seamless warehouse operations and efficient inventory handling, delivering superior service and accuracy.',
         },
     ];
 
@@ -56,31 +55,37 @@ function Slider() {
     };
 
     return (
-        <div className='max-w-[1600px] h-[780px] w-full m-auto py-16 px-4 relative group'>
+        <div className='max-w-[1600px] h-[780px] w-full m-auto py-16 px-4 relative'>
             <div
                 style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
-                className='w-full h-full rounded-2xl bg-center bg-cover duration-500 transform hover:scale-105'
+                className='w-full h-full rounded-2xl bg-center bg-cover duration-500'
             ></div>
             {/* Left Arrow */}
             <div
-                className='hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
-                <BsChevronCompactLeft onClick={prevSlide} size={30} />
+                className='absolute top-[50%] left-8 transform -translate-y-1/2 text-3xl rounded-full p-3 bg-black/30 text-white cursor-pointer hover:bg-black/50 transition'
+                onClick={prevSlide}
+            >
+                <BsChevronCompactLeft size={30} />
             </div>
             {/* Right Arrow */}
             <div
-                className='hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
-                <BsChevronCompactRight onClick={nextSlide} size={30} />
+                className='absolute top-[50%] right-8 transform -translate-y-1/2 text-3xl rounded-full p-3 bg-black/30 text-white cursor-pointer hover:bg-black/50 transition'
+                onClick={nextSlide}
+            >
+                <BsChevronCompactRight size={30} />
             </div>
-            <div className='absolute bottom-[20%] w-full flex flex-col items-center justify-center text-center'>
-                <h1 className='text-gray-50 text-2xl'>{slides[currentIndex].title}</h1>
-                <h3 className='text-gray-400 text-sm'>{slides[currentIndex].description}</h3>
+            <div className='absolute bottom-[10%] w-full flex flex-col items-center justify-center text-center px-4'>
+                <div className='bg-black/60 rounded-lg p-6'>
+                    <h1 className='text-white text-3xl font-bold shadow-md'>{slides[currentIndex].title}</h1>
+                    <h3 className='text-gray-300 text-lg mt-2 shadow-md'>{slides[currentIndex].description}</h3>
+                </div>
             </div>
             <div className='flex top-4 justify-center py-2 mt-3'>
                 {slides.map((slide, slideIndex) => (
                     <div
                         key={slideIndex}
                         onClick={() => goToSlide(slideIndex)}
-                        className='text-2xl cursor-pointer'
+                        className={`text-2xl cursor-pointer ${slideIndex === currentIndex ? 'text-black' : 'text-gray-400'}`}
                     >
                         <RxDotFilled />
                     </div>

@@ -19,6 +19,7 @@ import TransactionList from "./pages/transactionPages/transactionList/Transactio
 import TransactionAdd from "./pages/transactionPages/transactionAdd/TransactionAdd.jsx";
 import TransactionDetails from "./pages/transactionPages/transactionDetails/TransactionDetails.jsx";
 import StoreDashboard from "./pages/storePages/storeDashboard/StoreDashboard.jsx";
+import UserProfile from "./pages/userPages/userProfile/UserProfile.jsx";
 //global
 import {GlobalProvider} from "./api/globalContext/GlobalContext.jsx";
 
@@ -101,6 +102,10 @@ const router = createBrowserRouter([
             {
                 path: "/store",
                 element: <StoreDashboard />,
+            },
+            {
+                path: "/profile",
+                element: <UserProfile />,
             }
         ],
     },

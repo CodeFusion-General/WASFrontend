@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import {addProductFields} from "../productField/ProductFieldApi.jsx";
+import { addProductFields, updateProductField } from "../productField/ProductFieldApi.jsx";
 
 const API_BASE_URL = "http://localhost:8080";
 
@@ -85,12 +85,9 @@ const addProduct = async (productDTO, file) => {
 
     try {
         const response = await axios.post(url, formData, config);
-        console.log("Response Status:", response.status);
-        console.log("Response Data:", response.data.id);
         if (response.status === 201) {
             const id = response.data.id;
             const fields = await addProductFields(productDTO.productFields, id);
-            console.log("Fields:", fields);
             if (fields.status === 201) {
                 return {product : response.data, fields: fields.data};
             } else {
@@ -120,7 +117,15 @@ const updateProduct = async (id, productDTO, file) => {
     try {
         const response = await axios.put(url, formData, config);
         if (response.status === 200) {
-            return response.data;
+            console.log("Product Fields", productDTO.productFields)
+            const fields = await updateProductField(id, productDTO.productFields);
+            if (fields.status === 201) {
+                return {product : response.data, fields: fields.data};
+            } else {
+                if (checkResponseStatusCode(fields.status)) {
+                    throw new Error("Error adding product fields");
+                }
+            }
         } else {
             throw new Error('Unexpected response status');
         }

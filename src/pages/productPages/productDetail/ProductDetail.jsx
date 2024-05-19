@@ -1,25 +1,37 @@
 import { useState, useEffect } from 'react';
 import { deleteProduct, updateProduct, getProductById } from "../../../api/product/ProductApi.jsx";
+import { getAllCategories } from "../../../api/category/CategoryApi.jsx";
 import { useNavigate, useParams } from "react-router-dom";
+import {XMarkIcon} from "@heroicons/react/24/outline";
 
 const placeholderImage = '/path/to/your/placeholder/image.png';
 
 function ProductDetail() {
     const { productId } = useParams();
     const [editableProduct, setEditableProduct] = useState(null);
+    const [categories, setCategories] = useState([]);
     const [imageUrl, setImageUrl] = useState(placeholderImage);
     const navigate = useNavigate();
 
     useEffect(() => {
-        getProductById(productId).then((response) => {
-            setEditableProduct(response);
-            if (response.resourceFile && response.resourceFile.data) {
-                setImageUrl(`data:image/jpeg;base64,${response.resourceFile.data}`);
+        const fetchProductAndCategories = async () => {
+            try {
+                const productResponse = await getProductById(productId);
+                setEditableProduct(productResponse);
+
+                if (productResponse.resourceFile && productResponse.resourceFile.data) {
+                    setImageUrl(`data:image/jpeg;base64,${productResponse.resourceFile.data}`);
+                }
+
+                const categoryResponse = await getAllCategories();
+                console.log("Categories:", categoryResponse.data);
+                setCategories(categoryResponse.data);
+            } catch (error) {
+                console.error("Error fetching data:", error);
             }
-            console.log("Product data fetched successfully:", response);
-        }).catch((error) => {
-            console.error("Error fetching product data:", error);
-        });
+        };
+
+        fetchProductAndCategories();
     }, [productId]);
 
     const handleFieldChange = (index, field, value) => {
@@ -29,8 +41,20 @@ function ProductDetail() {
         setEditableProduct({ ...editableProduct, productFields: updatedFields });
     };
 
+    const handleDeleteField = (index) => {
+        const updatedFields = editableProduct.productFields.filter((_, i) => i !== index);
+        setEditableProduct({ ...editableProduct, productFields: updatedFields });
+    };
+
     const handleChange = (e) => {
-        setEditableProduct({ ...editableProduct, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setEditableProduct({ ...editableProduct, [name]: value });
+    };
+
+    const handleCategoryChange = (e) => {
+        const selectedCategory = categories.find(category => category.id === Number(e.target.value));
+        console.log("Selected category:", selectedCategory);
+        setEditableProduct({ ...editableProduct, category: selectedCategory });
     };
 
     const handleUpdate = async () => {
@@ -38,8 +62,7 @@ function ProductDetail() {
             const photo = document.getElementById('imageFile').files[0];
             await updateProduct(editableProduct.id, editableProduct, photo);
             console.log("Product updated successfully");
-        }
-        catch (error) {
+        } catch (error) {
             console.error("Error updating product:", error);
         }
     };
@@ -49,8 +72,7 @@ function ProductDetail() {
             try {
                 await deleteProduct(editableProduct.id);
                 console.log("Product deleted successfully");
-            }
-            catch (error) {
+            } catch (error) {
                 console.error("Error deleting product:", error);
             }
         }
@@ -84,13 +106,12 @@ function ProductDetail() {
                         className="rounded-lg object-cover"
                     />
                     <div className="mt-2 w-full">
-                        <label htmlFor="imageFile" className="block text-sm font-medium text-gray-700">Product
-                            Image:</label>
+                        <label htmlFor="imageFile" className="block text-sm font-medium text-gray-700">Product Image:</label>
                         <input
                             id="imageFile"
                             name="imageFile"
                             type="file"
-                            className="form-input mt-1 block w-full"
+                            className="form-input mt-1 block w-full border border-gray-300 rounded-md"
                             onChange={(event) => {
                                 const file = event.target.files[0];
                                 if (file) {
@@ -114,7 +135,7 @@ function ProductDetail() {
                                 id="name"
                                 name="name"
                                 type="text"
-                                className="block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                 value={editableProduct.name}
                                 onChange={handleChange}
                             />
@@ -125,7 +146,7 @@ function ProductDetail() {
                                 id="model"
                                 name="model"
                                 type="text"
-                                className="block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                 value={editableProduct.model}
                                 onChange={handleChange}
                             />
@@ -136,21 +157,25 @@ function ProductDetail() {
                                 id="productCode"
                                 name="productCode"
                                 type="text"
-                                className="block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                 value={editableProduct.productCode}
                                 onChange={handleChange}
                             />
                         </div>
                         <div className="mb-4">
                             <label htmlFor="category" className="block text-sm font-medium text-gray-900">Category:</label>
-                            <input
+                            <select
                                 id="category"
                                 name="category"
-                                type="text"
-                                className="block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                value={editableProduct.category.name}
-                                onChange={handleChange}
-                            />
+                                className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                value={editableProduct.category?.id || ''}
+                                onChange={handleCategoryChange}
+                            >
+                                <option value="" disabled>Select a category</option>
+                                {categories.map(category => (
+                                    <option key={category.id} value={category.id}>{category.name}</option>
+                                ))}
+                            </select>
                         </div>
                         <div className="mb-4">
                             <label htmlFor="current-stock" className="block text-sm font-medium text-gray-900">Current Stock:</label>
@@ -158,7 +183,7 @@ function ProductDetail() {
                                 id="current-stock"
                                 name="current-stock"
                                 type="number"
-                                className="block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                 value={editableProduct.currentStock}
                                 disabled={true}
                                 onChange={handleChange}
@@ -170,7 +195,7 @@ function ProductDetail() {
                                 id="profit"
                                 name="profit"
                                 type="number"
-                                className="block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                 value={editableProduct.profit}
                                 disabled={true}
                                 onChange={handleChange}
@@ -182,7 +207,7 @@ function ProductDetail() {
                                 id="store-name"
                                 name="store-name"
                                 type="text"
-                                className="block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                 disabled={true}
                                 value={editableProduct.store.name}
                                 onChange={handleChange}
@@ -216,6 +241,7 @@ function ProductDetail() {
                             <table className="min-w-full bg-white">
                                 <thead>
                                 <tr>
+                                    <th className="py-2 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-900">Delete</th>
                                     <th className="py-2 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-900">Name</th>
                                     <th className="py-2 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-900">Feature</th>
                                 </tr>
@@ -223,10 +249,17 @@ function ProductDetail() {
                                 <tbody>
                                 {editableProduct.productFields.map((field, index) => (
                                     <tr key={index}>
+                                        <td className="py-2 px-4 border-b border-gray-200 text-sm items-center">
+                                            <button
+                                                className="text-red-500 hover:text-red-700"
+                                                onClick={() => handleDeleteField(index)}>
+                                                <XMarkIcon className="h-5 w-5" />
+                                            </button>
+                                        </td>
                                         <td className="py-2 px-4 border-b border-gray-200 text-sm">
                                             <input
                                                 type="text"
-                                                className="block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                 value={field.name}
                                                 onChange={(e) => handleFieldChange(index, 'name', e.target.value)}
                                             />
@@ -234,7 +267,7 @@ function ProductDetail() {
                                         <td className="py-2 px-4 border-b border-gray-200 text-sm">
                                             <input
                                                 type="text"
-                                                className="block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                 value={field.feature}
                                                 onChange={(e) => handleFieldChange(index, 'feature', e.target.value)}
                                             />

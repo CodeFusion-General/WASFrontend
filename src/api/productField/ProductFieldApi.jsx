@@ -108,7 +108,6 @@ const addProductField = async (productFieldDTO) => {
     }
 };
 const addProductFields = async (productFieldDTO, productID) => {
-    console.log(productID);
     const url = `${API_BASE_URL}/productField/addProductFields/${productID}`;
 
     try {

@@ -15,7 +15,7 @@ import StoreEmployee from './pages/storePages/storeEmployee/StoreEmployee.jsx';
 import ProductsList from './pages/productPages/productList/ProductList.jsx'
 import ProductDetail from "./pages/productPages/productDetail/ProductDetail.jsx";
 import ProductAdd from "./pages/productPages/productAdd/ProductAdd.jsx";
-//import TransactionList from "./pages/transactionPages/transactionList/TransactionList.jsx";
+import TransactionList from "./pages/transactionPages/transactionList/TransactionList.jsx";
 import TransactionAdd from "./pages/transactionPages/transactionAdd/TransactionAdd.jsx";
 import TransactionDetails from "./pages/transactionPages/transactionDetails/TransactionDetails.jsx";
 import StoreDashboard from "./pages/storePages/storeDashboard/StoreDashboard.jsx";
@@ -87,10 +87,10 @@ const router = createBrowserRouter([
                 path: "/add-product",
                 element: <ProductAdd />,
             },
-            /*{
+            {
                 path: "/transactions/:productId",
                 element: <TransactionList />,
-            },*/
+            },
             {
                 path: "/add-transaction/:productId",
                 element: <TransactionAdd />,

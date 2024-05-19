@@ -5,7 +5,7 @@ import { logout, decodeUserToken } from "../../api/authentication/Authentication
 import { getUserPhoto } from "../../api/resource/ResourceApi.jsx";
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
-import { getTop3NotifiticationsByUserId} from "../../api/notification/NotificationApi.jsx";
+import { getTop3NotifiticationsByUserId, markNotificationIsSeen} from "../../api/notification/NotificationApi.jsx";
 
 const navigation = [
     { name: 'Dashboard', href: '#', current: true },
@@ -132,6 +132,22 @@ function Navbar() {
         navigate('/notifications');
     };
 
+    const handleMarked = (notificationId) => {
+        markNotificationIsSeen(notificationId)
+            .then(response => {
+                console.log('Notification marked as read', response.data);
+                const updatedNotifications = notifications.map(notification => {
+                    if (notification.id === notificationId) {
+                        notification.isSeen = true;
+                    }
+                    return notification;
+                });
+            })
+            .catch(error => {
+                console.error('Failed to mark notification as read', error);
+            });
+    }
+
     useEffect(() => {
         const decodedToken = decodeUserToken();
         if (decodedToken) {
@@ -208,7 +224,7 @@ function Navbar() {
                                                     <Menu.Item key={index}>
                                                         {({ active }) => (
                                                             <a
-                                                                href={`/notification/${notification.id}`}
+                                                                onClick={() => handleMarked(notification.id)}
                                                                 className={classNames(
                                                                     active ? 'bg-gray-100' : '',
                                                                     'block px-4 py-2 text-sm text-gray-700 relative'

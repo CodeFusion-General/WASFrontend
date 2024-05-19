@@ -152,8 +152,9 @@ export default function UserAdd(props) {
                                     ...prevState,
                                     email: e.target.value
                                 }))}
+                                customWidth="w-[412px]"
                             />
-                            <div className="flex items-center gap-x-3">
+                            <div className="flex items-center gap-x-3 relative" style={{ left: '-7rem' }}>
                                 <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">
                                     Photo
                                 </label>
@@ -181,7 +182,7 @@ export default function UserAdd(props) {
                             </div>
                         </div>
                     </div>
-                    <div className="flex justify-end mt-6">
+                    <div className="flex justify-center mt-6">
                         <button
                             type="submit"
                             className="py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-md"
@@ -195,12 +196,12 @@ export default function UserAdd(props) {
     );
 }
 
-function InputField({ id, label, type = 'text', name, value, onChange, passwordsMatch = false }) {
+function InputField({ id, label, type = 'text', name, value, onChange, passwordsMatch = false, customWidth }) {
     return (
         <div className="mb-4 input-field">
             <label htmlFor={id} className="block text-sm font-medium text-gray-700">{label} <span className="text-red-500">*</span></label>
             <div className="mt-2">
-                <div className="flex items-center rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                <div className={`flex items-center rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 ${customWidth || 'sm:max-w-md'}`}>
                     <input
                         id={id}
                         name={name}

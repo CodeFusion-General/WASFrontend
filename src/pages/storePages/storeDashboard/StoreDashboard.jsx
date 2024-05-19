@@ -1,11 +1,22 @@
 import React from 'react';
-import ProfitChart from './ProfitChart.jsx';
+import ProfitChart from './ProfitChart';
+import Top5Products from './Top5Products';
+import { useParams } from 'react-router-dom';
 
-function StoreDashboard(props) {
+function StoreDashboard() {
+    const { storeId } = useParams();
+
     return (
-        <div>
-            <h1>Satış Grafiği</h1>
-            <ProfitChart/>
+        <div className="container mx-auto p-4">
+            <h1 className="text-2xl font-bold mb-4">Satış Grafiği</h1>
+            <div className="flex flex-col md:flex-row justify-between">
+                <div className="md:w-1/2 p-2">
+                    <ProfitChart />
+                </div>
+                <div className="md:w-1/2 p-2">
+                    <Top5Products storeId={storeId} />
+                </div>
+            </div>
         </div>
     );
 }

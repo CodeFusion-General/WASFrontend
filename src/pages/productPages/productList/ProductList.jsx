@@ -1,98 +1,125 @@
-/*import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getProductsByStoreId } from "../../../api/product/ProductApi.jsx";
 import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
 import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
-import { Button } from 'primereact/button';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
 import ProductDetail from "../productDetail/ProductDetail.jsx";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
-import 'primereact/resources/themes/saga-blue/theme.css';  // theme
-import 'primereact/resources/primereact.min.css';         // core css
-import 'primeicons/primeicons.css';                       // icons
-import 'primeflex/primeflex.css';                         // primeflex
-
 function ProductList() {
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [globalFilter, setGlobalFilter] = useState('');
     const { globalStoreId } = useContext(GlobalStoreId);
+
     const tokenStoreId = () => {
-        if (decodeUserToken().role === "MANAGER" || decodeUserToken().role === "USER") {
-            return decodeUserToken().storeId;
-        } else {
-            return null;
-        }
+        const token = decodeUserToken();
+        return token && (token.role === 'MANAGER' || token.role === 'USER') ? token.storeId : null;
     };
 
     useEffect(() => {
-        getProductsByStoreId(tokenStoreId() || globalStoreId).then((response) => {
-            setProducts(response);
-        }).catch((error) => {
-            console.error("Error in getProductsByStoreId:", error);
-        });
+        const fetchProducts = async () => {
+            try {
+                const response = await getProductsByStoreId(tokenStoreId() || globalStoreId);
+                setProducts(response || []);
+            } catch (error) {
+                console.error("Error in getProductsByStoreId:", error);
+                setProducts([]); // Set an empty array in case of error
+            }
+        };
+        fetchProducts();
     }, [globalStoreId]);
-
-    const [selectedProduct, setSelectedProduct] = useState(null);
-    const [globalFilter, setGlobalFilter] = useState(null);
-    const dt = useRef(null);
 
     const handleAddProductClick = () => {
         navigate('/add-product');
-    };
-
-    const statusBodyTemplate = (rowData) => {
-        return (
-            <i className={`pi ${rowData.profit < 0 ? 'pi-times-circle' : 'pi-check-circle'}`} style={{ color: rowData.profit < 0 ? 'red' : 'green' }}></i>
-        );
     };
 
     const exportExcel = () => {
         const worksheet = XLSX.utils.json_to_sheet(products);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Products');
-        let buffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        const buffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
         saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'products.xlsx');
     };
 
-    const header = (
-        <div className="table-header flex justify-between items-center border-b border-gray-300 py-2 px-4">
-            <h2 className="text-2xl font-semibold">Products</h2>
-            <input type="text" className="p-inputtext p-component" placeholder="Global Search" onChange={(e) => setGlobalFilter(e.target.value)} />
-        </div>
+    const filteredProducts = products.filter((product) =>
+        Object.values(product).some((value) =>
+            String(value).toLowerCase().includes(globalFilter.toLowerCase())
+        )
+    );
+
+    const statusBodyTemplate = (profit) => (
+        <i className={`pi ${profit < 0 ? 'pi-times-circle' : 'pi-check-circle'}`} style={{ color: profit < 0 ? 'red' : 'green' }}></i>
     );
 
     return (
         <div className="max-w-6xl mx-auto p-5 bg-white shadow-lg rounded-lg mt-16">
             <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">All Products</h1>
-            <div className="flex justify-start items-center gap-4 mb-6">
+            <div className="flex justify-between items-center gap-4 mb-6">
                 {!selectedProduct && (
                     <>
-                        <Button label="Add Product" className="p-button-raised bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow" onClick={handleAddProductClick} />
-                        <Button icon="pi pi-file" className="p-button-rounded bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow" onClick={() => dt.current.exportCSV()} tooltip="CSV" />
-                        <Button icon="pi pi-file-excel" className="p-button-rounded bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow" onClick={exportExcel} tooltip="XLS" />
+                        <button
+                            onClick={handleAddProductClick}
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
+                        >
+                            Add Product
+                        </button>
+                        <button
+                            onClick={exportExcel}
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
+                        >
+                            Export to Excel
+                        </button>
+                        <input
+                            type="text"
+                            className="p-2 border border-gray-300 rounded"
+                            placeholder="Global Search"
+                            value={globalFilter}
+                            onChange={(e) => setGlobalFilter(e.target.value)}
+                        />
                     </>
                 )}
             </div>
             {!selectedProduct ? (
-                <DataTable ref={dt} value={products} globalFilter={globalFilter} header={header} paginator rows={10}
-                           paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
-                           className="w-full border-collapse border border-gray-300"
-                           resizableColumns columnResizeMode="fit"
-                           sortMode="multiple">
-                    <Column field="name" header="Product" sortable filter filterPlaceholder="Search by name" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
-                    <Column field="model" header="Model" sortable filter filterPlaceholder="Search by model" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
-                    <Column field="productCode" header="Product Code" sortable filter filterPlaceholder="Search by code" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
-                    <Column field="profit" header="Profit" sortable filter filterPlaceholder="Search by profit" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
-                    <Column field="currentStock" header="Current Stock" sortable filter filterPlaceholder="Search by quantity" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
-                    <Column body={statusBodyTemplate} header="Status" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
-                    <Column body={(rowData) => (
-                        <Button onClick={() => setSelectedProduct(rowData)} label="View Details" className="p-button-rounded bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow" />
-                    )} header="Actions" headerClassName="bg-gray-700 text-white border border-gray-300" bodyClassName="border border-gray-300"/>
-                </DataTable>
+                <div className="overflow-x-auto">
+                    <table className="min-w-full bg-white border border-gray-300">
+                        <thead>
+                        <tr>
+                            <th className="px-4 py-2 border border-gray-300">Product</th>
+                            <th className="px-4 py-2 border border-gray-300">Model</th>
+                            <th className="px-4 py-2 border border-gray-300">Product Code</th>
+                            <th className="px-4 py-2 border border-gray-300">Profit</th>
+                            <th className="px-4 py-2 border border-gray-300">Current Stock</th>
+                            <th className="px-4 py-2 border border-gray-300">Status</th>
+                            <th className="px-4 py-2 border border-gray-300">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {filteredProducts.map((product) => (
+                            <tr key={product.id}>
+                                <td className="px-4 py-2 border border-gray-300">{product.name}</td>
+                                <td className="px-4 py-2 border border-gray-300">{product.model}</td>
+                                <td className="px-4 py-2 border border-gray-300">{product.productCode}</td>
+                                <td className="px-4 py-2 border border-gray-300">{product.profit}</td>
+                                <td className="px-4 py-2 border border-gray-300">{product.currentStock}</td>
+                                <td className="px-4 py-2 border border-gray-300">
+                                    {statusBodyTemplate(product.profit)}
+                                </td>
+                                <td className="px-4 py-2 border border-gray-300">
+                                    <button
+                                        onClick={() => setSelectedProduct(product)}
+                                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
+                                    >
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
             ) : (
                 <ProductDetail product={selectedProduct} />
             )}
@@ -101,4 +128,3 @@ function ProductList() {
 }
 
 export default ProductList;
-*/

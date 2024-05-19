@@ -83,7 +83,7 @@ function TransactionList() {
             <div className="overflow-x-auto">
                 <table className="min-w-full bg-white border border-gray-300">
                     <thead>
-                    <tr>
+                    <tr className="text-center">
                         <th className="px-4 py-2 border border-gray-300">Full Name</th>
                         <th className="px-4 py-2 border border-gray-300">Date</th>
                         <th className="px-4 py-2 border border-gray-300">Quantity</th>
@@ -94,7 +94,7 @@ function TransactionList() {
                     </thead>
                     <tbody>
                     {filteredTransactions.map((transaction) => (
-                        <tr key={transaction.id}>
+                        <tr key={transaction.id} className="text-center">
                             <td className="px-4 py-2 border border-gray-300">{transaction.fullName}</td>
                             <td className="px-4 py-2 border border-gray-300">{transaction.date}</td>
                             <td className="px-4 py-2 border border-gray-300">{transaction.quantity}</td>

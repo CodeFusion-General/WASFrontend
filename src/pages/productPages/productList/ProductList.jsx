@@ -64,14 +64,9 @@ function ProductList() {
 
     const statusBodyTemplate = (profit) => (
         <div
-            style={{
-                backgroundColor: profit > 0 ? 'green' : 'red',
-                color: 'white',
-                padding: '5px 10px',
-                borderRadius: '5px',
-                textAlign: 'center',
-                fontWeight: 'bold',
-            }}
+            className={`px-4 py-2 rounded text-center font-bold ${
+                profit > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+            }`}
         >
             {profit > 0 ? 'Profit' : 'Profit Loss'}
         </div>
@@ -84,7 +79,7 @@ function ProductList() {
                 <>
                     <button
                         onClick={handleAddProductClick}
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
+                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow"
                     >
                         Add Product
                     </button>
@@ -106,7 +101,7 @@ function ProductList() {
             <div className="overflow-x-auto">
                 <table className="min-w-full bg-white border border-gray-300">
                     <thead>
-                    <tr>
+                    <tr className="text-center">
                         <th className="px-4 py-2 border border-gray-300">Product</th>
                         <th className="px-4 py-2 border border-gray-300">Model</th>
                         <th className="px-4 py-2 border border-gray-300">Product Code</th>
@@ -118,7 +113,7 @@ function ProductList() {
                     </thead>
                     <tbody>
                     {filteredProducts.map((product) => (
-                        <tr key={product.id}>
+                        <tr key={product.id} className="text-center">
                             <td className="px-4 py-2 border border-gray-300">{product.name}</td>
                             <td className="px-4 py-2 border border-gray-300">{product.model}</td>
                             <td className="px-4 py-2 border border-gray-300">{product.productCode}</td>

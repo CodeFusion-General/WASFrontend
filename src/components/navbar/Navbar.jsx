@@ -47,7 +47,7 @@ const initialNotifications = [
         isSent: true,
         isTelegram: true,
         text: 'Check out the new comment on your post',
-        user: { id: 1, name: 'John Doe' }, // Simplified user entity
+        user: { id: 1, name: 'John Doe' },
         notificationLevel: 'INFO',
     },
     {

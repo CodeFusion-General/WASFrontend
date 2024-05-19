@@ -9,7 +9,7 @@ function TransactionAdd() {
     const getCurrentDate = () => {
         const today = new Date();
         const yyyy = today.getFullYear();
-        const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months start at 0
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
         const dd = String(today.getDate()).padStart(2, '0');
         return `${yyyy}-${mm}-${dd}`;
     };
@@ -25,6 +25,8 @@ function TransactionAdd() {
         productId: productId
     });
 
+    const [photo, setPhoto] = useState(null);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setTransaction({ ...transaction, [name]: value === 'true' ? true : value === 'false' ? false : value });
@@ -32,7 +34,8 @@ function TransactionAdd() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await addTransaction(transaction);
+        console.log("Submitting transaction:", transaction); // Debugging line
+        await addTransaction(transaction, photo);
         navigate(`/transactions/${productId}`);
     };
 
@@ -72,6 +75,22 @@ function TransactionAdd() {
                 <div className="mb-4">
                     <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone</label>
                     <input type="text" name="phone" value={transaction.phone} onChange={handleChange} className="block w-full mt-1"/>
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="imageFile" className="block text-sm font-medium text-gray-700">Transaction Image:</label>
+                    <input
+                        id="imageFile"
+                        name="imageFile"
+                        type="file"
+                        className="block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+                        onChange={(event) => {
+                            const file = event.target.files[0];
+                            if (file) {
+                                setPhoto(file);
+                            }
+                        }}
+                    />
+                    <p className="mt-1 text-sm text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
                 </div>
                 <div className="flex justify-center space-x-2 mt-4">
                     <button type="submit" className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

@@ -1,34 +1,60 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { updateProduct, deleteProduct } from '../../../api/product/ProductApi.jsx';
 
 // Dummy image path - replace with your actual path or URL
 const placeholderImage = 'src/assets/sevketiphone.jpg';
 
-function ProductDetails({ product, onUpdate, onDelete }) {
+function ProductDetail({ product, onUpdate, onDelete }) {
     const [editableProduct, setEditableProduct] = useState(product);
+    const [file, setFile] = useState(null);
     const navigate = useNavigate();
+
     const handleChange = (e) => {
         setEditableProduct({ ...editableProduct, [e.target.name]: e.target.value });
     };
-    const handleUpdate = () => {
-        onUpdate(editableProduct);
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setFile(file);
+            setEditableProduct({
+                ...editableProduct,
+                imageUrl: URL.createObjectURL(file)
+            });
+        }
     };
-    const handleDelete = () => {
+
+    const handleUpdate = async () => {
+        try {
+            const updatedProduct = await updateProduct(editableProduct.id, editableProduct, file);
+            onUpdate(updatedProduct);
+        } catch (error) {
+            console.error("Error updating the product:", error);
+        }
+    };
+
+    const handleDelete = async () => {
         if (window.confirm("Are you sure you want to delete this product?")) {
-            onDelete(editableProduct.id);
+            try {
+                await deleteProduct(editableProduct.id);
+                onDelete(editableProduct.id);
+            } catch (error) {
+                console.error("Error deleting the product:", error);
+            }
         }
     };
 
     const handleNavigateToTransactions = () => {
-        navigate (`/transactions/${editableProduct.id}`);
+        navigate(`/transactions/${editableProduct.id}`);
     };
 
     return (
         <div className="flex flex-wrap md:flex-nowrap bg-white shadow-lg rounded-lg mx-auto p-5 my-10">
             <div className="md:flex-1">
                 <img
-                    src={product.imageUrl || placeholderImage} 
-                    alt={product.name}
+                    src={editableProduct.imageUrl || placeholderImage}
+                    alt={editableProduct.name}
                     className="rounded-t-lg md:rounded-lg w-full object-cover"
                     style={{ maxHeight: '400px' }}
                 />
@@ -39,24 +65,13 @@ function ProductDetails({ product, onUpdate, onDelete }) {
                         name="imageFile"
                         type="file"
                         className="form-input mt-1 block w-full"
-                        onChange={(event) => {
-                            const file = event.target.files[0];
-                            if (file) {
-                                setEditableProduct({
-                                    ...editableProduct,
-                                    imageUrl: URL.createObjectURL(file),
-                                    imageFile: file
-                                });
-                            }
-                        }}
+                        onChange={handleFileChange}
                     />
                 </div>
             </div>
             <div className="w-full max-w-md flex flex-col items-center">
-                {/* Form Fields Section */}
                 <div className="w-full">
                     {['name', 'model', 'category', 'quantity', 'profit', 'productCode', 'storeId'].reduce((acc, field, index, array) => {
-                        // Grouping fields in pairs
                         if (index % 2 === 0) {
                             const nextField = array[index + 1];
                             acc.push(
@@ -107,4 +122,4 @@ function ProductDetails({ product, onUpdate, onDelete }) {
     );
 }
 
-export default ProductDetails;
+export default ProductDetail;

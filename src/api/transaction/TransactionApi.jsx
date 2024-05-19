@@ -110,11 +110,14 @@ const addTransaction = async (transactionDTO, file) => {
     const url = `${API_BASE_URL}/transaction/addTransaction`;
 
     let formData = new FormData();
-    formData.append('transactionDTO', new Blob([JSON.stringify({
-        ...transactionDTO
-    })], {
-        type: 'application/json'
-    }));
+    formData.append('date', transactionDTO.date);
+    formData.append('quantity', transactionDTO.quantity);
+    formData.append('price', transactionDTO.price);
+    formData.append('fullName', transactionDTO.fullName);
+    formData.append('address', transactionDTO.address);
+    formData.append('phone', transactionDTO.phone);
+    formData.append('isBuying', transactionDTO.isBuying);
+    formData.append('product', transactionDTO.product);
     if (file) {
         formData.append('file', file);
     }

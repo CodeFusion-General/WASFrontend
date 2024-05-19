@@ -22,7 +22,7 @@ function TransactionAdd() {
         fullName: '',
         address: '',
         phone: '',
-        productId: productId
+        product: productId,
     });
 
     const [photo, setPhoto] = useState(null);

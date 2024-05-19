@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { deleteProduct, updateProduct, getProductById } from "../../../api/product/ProductApi.jsx";
 import { useNavigate, useParams } from "react-router-dom";
 
-const placeholderImage = '/path/to/your/placeholder/image.png'; // Doğru yolu belirtin
+const placeholderImage = '/path/to/your/placeholder/image.png';
 
 function ProductDetail() {
     const { productId } = useParams();
@@ -28,7 +28,7 @@ function ProductDetail() {
         );
         setEditableProduct({ ...editableProduct, productFields: updatedFields });
     };
-  
+
     const handleChange = (e) => {
         setEditableProduct({ ...editableProduct, [e.target.name]: e.target.value });
     };
@@ -44,7 +44,6 @@ function ProductDetail() {
         }
     };
 
-
     const handleDelete = async () => {
         if (window.confirm("Are you sure you want to delete this product?")) {
             try {
@@ -59,6 +58,14 @@ function ProductDetail() {
 
     const handleNavigateToTransactions = () => {
         navigate(`/transactions/${editableProduct.id}`);
+    };
+
+    const handleAddNewProperty = () => {
+        const newField = { name: "", feature: "" };
+        setEditableProduct({
+            ...editableProduct,
+            productFields: [...editableProduct.productFields, newField]
+        });
     };
 
     if (!editableProduct) {
@@ -102,7 +109,7 @@ function ProductDetail() {
                 <div className="md:w-1/3 p-2">
                     <div className="w-full">
                         <div className="mb-4">
-                            <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">Name:</label>
+                            <label htmlFor="name" className="block text-sm font-medium text-gray-900">Name:</label>
                             <input
                                 id="name"
                                 name="name"
@@ -113,7 +120,7 @@ function ProductDetail() {
                             />
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="model" className="block text-sm font-medium leading-6 text-gray-900">Model:</label>
+                            <label htmlFor="model" className="block text-sm font-medium text-gray-900">Model:</label>
                             <input
                                 id="model"
                                 name="model"
@@ -124,7 +131,7 @@ function ProductDetail() {
                             />
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="productCode" className="block text-sm font-medium leading-6 text-gray-900">Product Code:</label>
+                            <label htmlFor="productCode" className="block text-sm font-medium text-gray-900">Product Code:</label>
                             <input
                                 id="productCode"
                                 name="productCode"
@@ -135,7 +142,7 @@ function ProductDetail() {
                             />
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="category" className="block text-sm font-medium leading-6 text-gray-900">Category:</label>
+                            <label htmlFor="category" className="block text-sm font-medium text-gray-900">Category:</label>
                             <input
                                 id="category"
                                 name="category"
@@ -146,7 +153,7 @@ function ProductDetail() {
                             />
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="current-stock" className="block text-sm font-medium leading-6 text-gray-900">Current Stock:</label>
+                            <label htmlFor="current-stock" className="block text-sm font-medium text-gray-900">Current Stock:</label>
                             <input
                                 id="current-stock"
                                 name="current-stock"
@@ -158,7 +165,7 @@ function ProductDetail() {
                             />
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="profit" className="block text-sm font-medium leading-6 text-gray-900">Profit:</label>
+                            <label htmlFor="profit" className="block text-sm font-medium text-gray-900">Profit:</label>
                             <input
                                 id="profit"
                                 name="profit"
@@ -170,7 +177,7 @@ function ProductDetail() {
                             />
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="store-name" className="block text-sm font-medium leading-6 text-gray-900">Store Name:</label>
+                            <label htmlFor="store-name" className="block text-sm font-medium text-gray-900">Store Name:</label>
                             <input
                                 id="store-name"
                                 name="store-name"
@@ -236,6 +243,11 @@ function ProductDetail() {
                                 ))}
                                 </tbody>
                             </table>
+                            <button
+                                className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                onClick={handleAddNewProperty}>
+                                New Property
+                            </button>
                         </div>
                     )}
                 </div>

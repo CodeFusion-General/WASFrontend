@@ -28,7 +28,7 @@ function ProductDetails() {
         );
         setEditableProduct({ ...editableProduct, productFields: updatedFields });
     };
-
+  
     const handleChange = (e) => {
         setEditableProduct({ ...editableProduct, [e.target.name]: e.target.value });
     };
@@ -43,6 +43,7 @@ function ProductDetails() {
             console.error("Error updating product:", error);
         }
     };
+
 
     const handleDelete = async () => {
         if (window.confirm("Are you sure you want to delete this product?")) {
@@ -181,6 +182,7 @@ function ProductDetails() {
                             />
                         </div>
                     </div>
+
                     <div className="flex justify-center space-x-2 mt-4">
                         <button
                             className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -242,4 +244,4 @@ function ProductDetails() {
     );
 }
 
-export default ProductDetails;
+export default ProductDetail;

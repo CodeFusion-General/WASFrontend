@@ -40,6 +40,7 @@ const getHeaders = (isMultipart = false) => {
         "Authorization": `Bearer ${token}`
     };
 };
+
 const getStoreById = async (id) => {
     const url = `${API_BASE_URL}/store/getStoreById/${id}`;
     return apiCall(
@@ -67,6 +68,14 @@ const getStoresByUserId = async (storeId) => {
     );
 };
 
+const getTop5MostProfitableProducts = async (storeId) => {
+    const url = `${API_BASE_URL}/store/${storeId}/top5MostProfitableProducts`;
+    return apiCall(
+        url,
+        { headers: getHeaders() },
+        `Unexpected response status while getting top 5 most profitable products.`
+    );
+};
 
 //#endregion
 
@@ -160,6 +169,7 @@ export {
     getStoreById,
     getAllStores,
     getStoresByUserId,
+    getTop5MostProfitableProducts,
     //add methods
     addStore,
     //update methods

@@ -34,6 +34,16 @@ function ProductList() {
         navigate('/add-product');
     };
 
+    const handleUpdateProduct = (updatedProduct) => {
+        setProducts(products.map(product => product.id === updatedProduct.id ? updatedProduct : product));
+        setSelectedProduct(null); // Deselect the product after update
+    };
+
+    const handleDeleteProduct = (productId) => {
+        setProducts(products.filter(product => product.id !== productId));
+        setSelectedProduct(null); // Deselect the product after delete
+    };
+
     const exportExcel = () => {
         const worksheet = XLSX.utils.json_to_sheet(products);
         const workbook = XLSX.utils.book_new();

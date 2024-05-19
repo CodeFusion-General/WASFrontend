@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
@@ -79,28 +79,28 @@ function TransactionList() {
             <div className="overflow-x-auto">
                 <table className="min-w-full bg-white border border-gray-300">
                     <thead>
-                        <tr>
-                            <th className="px-4 py-2 border border-gray-300">ID</th>
-                            <th className="px-4 py-2 border border-gray-300">Full Name</th>
-                            <th className="px-4 py-2 border border-gray-300">Date</th>
-                            <th className="px-4 py-2 border border-gray-300">Quantity</th>
-                            <th className="px-4 py-2 border border-gray-300">Price</th>
-                            <th className="px-4 py-2 border border-gray-300">Type</th>
-                            <th className="px-4 py-2 border border-gray-300">Actions</th>
-                        </tr>
+                    <tr>
+                        <th className="px-4 py-2 border border-gray-300">ID</th>
+                        <th className="px-4 py-2 border border-gray-300">Full Name</th>
+                        <th className="px-4 py-2 border border-gray-300">Date</th>
+                        <th className="px-4 py-2 border border-gray-300">Quantity</th>
+                        <th className="px-4 py-2 border border-gray-300">Price</th>
+                        <th className="px-4 py-2 border border-gray-300">Type</th>
+                        <th className="px-4 py-2 border border-gray-300">Actions</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        {filteredTransactions.map((transaction) => (
-                            <tr key={transaction.id}>
-                                <td className="px-4 py-2 border border-gray-300">{transaction.id}</td>
-                                <td className="px-4 py-2 border border-gray-300">{transaction.fullName}</td>
-                                <td className="px-4 py-2 border border-gray-300">{transaction.date}</td>
-                                <td className="px-4 py-2 border border-gray-300">{transaction.quantity}</td>
-                                <td className="px-4 py-2 border border-gray-300">{transaction.price}</td>
-                                <td className="px-4 py-2 border border-gray-300">{statusBodyTemplate(transaction.isBuying)}</td>
-                                <td className="px-4 py-2 border border-gray-300">{actionBodyTemplate(transaction)}</td>
-                            </tr>
-                        ))}
+                    {filteredTransactions.map((transaction) => (
+                        <tr key={transaction.id}>
+                            <td className="px-4 py-2 border border-gray-300">{transaction.id}</td>
+                            <td className="px-4 py-2 border border-gray-300">{transaction.fullName}</td>
+                            <td className="px-4 py-2 border border-gray-300">{transaction.date}</td>
+                            <td className="px-4 py-2 border border-gray-300">{transaction.quantity}</td>
+                            <td className="px-4 py-2 border border-gray-300">{transaction.price}</td>
+                            <td className="px-4 py-2 border border-gray-300">{statusBodyTemplate(transaction.isBuying)}</td>
+                            <td className="px-4 py-2 border border-gray-300">{actionBodyTemplate(transaction)}</td>
+                        </tr>
+                    ))}
                     </tbody>
                 </table>
             </div>

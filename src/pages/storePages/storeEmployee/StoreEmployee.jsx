@@ -12,16 +12,6 @@ const StoreEmployee = () => {
         return token && (token.role === 'MANAGER' || token.role === 'USER') ? token.storeId : null;
     };
 
-    const arrayBufferToBase64 = (buffer) => {
-        let binary = '';
-        const bytes = new Uint8Array(buffer);
-        const len = bytes.byteLength;
-        for (let i = 0; i < len; i++) {
-            binary += String.fromCharCode(bytes[i]);
-        }
-        return window.btoa(binary);
-    };
-
     useEffect(() => {
         const fetchEmployees = async () => {
             const storeId = tokenStoreId() || globalStoreId;
@@ -31,12 +21,9 @@ const StoreEmployee = () => {
                     const response = await getUsersByStoreId(storeId);
                     console.log("Response data:", response.data);
                     const data = response.data.map(user => {
-                        console.log("User data:", user);
-                        const photoUrl = user.resourceFile ? `data:${user.resourceFile.type};base64,${arrayBufferToBase64(user.resourceFile.data.data)}` : '/default-photo.jpg';
-                        console.log("Photo URL:", photoUrl);
                         return {
                             id: user.id,
-                            photoUrl: photoUrl,
+                            photoUrl: user.resourceFile.data,
                             name: user.name,
                             surname: user.surname,
                             phone: user.phoneNo,
@@ -73,9 +60,10 @@ const StoreEmployee = () => {
                         <tr className="bg-white border-b" key={user.id}>
                             <td className="py-4 px-6">
                                 <img
-                                    src={user.photoUrl}
+                                    src={`data:image/jpeg;base64,${user.photoUrl}`}
                                     alt={`${user.name} ${user.surname}`}
                                     className="w-10 h-10 rounded-full"
+                                    onError={(e) => { e.target.src = '/default-photo.jpg'; }} // Add onError fallback
                                 />
                             </td>
                             <td className="py-4 px-6">{user.name}</td>

@@ -1,16 +1,9 @@
-/*import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUserById } from '../../../api/user/UserApi';
-import { Button } from 'primereact/button';
-import { Card } from 'primereact/card';
 import Cookies from 'js-cookie';
 import { decodeUserToken } from '../../../api/authentication/AuthenticationApi';
-import defaultUserIcon from '../../../assets/default-user-icon.webp'; // Updated path
-
-import 'primereact/resources/themes/saga-blue/theme.css'; // theme
-import 'primereact/resources/primereact.min.css'; // core css
-import 'primeicons/primeicons.css'; // icons
-import 'primeflex/primeflex.css'; // primeflex
+import defaultUserIcon from '../../../assets/default-user-icon.webp';
 
 function UserProfile() {
     const navigate = useNavigate();
@@ -43,12 +36,12 @@ function UserProfile() {
     return (
         <div className="max-w-6xl mx-auto p-5 bg-white shadow-lg rounded-lg mt-16">
             <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">User Profile</h1>
-            <Card title={`${user.name} ${user.surname}`} subTitle={user.email} className="mb-6">
-                <div className="p-grid">
-                    <div className="p-col-12 p-md-4">
+            <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="flex justify-center">
                         <img src={user.resourceFileUrl || defaultUserIcon} alt="Profile" className="w-32 h-32 rounded-full shadow" />
                     </div>
-                    <div className="p-col-12 p-md-8">
+                    <div className="md:col-span-2">
                         <div className="mb-4">
                             <span className="font-semibold">Name: </span>{user.name}
                         </div>
@@ -80,19 +73,28 @@ function UserProfile() {
                             <span className="font-semibold">Resource File ID: </span>{user.resource_file_id}
                         </div>
                         <div className="flex justify-start items-center gap-4">
-                            <Button label="Edit Profile" className="p-button-raised bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow" onClick={() => navigate('/edit-profile')} />
-                            <Button label="Logout" className="p-button-raised bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded shadow" onClick={() => {
-                                Cookies.remove('user_token');
-                                Cookies.remove('user_id');
-                                navigate('/login');
-                            }} />
+                            <button
+                                onClick={() => navigate('/edit-profile')}
+                                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
+                            >
+                                Edit Profile
+                            </button>
+                            <button
+                                onClick={() => {
+                                    Cookies.remove('user_token');
+                                    Cookies.remove('user_id');
+                                    navigate('/login');
+                                }}
+                                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded shadow"
+                            >
+                                Logout
+                            </button>
                         </div>
                     </div>
                 </div>
-            </Card>
+            </div>
         </div>
     );
 }
 
 export default UserProfile;
-*/

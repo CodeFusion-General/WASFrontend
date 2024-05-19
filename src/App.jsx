@@ -12,14 +12,14 @@ import UserAdd from "./pages/userPages/userAdd/UserAdd.jsx";
 import StoreList from './pages/storePages/storeList/StoreList.jsx';
 import StoreAdd from "./pages/storePages/storeAdd/StoreAdd.jsx";
 import StoreEmployee from './pages/storePages/storeEmployee/StoreEmployee.jsx';
-//import ProductsList from './pages/productPages/productList/ProductList.jsx'
+import ProductsList from './pages/productPages/productList/ProductList.jsx'
 import ProductDetail from "./pages/productPages/productDetail/ProductDetail.jsx";
 import ProductAdd from "./pages/productPages/productAdd/ProductAdd.jsx";
 //import TransactionList from "./pages/transactionPages/transactionList/TransactionList.jsx";
 import TransactionAdd from "./pages/transactionPages/transactionAdd/TransactionAdd.jsx";
 import TransactionDetails from "./pages/transactionPages/transactionDetails/TransactionDetails.jsx";
 import StoreDashboard from "./pages/storePages/storeDashboard/StoreDashboard.jsx";
-//import UserProfile from "./pages/userPages/userProfile/UserProfile.jsx";
+import UserProfile from "./pages/userPages/userProfile/UserProfile.jsx";
 //global
 import {GlobalStoreIdProvider} from "./api/store/GlobalStoreId.jsx";
 
@@ -75,10 +75,10 @@ const router = createBrowserRouter([
                     element={<StoreEmployee />}
                 />,
             },
-            /*{
+            {
                 path: "/product-list",
                 element: <ProductsList />,
-            },*/
+            },
             {
                 path: "/product-details",
                 element: <ProductDetail />,
@@ -103,10 +103,10 @@ const router = createBrowserRouter([
                 path: "/store",
                 element: <StoreDashboard />,
             },
-            /*{
+            {
                 path: "/profile",
                 element: <UserProfile />,
-            }*/
+            }
         ],
     },
     {

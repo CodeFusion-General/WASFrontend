@@ -45,7 +45,11 @@ function ProductList() {
     };
 
     const exportExcel = () => {
-        const worksheet = XLSX.utils.json_to_sheet(products);
+        const exportData = filteredProducts.map(({ name, model, productCode, profit, currentStock }) => ({
+            name, model, productCode, profit, currentStock
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(exportData);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Products');
         const buffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });

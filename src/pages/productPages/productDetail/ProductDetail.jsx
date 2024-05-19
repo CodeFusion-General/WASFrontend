@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const placeholderImage = '/path/to/your/placeholder/image.png'; // Doğru yolu belirtin
 
-function ProductDetails() {
+function ProductDetail() {
     const { productId } = useParams();
     const [editableProduct, setEditableProduct] = useState(null);
     const [imageUrl, setImageUrl] = useState(placeholderImage);

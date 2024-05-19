@@ -77,16 +77,7 @@ const getProductById = async (id) => {
 };
 
 const addProduct = async (productDTO, file) => {
-    let formData = new FormData();
-    formData.append("name", productDTO.name);
-    formData.append("model", productDTO.model);
-    formData.append("category", productDTO.category);
-    formData.append("store", productDTO.store);
-    formData.append("productCode", productDTO.productCode);
-    formData.append("productFields", "");
-    formData.append("transactions", "");
-    formData.append('file', file);
-
+    let formData = formDataFiller(productDTO, file);
     const url = `${API_BASE_URL}/product/addProduct`;
     const config = {
         headers: getHeaders(true)
@@ -119,9 +110,7 @@ const addProduct = async (productDTO, file) => {
 
 
 const updateProduct = async (id, productDTO, file) => {
-    let formData = new FormData();
-    formData.append('productDTO', JSON.stringify(productDTO));
-    formData.append('file', file);
+    let formData = formDataFiller(productDTO, file);
 
     const url = `${API_BASE_URL}/product/updateProduct/${id}`;
     const config = {
@@ -155,6 +144,18 @@ const deleteProduct = async (id) => {
     }
 };
 
+const formDataFiller = (productDTO, file) => {
+    let formData = new FormData();
+    formData.append("name", productDTO.name);
+    formData.append("model", productDTO.model);
+    formData.append("category", productDTO.category.id); // Use category ID
+    formData.append("store", productDTO.store.id); // Use store ID
+    formData.append("productCode", productDTO.productCode);
+    formData.append("productFields", "");
+    formData.append("transactions", "");
+    formData.append('file', file);
+    return formData;
+};
 
 export
 {

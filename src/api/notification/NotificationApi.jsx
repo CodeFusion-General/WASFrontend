@@ -49,6 +49,19 @@ const getTop3NotifiticationsByUserId = async (userId) => {
     );
 }
 
+const markNotificationIsSeen = async (notificationId) => {
+    const url = `${API_BASE_URL}/notification/markNotification/${notificationId}`;
+    try {
+        return await axios.put(url, {},{ headers: getHeaders() });
+    } catch (error) {
+        if (!checkResponseStatusCode(error.response.status)) {
+            return;
+        }
+        console.error("Error while marking notification", error);
+    }
+}
+
 export {
-    getTop3NotifiticationsByUserId
+    getTop3NotifiticationsByUserId,
+    markNotificationIsSeen
 };

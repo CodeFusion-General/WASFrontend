@@ -1,23 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { addProduct } from '../../../api/product/ProductApi.jsx';
+import { getStoreById } from "../../../api/store/StoreApi.jsx";
 import { addCategory, getAllCategories } from "../../../api/category/CategoryApi.jsx";
+import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
+import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
 import { useNavigate } from 'react-router-dom';
 
-function ProductAdd({ isOpen, onClose }) {
+function ProductAdd({ onClose }) {
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
     const [photo, setPhoto] = useState(null);
+    const [store, setStore] = useState(null);
+    const { globalStoreId } = useContext(GlobalStoreId);
     const [product, setProduct] = useState({
         name: '',
         model: '',
         category: 0,
-        store: 1,
         productCode: '',
+        store: 0,
         quantity: '',
         productFields: []
     });
     const [newCategory, setNewCategory] = useState('');
     const [showNewCategoryInput, setShowNewCategoryInput] = useState(false);
+
+    const tokenStoreId = () => {
+        const token = decodeUserToken();
+        return token && (token.role === 'MANAGER' || token.role === 'USER') ? token.storeId : null;
+    };
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -29,8 +39,25 @@ function ProductAdd({ isOpen, onClose }) {
                 setCategories([]);
             }
         };
+
+        const fetchStore = async () => {
+            try {
+                const storeData = await getStoreById(tokenStoreId() || globalStoreId);
+                setStore(storeData.data);
+                setProduct(prev => ({ ...prev, store: storeData.data.id }));
+            } catch (error) {
+                console.error("Failed to fetch store", error);
+                setStore(null);
+            }
+        };
+
         fetchCategories();
-    }, []);
+        fetchStore();
+    }, [globalStoreId]);
+
+    if (!store) {
+        return <div>Loading...</div>;
+    }
 
     const handleChange = (e, index = null) => {
         if (index !== null) {
@@ -147,26 +174,20 @@ function ProductAdd({ isOpen, onClose }) {
                             options={categories}
                         />
                         <InputField
-                            id="store"
-                            label="Store:"
-                            name="store"
-                            value={product.store}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div className="field-pair">
-                        <InputField
                             id="productCode"
                             label="Product Code:"
                             name="productCode"
                             value={product.productCode}
                             onChange={handleChange}
                         />
+                    </div>
+                    <div className="field-pair">
                         <InputField
-                            id="quantity"
-                            label="Quantity:"
-                            name="quantity"
-                            value={product.quantity}
+                            id="store"
+                            label="Store:"
+                            name="store"
+                            enabled={false}
+                            value={store.name}
                             onChange={handleChange}
                         />
                     </div>
@@ -260,7 +281,7 @@ function ProductAdd({ isOpen, onClose }) {
     );
 }
 
-function InputField({ id, label, type = 'text', name, value, onChange, isSelect = false, options = [] }) {
+function InputField({ id, label, type = 'text', name, value, onChange, isSelect = false, options = [], enabled = true }) {
     return (
         <div className="mb-4 input-field">
             <label htmlFor={id} className="block text-sm font-medium text-gray-700">{label}</label>
@@ -286,6 +307,7 @@ function InputField({ id, label, type = 'text', name, value, onChange, isSelect 
                     className="w-full p-2 mt-1 text-sm text-gray-900 bg-gray-100 rounded-md focus:ring focus:ring-blue-500"
                     value={value}
                     onChange={onChange}
+                    disabled={!enabled}
                 />
             )}
         </div>

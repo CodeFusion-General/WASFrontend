@@ -2,9 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { getUsersByStoreId, updateUser } from "../../../api/user/UserApi.jsx";
 import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
 import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
-
 import { useNavigate } from "react-router-dom";
-
 
 const placeholderImage = 'src/assets/user.webp';
 const roles = {
@@ -18,10 +16,7 @@ const StoreEmployee = () => {
     const [employees, setEmployees] = useState([]);
     const [editingRoles, setEditingRoles] = useState({});
     const { globalStoreId } = useContext(GlobalStoreId);
-
     const [currentUserRole, setCurrentUserRole] = useState(null);
-
-
     const navigate = useNavigate();
 
     const tokenStoreId = () => {
@@ -52,15 +47,12 @@ const StoreEmployee = () => {
                     }
                 } catch (error) {
                     console.error('Error fetching employees:', error);
-
                 }
-
             } else {
                 alert('You have to choose store.');
                 navigate("/stores");
             }
         };
-
         fetchEmployees();
     }, [globalStoreId]);
 

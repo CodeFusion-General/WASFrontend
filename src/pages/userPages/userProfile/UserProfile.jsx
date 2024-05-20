@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUserById } from '../../../api/user/UserApi';
 import Cookies from 'js-cookie';
-import { decodeUserToken } from '../../../api/authentication/AuthenticationApi';
+import {decodeUserToken, logout} from '../../../api/authentication/AuthenticationApi';
 import defaultUserIcon from '../../../assets/user.webp';
+import { GlobalStoreId } from '../../../api/store/GlobalStoreId.jsx';
+
 
 function UserProfile() {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
+    const { setGlobalStoreId } = useContext(GlobalStoreId);
+
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -72,9 +76,8 @@ function UserProfile() {
                             </button>
                             <button
                                 onClick={() => {
-                                    Cookies.remove('user_token');
-                                    Cookies.remove('user_id');
-                                    navigate('/login');
+                                    setGlobalStoreId(null);
+                                    logout();
                                 }}
                                 className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded shadow"
                             >

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, Title, Tooltip, Legend, PointElement } from 'chart.js';
-import { getDailyTotalTransactions } from "../../../api/transaction/TransactionApi.jsx";
-import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
-import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
+import { getDailyTotalTransactions } from '../../../api/transaction/TransactionApi';
+import { GlobalStoreId } from '../../../api/store/GlobalStoreId';
+import { decodeUserToken } from '../../../api/authentication/AuthenticationApi';
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, Title, Tooltip, Legend, PointElement);
 
@@ -21,28 +21,29 @@ const ProfitChart = () => {
             },
         ],
     });
+    const [error, setError] = useState(null);
 
-    const tokenStoreId = () => {
-        if (decodeUserToken().role === "MANAGER" || decodeUserToken().role === "USER") {
-            return decodeUserToken().storeId;
-        } else {
-            return null;
+    const getStoreId = () => {
+        const decodedToken = decodeUserToken();
+        if (decodedToken.role === 'MANAGER' || decodedToken.role === 'USER') {
+            return decodedToken.storeId;
         }
+        return null;
     };
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const storeId = tokenStoreId() || globalStoreId;
+                const storeId = getStoreId() || globalStoreId;
                 if (!storeId) {
-                    console.error("Store ID is not available");
+                    setError('Store ID is not available');
                     return;
                 }
 
                 const data = await getDailyTotalTransactions(storeId);
 
                 if (!data) {
-                    console.error("No data received from API");
+                    setError('No data received from API');
                     return;
                 }
 
@@ -50,7 +51,7 @@ const ProfitChart = () => {
                 const totalData = data.map(item => item.total);
 
                 setChartData({
-                    labels: labels,
+                    labels,
                     datasets: [
                         {
                             label: 'Total',
@@ -62,7 +63,7 @@ const ProfitChart = () => {
                     ],
                 });
             } catch (error) {
-                console.error("Error fetching the daily total transactions:", error);
+                setError(`Error fetching the daily total transactions: ${error.message}`);
             }
         };
 
@@ -82,7 +83,11 @@ const ProfitChart = () => {
         },
     };
 
-    return <Line data={chartData} options={options} />;
+    return (
+        <div>
+            {error ? <div className="text-red-500">{error}</div> : <Line data={chartData} options={options} />}
+        </div>
+    );
 };
 
 export default ProfitChart;

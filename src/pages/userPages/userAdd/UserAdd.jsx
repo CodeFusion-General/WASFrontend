@@ -45,11 +45,14 @@ export default function UserAdd(props) {
         formData.append('phoneNo', user.phone);
         formData.append('roles', type.toString().toUpperCase());
         formData.append('isTelegram', false)
-        if(globalStoreId){
+        if(globalStoreId !== null || type === 'Employee'){
             formData.append('storeIds', globalStoreId);
         }
+        else if(type === 'Boss') {
+            formData.append('storeIds', null)
+        }
         else {
-            alert("Store id is not defined");
+            alert("Store is not defined");
             return;
         }
 

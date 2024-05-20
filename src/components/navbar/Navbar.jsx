@@ -1,10 +1,11 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState, useContext } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { logout, decodeUserToken } from "../../api/authentication/AuthenticationApi.jsx";
 import { getUserPhoto } from "../../api/resource/ResourceApi.jsx";
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import { GlobalStoreId } from "../../api/store/GlobalStoreId.jsx";
 import { getTop3NotifiticationsByUserId, markNotificationIsSeen} from "../../api/notification/NotificationApi.jsx";
 
 const navigation = [
@@ -113,6 +114,7 @@ function Navbar() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
     const [notifications,setNotifications] = useState(initialNotifications);
+    const { setGlobalStoreId } = useContext(GlobalStoreId);
 
     useEffect(() => {
         const decodedToken = decodeUserToken();
@@ -146,6 +148,10 @@ function Navbar() {
             .catch(error => {
                 console.error('Failed to mark notification as read', error);
             });
+    }
+    const handleLogout = () => {
+        setGlobalStoreId(null);
+        logout();
     }
 
     useEffect(() => {

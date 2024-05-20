@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { getUsersByStoreId } from "../../../api/user/UserApi.jsx";
 import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
 import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
-
+const placeholderImage = 'src/assets/default-user-icon.webp';
 const StoreEmployee = () => {
     const [employees, setEmployees] = useState([]);
     const { globalStoreId } = useContext(GlobalStoreId);
@@ -15,22 +15,26 @@ const StoreEmployee = () => {
     useEffect(() => {
         const fetchEmployees = async () => {
             const storeId = tokenStoreId() || globalStoreId;
+            console.log('storeId:', storeId)
             if (storeId) {
                 try {
-                    console.log("Fetching employees for storeId:", storeId);
                     const response = await getUsersByStoreId(storeId);
-                    console.log("Response data:", response.data);
-                    const data = response.data.map(user => {
-                        return {
-                            id: user.id,
-                            photoUrl: user.resourceFile.data,
-                            name: user.name,
-                            surname: user.surname,
-                            phone: user.phoneNo,
-                            role: 'Manager' // Adjust this based on your user data structure
-                        };
-                    });
-                    setEmployees(data);
+                    console.log('response:', response.data)
+                    if (response && response.data) { // Check if response and response.data exist
+                        const data = response.data.map(user => {
+                            return {
+                                id: user.id,
+                                photoUrl: user.resourceFile ? user.resourceFile.data : placeholderImage,
+                                name: user.name,
+                                surname: user.surname,
+                                phone: user.phoneNo,
+                                role: user.roles[0]
+                            };
+                        });
+                        setEmployees(data);
+                    } else {
+                        console.warn('No data found in response');
+                    }
                 } catch (error) {
                     console.error('Error fetching employees:', error);
                 }
@@ -40,8 +44,11 @@ const StoreEmployee = () => {
         };
 
         fetchEmployees();
-    }, [globalStoreId]);
+    }, []);
 
+    useEffect(() => {
+        console.log(employees)
+    }, [employees]);
     return (
         <div className="container mx-auto my-8 p-8 bg-white shadow-lg max-w-6xl">
             <div className="overflow-x-auto relative">
@@ -63,7 +70,7 @@ const StoreEmployee = () => {
                                     src={`data:image/jpeg;base64,${user.photoUrl}`}
                                     alt={`${user.name} ${user.surname}`}
                                     className="w-10 h-10 rounded-full"
-                                    onError={(e) => { e.target.src = '/default-photo.jpg'; }} // Add onError fallback
+                                    onError={(e) => { e.target.src = placeholderImage; }} // Add onError fallback
                                 />
                             </td>
                             <td className="py-4 px-6">{user.name}</td>

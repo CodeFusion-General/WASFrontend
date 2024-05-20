@@ -34,16 +34,6 @@ function ProductList() {
         navigate('/add-product');
     };
 
-    const handleUpdateProduct = (updatedProduct) => {
-        setProducts(products.map(product => product.id === updatedProduct.id ? updatedProduct : product));
-        setSelectedProduct(null); // Deselect the product after update
-    };
-
-    const handleDeleteProduct = (productId) => {
-        setProducts(products.filter(product => product.id !== productId));
-        setSelectedProduct(null); // Deselect the product after delete
-    };
-
     const exportExcel = () => {
         const exportData = filteredProducts.map(({ name, model, productCode, profit, currentStock }) => ({
             name, model, productCode, profit, currentStock

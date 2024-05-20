@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { getTop3StoresByProfitForUser } from '../../../api/store/StoreApi';
 import { decodeUserToken } from "../../../api/authentication/AuthenticationApi";
@@ -60,6 +59,7 @@ const Top3Store = () => {
 
     const options = {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
             legend: {
                 position: 'top',
@@ -82,9 +82,11 @@ const Top3Store = () => {
     };
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-lg w-full">
+        <div className="bg-white p-6 rounded-lg shadow-lg w-full h-full">
             <h2 className="text-2xl font-bold mb-6 text-center">Top 3 Most Profitable Stores</h2>
-            <Doughnut data={data} options={options} />
+            <div className="h-96">
+                <Doughnut data={data} options={options} />
+            </div>
         </div>
     );
 };

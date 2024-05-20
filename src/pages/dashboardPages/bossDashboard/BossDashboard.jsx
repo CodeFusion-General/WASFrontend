@@ -6,11 +6,11 @@ const BossDashboard = () => {
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-3xl font-bold mb-6 text-center">Boss Dashboard</h1>
-            <div className="flex flex-col md:flex-row justify-between">
-                <div className="md:w-1/2 p-2">
+            <div className="flex flex-col md:flex-row justify-between gap-4">
+                <div className="md:w-1/2 p-2 flex-1 h-max">
                     <Top3Employee />
                 </div>
-                <div className="md:w-1/2 p-2">
+                <div className="md:w-1/2 p-2 flex-1 h-max">
                     <Top3Store />
                 </div>
             </div>

@@ -52,25 +52,16 @@ function UserProfile() {
                             <span className="font-semibold">Email: </span>{user.email}
                         </div>
                         <div className="mb-4">
-                            <span className="font-semibold">Phone: </span>{user.phone}
+                            <span className="font-semibold">Phone: </span>{user.phoneNo}
                         </div>
                         <div className="mb-4">
-                            <span className="font-semibold">Is Deleted: </span>{user.is_deleted ? 'Yes' : 'No'}
+                            <span className="font-semibold">Is Telegram Linked: </span>{user.isTelegram ? 'Yes' : 'No'}
                         </div>
                         <div className="mb-4">
-                            <span className="font-semibold">Activation Request Code: </span>{user.activation_request_code}
+                            <span className="font-semibold">Telegram ID: </span>{user.telegramId}
                         </div>
                         <div className="mb-4">
-                            <span className="font-semibold">Is Telegram Linked: </span>{user.istelegram ? 'Yes' : 'No'}
-                        </div>
-                        <div className="mb-4">
-                            <span className="font-semibold">Telegram ID: </span>{user.telegram_id}
-                        </div>
-                        <div className="mb-4">
-                            <span className="font-semibold">Telegram Link Time: </span>{user.telegram_link_time}
-                        </div>
-                        <div className="mb-4">
-                            <span className="font-semibold">Resource File ID: </span>{user.resource_file_id}
+                            <span className="font-semibold">Telegram Link Time: </span>{user.telegramLinkTime}
                         </div>
                         <div className="flex justify-start items-center gap-4">
                             <button

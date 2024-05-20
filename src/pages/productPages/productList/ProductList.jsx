@@ -12,23 +12,25 @@ function ProductList() {
     const [globalFilter, setGlobalFilter] = useState('');
     const { globalStoreId } = useContext(GlobalStoreId);
 
-    const tokenStoreId = () => {
-        const token = decodeUserToken();
-        return token && (token.role === 'MANAGER' || token.role === 'USER') ? token.storeId : null;
-    };
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await getProductsByStoreId(tokenStoreId() || globalStoreId);
+                const response = await getProductsByStoreId(decodeUserToken().storeId || globalStoreId);
                 setProducts(response || []);
             } catch (error) {
                 console.error("Error in getProductsByStoreId:", error);
                 setProducts([]); // Set an empty array in case of error
             }
         };
-        fetchProducts();
-    }, [globalStoreId]);
+        if (decodeUserToken().storeId || globalStoreId){
+            fetchProducts();
+        }
+        else {
+            alert("You have to choose a store first.");
+            navigate('/stores');
+        }
+    }, []);
 
     const handleAddProductClick = () => {
         navigate('/add-product');

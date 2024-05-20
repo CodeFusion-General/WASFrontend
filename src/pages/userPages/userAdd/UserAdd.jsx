@@ -1,8 +1,8 @@
-/* eslint-disable react/prop-types */
 import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { useEffect, useState, useContext } from 'react';
 import { CiCircleCheck } from 'react-icons/ci';
 import { addAccount } from '../../../api/user/UserApi.jsx';
+import { useNavigate } from "react-router-dom";
 import {GlobalStoreId} from "../../../api/store/GlobalStoreId.jsx";
 
 export default function UserAdd(props) {
@@ -12,6 +12,7 @@ export default function UserAdd(props) {
     const [passwordsMatch, setPasswordsMatch] = useState(false);
     const [user, setUser] = useState({ email: '', name: '', surname: '', phone: '' });
     const [photo, setPhoto] = useState(null);
+    const navigate = useNavigate();
 
     const handlePhotoChange = (event) => {
         const file = event.target.files[0];
@@ -64,8 +65,8 @@ export default function UserAdd(props) {
 
         try {
             const result = await addAccount(formData);
-            console.log(result);
             alert("Account successfully added!");
+            navigate('/');
         } catch (error) {
             console.error("Error while registering the account:", error);
             alert("Failed to register account. Please try again later.");
@@ -73,12 +74,19 @@ export default function UserAdd(props) {
     };
 
     useEffect(() => {
+        if(globalStoreId === null && type === 'Employee'){
+            alert("You have to choose a store first.");
+            navigate('/stores');
+        }
+    }, [globalStoreId]);
+
+    useEffect(() => {
         setPasswordsMatch(account.password && account.password_again && account.password === account.password_again);
     }, [account.password, account.password_again]);
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="p-5 my-10 w-full max-w-4xl bg-white rounded-lg shadow-lg mt-16">
+            <div className="p-5 my-10 w-full max-w-4xl bg-white rounded-lg shadow-lg ">
                 <h2 className="text-2xl font-bold mb-6 text-gray-800">
                     {type === 'Boss' ? "Register" : "New Employee"}
                 </h2>

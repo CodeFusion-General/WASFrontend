@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, Title, Tooltip, Legend, PointElement } from 'chart.js';
 import { getDailyTotalTransactions } from '../../../api/transaction/TransactionApi.jsx';
-import { GlobalStoreId } from '../../../api/store/GlobalStoreId.jsx';
-import { decodeUserToken } from '../../../api/authentication/AuthenticationApi.jsx';
+
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, Title, Tooltip, Legend, PointElement);
 
-const ProfitChart = () => {
-    const { globalStoreId } = useContext(GlobalStoreId);
+const ProfitChart = (props) => {
+    const { storeId } = props;
     const [chartData, setChartData] = useState({
         labels: [],
         datasets: [
@@ -23,22 +22,9 @@ const ProfitChart = () => {
     });
     const [error, setError] = useState(null);
 
-    const getStoreId = () => {
-        const decodedToken = decodeUserToken();
-        if (decodedToken.role === 'MANAGER' || decodedToken.role === 'USER') {
-            return decodedToken.storeId;
-        }
-        return null;
-    };
-
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const storeId = getStoreId() || globalStoreId;
-                if (!storeId) {
-                    setError('Store ID is not available');
-                    return;
-                }
 
                 const data = await getDailyTotalTransactions(storeId);
 
@@ -68,7 +54,7 @@ const ProfitChart = () => {
         };
 
         fetchData();
-    }, [globalStoreId]);
+    }, [storeId]);
 
     const options = {
         responsive: true,

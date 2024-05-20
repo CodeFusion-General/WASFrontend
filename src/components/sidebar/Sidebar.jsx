@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
-import { FaBox, FaHome, FaRegUser, FaStore, FaUsers } from 'react-icons/fa';
+import { FaBox, FaHome, FaStore } from 'react-icons/fa';
 import logo from '../../assets/logowis.png';
 import {useEffect, useState} from "react";
 import {decodeUserToken} from "../../api/authentication/AuthenticationApi.jsx";
-import {getUserPhoto} from "../../api/resource/ResourceApi.jsx";
 
 const Sidebar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState();
@@ -30,14 +29,13 @@ const Sidebar = () => {
                             <FaHome className="mr-4"/> {/* Home icon */}
                             <Link to="/" className="flex-grow text-white hover:text-blue-500">Home</Link>
                         </li>
-                        <li className="px-6 py-2 border-b border-gray-700 flex items-center">
-                            <FaRegUser className="mr-4"/> {/* Register icon */}
-                            <Link to="/register" className="flex-grow text-white hover:text-blue-500">Register</Link>
-                        </li>
-                        <li className="px-6 py-2 border-b border-gray-700 flex items-center">
-                            <FaStore className="mr-4"/> {/* Stores icon */}
-                            <Link to="/stores" className="flex-grow text-white hover:text-blue-500">Stores</Link>
-                        </li>
+                        {(decodeUserToken().roles[0] === 'BOSS') &&
+                            <li className="px-6 py-2 border-b border-gray-700 flex items-center">
+                                <FaStore className="mr-4"/> {/* Stores icon */}
+                                <Link to="/stores" className="flex-grow text-white hover:text-blue-500">Stores</Link>
+                            </li>
+                        }
+
                         <li className="px-6 py-2 border-b border-gray-700 flex items-center">
                             <FaBox className="mr-4"/> {/* Products icon */}
                             <Link to="/product-list"

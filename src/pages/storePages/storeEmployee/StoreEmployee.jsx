@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { getUsersByStoreId } from "../../../api/user/UserApi.jsx";
 import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
 import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
-const placeholderImage = 'src/assets/default-user-icon.webp';
+const placeholderImage = 'src/assets/user.webp';
 const StoreEmployee = () => {
     const [employees, setEmployees] = useState([]);
     const { globalStoreId } = useContext(GlobalStoreId);
@@ -15,11 +15,9 @@ const StoreEmployee = () => {
     useEffect(() => {
         const fetchEmployees = async () => {
             const storeId = tokenStoreId() || globalStoreId;
-            console.log('storeId:', storeId)
             if (storeId) {
                 try {
                     const response = await getUsersByStoreId(storeId);
-                    console.log('response:', response.data)
                     if (response && response.data) { // Check if response and response.data exist
                         const data = response.data.map(user => {
                             return {
@@ -46,9 +44,6 @@ const StoreEmployee = () => {
         fetchEmployees();
     }, []);
 
-    useEffect(() => {
-        console.log(employees)
-    }, [employees]);
     return (
         <div className="container mx-auto my-8 p-8 bg-white shadow-lg max-w-6xl">
             <div className="overflow-x-auto relative">

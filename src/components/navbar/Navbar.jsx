@@ -122,7 +122,6 @@ function Navbar() {
             getTop3NotifiticationsByUserId(decodedToken.userId)
                 .then(response => {
                     setNotifications(response.data);
-                    console.log('Notifications loaded successfully', response.data)
                 })
                 .catch(error => {
                         console.error('Failed to load notifications', error);
@@ -276,7 +275,7 @@ function Navbar() {
                                                 <span className="sr-only">Open user menu</span>
                                                 <img
                                                     className="h-8 w-8 rounded-full"
-                                                    src={photo || 'src/assets/default-user-icon.webp'}
+                                                    src={photo || 'src/assets/user.webp'}
                                                     alt=""
                                                 />
                                             </Menu.Button>
@@ -315,7 +314,7 @@ function Navbar() {
                                                     {({ active }) => (
                                                         <a
                                                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                                            onClick={() => logout()}
+                                                            onClick={() => handleLogout()}
                                                         >
                                                             Sign out
                                                         </a>

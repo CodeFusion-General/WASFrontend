@@ -24,7 +24,6 @@ function ProductDetail() {
                 }
 
                 const categoryResponse = await getAllCategories();
-                console.log("Categories:", categoryResponse.data);
                 setCategories(categoryResponse.data);
             } catch (error) {
                 console.error("Error fetching data:", error);

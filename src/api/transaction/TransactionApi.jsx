@@ -42,7 +42,21 @@ const getHeaders = (isMultipart = false) => {
     };
 };
 
-
+const fillFormData = (transactionDTO, file) => {
+    let formData = new FormData();
+    formData.append('date', transactionDTO.date);
+    formData.append('quantity', transactionDTO.quantity);
+    formData.append('price', transactionDTO.price);
+    formData.append('fullName', transactionDTO.fullName);
+    formData.append('address', transactionDTO.address);
+    formData.append('phone', transactionDTO.phone);
+    formData.append('isBuying', transactionDTO.isBuying);
+    formData.append('product', transactionDTO.product.id);
+    if (file) {
+        formData.append('file', file);
+    }
+    return formData;
+}
 
 const getTransactionById = async (id) => {
     const url = `${API_BASE_URL}/transaction/getTransactionById/${id}`;
@@ -76,8 +90,6 @@ const getTransactionsByProductId = async (productId) => {
             headers: getHeaders()
         });
 
-        console.log(response.data)
-
         if (response.status === 200) {
             return response.data;
         } else {
@@ -109,18 +121,7 @@ const getDailyTotalTransactions = async (storeId) => {
 const addTransaction = async (transactionDTO, file) => {
     const url = `${API_BASE_URL}/transaction/addTransaction`;
 
-    let formData = new FormData();
-    formData.append('date', transactionDTO.date);
-    formData.append('quantity', transactionDTO.quantity);
-    formData.append('price', transactionDTO.price);
-    formData.append('fullName', transactionDTO.fullName);
-    formData.append('address', transactionDTO.address);
-    formData.append('phone', transactionDTO.phone);
-    formData.append('isBuying', transactionDTO.isBuying);
-    formData.append('product', transactionDTO.product);
-    if (file) {
-        formData.append('file', file);
-    }
+    let formData = fillFormData(transactionDTO, file);
 
     try {
         const response = await axios.post(url, formData, {
@@ -141,15 +142,7 @@ const addTransaction = async (transactionDTO, file) => {
 const updateTransaction = async (id, transactionDTO, file) => {
     const url = `${API_BASE_URL}/transaction/updateTransaction/${id}`;
 
-    let formData = new FormData();
-    formData.append('transactionDTO', new Blob([JSON.stringify({
-        ...transactionDTO
-    })], {
-        type: 'application/json'
-    }));
-    if (file) {
-        formData.append('file', file);
-    }
+    let formData = fillFormData(transactionDTO, file);
 
     try {
         const response = await axios.put(url, formData, {

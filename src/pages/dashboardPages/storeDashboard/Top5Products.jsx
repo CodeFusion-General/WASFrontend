@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getTop5MostProfitableProducts } from '../../../api/store/StoreApi.jsx';
-import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
-import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
+import { getTop5MostProfitableProducts } from '../../../api/store/StoreApi';
+import { GlobalStoreId } from "../../../api/store/GlobalStoreId";
+import { decodeUserToken } from "../../../api/authentication/AuthenticationApi";
 
-const Top5Products = () => {
+const Top5Products = ({ storeId, top = true }) => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -21,13 +21,12 @@ const Top5Products = () => {
     };
 
     useEffect(() => {
-        const storeId = determineStoreId();
+        const storeIdToUse = storeId || determineStoreId();
 
         const fetchData = async () => {
             try {
-                const response = await getTop5MostProfitableProducts(storeId);
-                const sortedProducts = response.data.sort((a, b) => b.profit - a.profit);
-                setProducts(sortedProducts);
+                const response = await getTop5MostProfitableProducts(storeIdToUse, top);
+                setProducts(response.data);
                 setLoading(false);
             } catch (error) {
                 setError(`Error fetching top 5 most profitable products: ${error.message}`);
@@ -36,7 +35,7 @@ const Top5Products = () => {
         };
 
         fetchData();
-    }, [globalStoreId]);
+    }, [storeId, top, globalStoreId]);
 
     if (loading) {
         return <div className="text-center">Loading...</div>;
@@ -67,7 +66,9 @@ const Top5Products = () => {
     return (
         <div className="bg-white p-6 rounded-lg shadow-lg w-full h-full flex flex-col justify-between">
             <div>
-                <h2 className="text-2xl font-bold mb-6 text-center">Top 5 Most Profitable Products</h2>
+                <h2 className="text-2xl font-bold mb-6 text-center">
+                    {top ? 'Top 5 Most Profitable Products' : 'Bottom 5 Least Profitable Products'}
+                </h2>
                 <table className="min-w-full bg-white mb-6 border border-gray-200 rounded-lg overflow-hidden shadow-md">
                     <thead className="bg-gray-100">
                     <tr>

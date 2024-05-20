@@ -22,6 +22,7 @@ import TransactionDetails from "./pages/transactionPages/transactionDetails/Tran
 import StoreDashboard from "./pages/dashboardPages/storeDashboard/StoreDashboard.jsx";
 import UserProfile from "./pages/userPages/userProfile/UserProfile.jsx";
 import NotificationList from "./pages/notificationPage/NotificationList.jsx";
+import Settings from "./pages/settingsPage/Settings.jsx";
 //global
 import {GlobalStoreIdProvider} from "./api/store/GlobalStoreId.jsx";
 import BossDashboard from "./pages/dashboardPages/bossDashboard/BossDashboard.jsx";
@@ -117,7 +118,11 @@ const router = createBrowserRouter([
             {
                 path: "/notifications",
                 element: <NotificationList />,
-            }
+            },
+            {
+                path: "/settings",
+                element: <Settings />,
+            },
         ],
     },
     {

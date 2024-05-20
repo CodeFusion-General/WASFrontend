@@ -49,7 +49,7 @@ export default function UserAdd(props) {
             formData.append('storeIds', globalStoreId);
         }
         else if(type === 'Boss') {
-            formData.append('storeIds', null)
+            formData.append('storeIds', "")
         }
         else {
             alert("Store is not defined");

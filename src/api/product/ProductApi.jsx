@@ -72,12 +72,13 @@ const getProductById = async (id) => {
         }
     } catch (error) {
         console.error("Error in getProductById:", error);
-        alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin");
     }
 };
 
 const addProduct = async (productDTO, file) => {
     let formData = formDataFiller(productDTO, file);
+    formData.append("category", productDTO.category);
+    formData.append("store", productDTO.store);
     const url = `${API_BASE_URL}/product/addProduct`;
     const config = {
         headers: getHeaders(true)
@@ -108,7 +109,8 @@ const addProduct = async (productDTO, file) => {
 
 const updateProduct = async (id, productDTO, file) => {
     let formData = formDataFiller(productDTO, file);
-
+    formData.append("category", productDTO.category.id);
+    formData.append("store", productDTO.store.id);
     const url = `${API_BASE_URL}/product/updateProduct/${id}`;
     const config = {
         headers: getHeaders(true)
@@ -153,8 +155,6 @@ const formDataFiller = (productDTO, file) => {
     let formData = new FormData();
     formData.append("name", productDTO.name);
     formData.append("model", productDTO.model);
-    formData.append("category", productDTO.category.id); // Use category ID
-    formData.append("store", productDTO.store.id); // Use store ID
     formData.append("productCode", productDTO.productCode);
     formData.append("productFields", "");
     formData.append("transactions", "");

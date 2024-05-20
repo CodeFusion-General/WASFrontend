@@ -2,11 +2,12 @@ import React, { useContext, useEffect, useState } from 'react';
 import { getStoresByUserId } from "../../../api/store/StoreApi.jsx";
 import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
 import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
+import {useNavigate} from "react-router-dom";
 
 function StoreList() {
     const [stores, setStores] = useState([]);
     const { setGlobalStoreId, globalStoreId } = useContext(GlobalStoreId);
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchStores = async () => {
@@ -54,6 +55,7 @@ function StoreList() {
 
     const handleSelectStore = (storeId) => {
         setGlobalStoreId(storeId);
+        navigate('/store');
     };
 
     return (

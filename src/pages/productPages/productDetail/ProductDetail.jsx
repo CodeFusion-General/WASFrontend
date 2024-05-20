@@ -27,6 +27,7 @@ function ProductDetail() {
                 setCategories(categoryResponse.data);
             } catch (error) {
                 console.error("Error fetching data:", error);
+                navigate('/product-list')
             }
         };
 
@@ -60,7 +61,7 @@ function ProductDetail() {
         try {
             const photo = document.getElementById('imageFile').files[0];
             await updateProduct(editableProduct.id, editableProduct, photo);
-            console.log("Product updated successfully");
+            navigate('/product-list')
         } catch (error) {
             console.error("Error updating product:", error);
         }
@@ -70,7 +71,7 @@ function ProductDetail() {
         if (window.confirm("Are you sure you want to delete this product?")) {
             try {
                 await deleteProduct(editableProduct.id);
-                console.log("Product deleted successfully");
+                navigate('/product-list')
             } catch (error) {
                 console.error("Error deleting product:", error);
             }

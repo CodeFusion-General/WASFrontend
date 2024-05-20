@@ -13,7 +13,6 @@ function TransactionDetails() {
     useEffect(() => {
         const fetchTransaction = async () => {
             const data = await getTransactionById(transactionId);
-            console.log(data);
             setTransaction(data);
             setEditableTransaction(data);
             setImageUrl(data.resourceFile?.data ? `data:image/jpeg;base64,${data.resourceFile.data}` : placeholderImage);
@@ -27,7 +26,7 @@ function TransactionDetails() {
         setEditableTransaction({ ...editableTransaction, [name]: type === 'radio' ? value === 'true' : newValue });
     };
 
-    const handleUpdate = async () => {
+    /*const handleUpdate = async () => {
         const photo = document.getElementById('imageFile').files[0];
         await updateTransaction(transactionId, editableTransaction, photo).then(() => {
             alert('Transaction updated successfully');
@@ -35,7 +34,7 @@ function TransactionDetails() {
         }).catch((error) => {
             console.error('Error updating transaction:', error);
         });
-    };
+    };*/
 
     const handleDelete = async () => {
         if (window.confirm("Are you sure you want to delete this transaction?")) {
@@ -170,11 +169,6 @@ function TransactionDetails() {
                         </div>
 
                         <div className="flex justify-center space-x-2 mt-4">
-                            <button
-                                className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                onClick={handleUpdate}>
-                                Update
-                            </button>
                             <button
                                 className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                                 onClick={handleDelete}>

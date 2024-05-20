@@ -97,14 +97,6 @@ const Top5Category = ({ storeId }) => {
         <div className="bg-white p-6 rounded-lg shadow-lg w-full">
             <h2 className="text-2xl font-bold mb-6 text-center">Top 5 Most Profitable Categories</h2>
             <Bar data={data} options={options} />
-            <div className="flex justify-center mt-6">
-                <button
-                    onClick={() => navigate('/category-list')}
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-lg shadow-md"
-                >
-                    View All Categories
-                </button>
-            </div>
         </div>
     );
 };

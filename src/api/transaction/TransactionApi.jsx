@@ -51,7 +51,7 @@ const fillFormData = (transactionDTO, file) => {
     formData.append('address', transactionDTO.address);
     formData.append('phone', transactionDTO.phone);
     formData.append('isBuying', transactionDTO.isBuying);
-    formData.append('product', transactionDTO.product.id);
+
     if (file) {
         formData.append('file', file);
     }
@@ -122,7 +122,7 @@ const addTransaction = async (transactionDTO, file) => {
     const url = `${API_BASE_URL}/transaction/addTransaction`;
 
     let formData = fillFormData(transactionDTO, file);
-
+    formData.append('product', transactionDTO.product);
     try {
         const response = await axios.post(url, formData, {
             headers: getHeaders(true)
@@ -143,7 +143,7 @@ const updateTransaction = async (id, transactionDTO, file) => {
     const url = `${API_BASE_URL}/transaction/updateTransaction/${id}`;
 
     let formData = fillFormData(transactionDTO, file);
-
+    formData.append('product', transactionDTO.product.id);
     try {
         const response = await axios.put(url, formData, {
             headers: getHeaders(true)

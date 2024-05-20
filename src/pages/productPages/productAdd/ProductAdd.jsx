@@ -134,6 +134,7 @@ function ProductAdd({ onClose }) {
     const handleSubmit = async () => {
         try {
             const photoData = document.getElementById('imageFile').files[0];
+            console.log("Product data", product);
             const result = await addProduct(product, photoData);
             console.log("Product added successfully", result);
             navigate('/product-list');
@@ -145,7 +146,7 @@ function ProductAdd({ onClose }) {
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="p-5 my-10 w-full max-w-4xl bg-white rounded-lg shadow-lg mt-16">
-                <h2 className="text-2xl font-bold mb-6 text-gray-800">Add Product</h2>
+                <h2 className="text-2xl font-bold mb-6 text-gray-800">New Product</h2>
                 <div className="product-fields">
                     <div className="field-pair">
                         <InputField

@@ -73,7 +73,7 @@ const getTop5MostProfitableProducts = async (storeId) => {
     return apiCall(
         url,
         { headers: getHeaders() },
-        `Unexpected response status while getting top 5 most profitable products.`
+        'Unexpected response status while getting top 5 most profitable products.'
     );
 };
 

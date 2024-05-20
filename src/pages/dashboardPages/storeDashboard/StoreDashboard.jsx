@@ -10,16 +10,21 @@ const StoreDashboard = () => {
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-3xl font-bold mb-6 text-center">Store Dashboard</h1>
-            <div className="flex flex-col md:flex-row justify-between">
-                <div className="md:w-1/2 p-2">
+            <div className="flex flex-col md:flex-row justify-between gap-4">
+                <div className="md:w-1/2 p-2 flex-1">
                     <ProfitChart />
                 </div>
-                <div className="md:w-1/2 p-2">
+                <div className="md:w-1/2 p-2 flex-1">
                     <Top5Products storeId={storeId} />
                 </div>
             </div>
-            <div className="mt-6">
-                <Top5Category storeId={storeId} />
+            <div className="flex flex-col md:flex-row justify-between gap-4">
+                <div className="md:w-1/2 p-2 flex-1">
+                    <Top5Category storeId={storeId} />
+                </div>
+                <div className="md:w-1/2 p-2 flex-1">
+                    <Top5Category storeId={storeId} />
+                </div>
             </div>
         </div>
     );

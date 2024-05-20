@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import ProfitChart from './ProfitChart.jsx';
 import Top5Products from './Top5Products.jsx';
-import Top5Category from './Top5Category.jsx'; // Top5Category bileşenini import edin
+import Top5Category from './Top5Category.jsx';
 
 const StoreDashboard = () => {
     const { storeId } = useParams();
@@ -19,7 +19,7 @@ const StoreDashboard = () => {
                 </div>
             </div>
             <div className="mt-6">
-                <Top5Category storeId={storeId} /> {/* Top5Category bileşenini ekleyin */}
+                <Top5Category storeId={storeId} />
             </div>
         </div>
     );

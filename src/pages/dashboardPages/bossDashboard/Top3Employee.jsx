@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { getTop3EmployeesByStoreProfit } from '../../../api/user/UserApi';
-import Chart from 'chart.js/auto';
 
 const Top3Employee = () => {
     const [employees, setEmployees] = useState([]);
@@ -38,9 +37,9 @@ const Top3Employee = () => {
                 label: 'Total Profit',
                 data: employees.map(employee => employee.totalProfit),
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.6)',  // Kırmızı
-                    'rgba(54, 162, 235, 0.6)',  // Mavi
-                    'rgba(75, 192, 192, 0.6)',  // Yeşil
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
                 ],
                 borderColor: [
                     'rgba(255, 99, 132, 1)',
@@ -59,14 +58,14 @@ const Top3Employee = () => {
                 beginAtZero: true,
                 ticks: {
                     callback: function(value) {
-                        return '$' + value.toLocaleString(); // Kar değerini para birimi olarak göster
+                        return '$' + value.toLocaleString();
                     },
                 },
             },
         },
         plugins: {
             legend: {
-                display: false, // Legend gizlendi
+                display: false,
             },
             tooltip: {
                 callbacks: {

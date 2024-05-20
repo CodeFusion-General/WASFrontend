@@ -102,13 +102,16 @@ const addAccount = async (formData) => {
 };
 
 
-const updateUser = async (id, name, surname, email, file) => {
+const updateUser = async (id, name, surname, email, file, role) => {
     let formData = new FormData();
     formData.append('id', id);
     formData.append('name', name);
     formData.append('surname', surname);
     formData.append('email', email);
-    formData.append('file', file);
+    formData.append('role', role); // Append role to the formData
+    if (file) {
+        formData.append('file', file);
+    }
 
     const url = `${API_BASE_URL}/user/updateUser/${id}`;
 

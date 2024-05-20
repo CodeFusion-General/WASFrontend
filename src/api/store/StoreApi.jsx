@@ -68,6 +68,16 @@ const getStoresByUserId = async (storeId) => {
     );
 };
 
+const getTop3StoresByProfitForUser = async (userId) => {
+    const url = `${API_BASE_URL}/store/top3StoresByProfit/${userId}`;
+    return apiCall(
+        url,
+        { headers: getHeaders() },
+        'Unexpected response status while getting top 3 most profitable Store.'
+    );
+};
+
+
 const getTop5MostProfitableProducts = async (storeId) => {
     const url = `${API_BASE_URL}/store/${storeId}/top5MostProfitableProducts`;
     return apiCall(
@@ -170,6 +180,7 @@ export {
     getAllStores,
     getStoresByUserId,
     getTop5MostProfitableProducts,
+    getTop3StoresByProfitForUser,
     //add methods
     addStore,
     //update methods

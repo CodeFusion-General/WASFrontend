@@ -61,7 +61,17 @@ const markNotificationIsSeen = async (notificationId) => {
     }
 }
 
+const getNotificationsByUserId = async (userId) => {
+    const url = `${API_BASE_URL}/notification/user/${userId}`;
+    return apiCall(
+        url,
+        { headers: getHeaders() },
+        "Error getting notifications by user ID:"
+    );
+};
+
 export {
     getTop3NotifiticationsByUserId,
-    markNotificationIsSeen
+    markNotificationIsSeen,
+    getNotificationsByUserId
 };

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getTop5MostProfitableProducts } from '../../../api/store/StoreApi';
-import { GlobalStoreId } from "../../../api/store/GlobalStoreId";
-import { decodeUserToken } from "../../../api/authentication/AuthenticationApi";
+import { getTop5MostProfitableProducts } from '../../../api/store/StoreApi.jsx';
+import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
+import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
 
 const Top5Products = () => {
     const [products, setProducts] = useState([]);

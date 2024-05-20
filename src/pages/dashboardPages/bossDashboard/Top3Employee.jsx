@@ -53,6 +53,7 @@ const Top3Employee = () => {
 
     const options = {
         responsive: true,
+        maintainAspectRatio: false,
         scales: {
             y: {
                 beginAtZero: true,
@@ -85,9 +86,11 @@ const Top3Employee = () => {
     };
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-lg w-full">
+        <div className="bg-white p-6 rounded-lg shadow-lg w-full h-full">
             <h2 className="text-2xl font-bold mb-6 text-center">Top 3 Most Profitable Employees</h2>
-            <Bar data={data} options={options} />
+            <div className="h-96">
+                <Bar data={data} options={options} />
+            </div>
         </div>
     );
 };

@@ -2,11 +2,13 @@ import { useState, useEffect, useContext } from 'react';
 import { getUsersByStoreId } from "../../../api/user/UserApi.jsx";
 import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
 import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
+import { useNavigate } from "react-router-dom";
+
 const placeholderImage = 'src/assets/user.webp';
 const StoreEmployee = () => {
     const [employees, setEmployees] = useState([]);
     const { globalStoreId } = useContext(GlobalStoreId);
-
+    const navigate = useNavigate();
     const tokenStoreId = () => {
         const token = decodeUserToken();
         return token && (token.role === 'MANAGER' || token.role === 'USER') ? token.storeId : null;
@@ -35,9 +37,11 @@ const StoreEmployee = () => {
                     }
                 } catch (error) {
                     console.error('Error fetching employees:', error);
+
                 }
             } else {
-                console.warn('storeId is undefined');
+                alert('You have to choose store.');
+                navigate("/stores");
             }
         };
 

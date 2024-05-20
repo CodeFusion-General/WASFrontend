@@ -104,7 +104,7 @@ const updateUser = async (id, { name, surname, email, roles }, file) => {
     formData.append('name', name);
     formData.append('surname', surname);
     formData.append('email', email);
-    formData.append('roles', roles[0]); // Array'in ilk elemanını ekleyin
+    formData.append('roles', roles[0]);
     if (file) {
         formData.append('file', file);
     }

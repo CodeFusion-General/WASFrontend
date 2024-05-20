@@ -1,11 +1,13 @@
 /* eslint-disable react/prop-types */
 import { UserCircleIcon } from '@heroicons/react/24/solid';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { CiCircleCheck } from 'react-icons/ci';
 import { addAccount } from '../../../api/user/UserApi.jsx';
+import {GlobalStoreId} from "../../../api/store/GlobalStoreId.jsx";
 
 export default function UserAdd(props) {
     const { type } = props;
+    const { globalStoreId } = useContext(GlobalStoreId);
     const [account, setAccount] = useState({ username: '', password: '', password_again: '' });
     const [passwordsMatch, setPasswordsMatch] = useState(false);
     const [user, setUser] = useState({ email: '', name: '', surname: '', phone: '' });
@@ -40,8 +42,17 @@ export default function UserAdd(props) {
         formData.append('email', user.email);
         formData.append('username', account.username);
         formData.append('password', account.password);
-        formData.append('phone', user.phone);
-        formData.append('role', type.toString().toUpperCase());
+        formData.append('phoneNo', user.phone);
+        formData.append('roles', type.toString().toUpperCase());
+        formData.append('isTelegram', false)
+        if(globalStoreId){
+            formData.append('storeIds', globalStoreId);
+        }
+        else {
+            alert("Store id is not defined");
+            return;
+        }
+
 
         const fileInput = document.getElementById('photoInput');
         if (fileInput.files.length > 0) {
@@ -65,7 +76,9 @@ export default function UserAdd(props) {
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="p-5 my-10 w-full max-w-4xl bg-white rounded-lg shadow-lg mt-16">
-                <h2 className="text-2xl font-bold mb-6 text-gray-800">Add {type}</h2>
+                <h2 className="text-2xl font-bold mb-6 text-gray-800">
+                    {type === 'Boss' ? "Register" : "New Employee"}
+                </h2>
                 <form className="space-y-6" onSubmit={handleRegister}>
                     <div className="product-fields">
                         <div className="field-pair">

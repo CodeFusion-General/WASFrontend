@@ -22,7 +22,7 @@ const StoreEmployee = () => {
     const tokenStoreId = () => {
         const token = decodeUserToken();
         if (token) {
-            setCurrentUserRole(token.roles[0]); // Assuming the first role is the primary role
+            setCurrentUserRole(token.roles[0]);
             return token && (token.roles.includes('BOSS') || token.roles.includes('MANAGER') || token.roles.includes('ADMIN')) ? token.storeId : null;
         }
         return null;
@@ -65,9 +65,15 @@ const StoreEmployee = () => {
         const newRole = editingRoles[id];
         if (employee && newRole && newRole !== employee.role) {
             try {
-                await updateUser(id, { ...employee, roles: [newRole] }, null);
+                await updateUser(id, {
+                    name: employee.name,
+                    surname: employee.surname,
+                    email: employee.email,
+                    roles: [newRole]
+                }, null);
                 setEmployees(prev => prev.map(emp => emp.id === id ? { ...emp, role: newRole } : emp));
                 setEditingRoles(prev => {
+                    // eslint-disable-next-line no-unused-vars
                     const { [id]: _, ...rest } = prev;
                     return rest;
                 });
@@ -76,6 +82,7 @@ const StoreEmployee = () => {
             }
         }
     };
+
 
     return (
         <div className="container mx-auto my-8 p-8 bg-white shadow-lg max-w-6xl">

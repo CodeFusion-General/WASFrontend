@@ -26,6 +26,7 @@ import Settings from "./pages/settingsPage/Settings.jsx";
 //global
 import {GlobalStoreIdProvider} from "./api/store/GlobalStoreId.jsx";
 import BossDashboard from "./pages/dashboardPages/bossDashboard/BossDashboard.jsx";
+import EmployeeRouter from "./router/EmployeeRouter.jsx";
 
 const Dashboard = () => {
     return (
@@ -81,23 +82,33 @@ const router = createBrowserRouter([
             },
             {
                 path: "/product-list",
-                element: <ProductsList />,
+                element: <EmployeeRouter
+                    element={<ProductsList />}
+                />,
             },
             {
                 path: "/product-details/:productId",
-                element: <ProductDetail />,
+                element: <EmployeeRouter
+                    element={<ProductDetail />}
+                />,
             },
             {
                 path: "/add-product",
-                element: <ProductAdd />,
+                element: <EmployeeRouter
+                    element={<ProductAdd />}
+                />,
             },
             {
                 path: "/transactions/:productId",
-                element: <TransactionList />,
+                element: <EmployeeRouter
+                    element={<TransactionList />}
+                />,
             },
             {
                 path: "/add-transaction/:productId",
-                element: <TransactionAdd />,
+                element: <EmployeeRouter
+                    element={<TransactionAdd />}
+                />,
             },
             {
                 path: "/transaction-details/:transactionId",
@@ -105,23 +116,33 @@ const router = createBrowserRouter([
             },
             {
                 path: "/store",
-                element: <StoreDashboard />,
+                element: <EmployeeRouter
+                    element={<StoreDashboard />}
+                />,
             },
             {
-                path: "/bossDashboard",
-                element: <BossDashboard />,
+                path: "/boss-dashboard",
+                element: <BossRouter
+                    element={<BossDashboard />}
+                />,
             },
             {
                 path: "/profile",
-                element: <UserProfile />,
+                element: <EmployeeRouter
+                    element={<UserProfile />}
+                />,
             },
             {
                 path: "/notifications",
-                element: <NotificationList />,
+                element: <EmployeeRouter
+                    element={<NotificationList />}
+                />,
             },
             {
                 path: "/settings",
-                element: <Settings />,
+                element: <EmployeeRouter
+                    element={<Settings />}
+                />,
             },
         ],
     },

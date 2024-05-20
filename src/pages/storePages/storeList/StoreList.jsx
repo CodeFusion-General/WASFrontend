@@ -61,36 +61,47 @@ function StoreList() {
     return (
         <div className="max-w-6xl mx-auto p-5">
             <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">All Stores</h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center">
-                {Array.isArray(stores) && stores.map((store) => (
-                    <div key={store.id}
-                    className={`p-6 shadow-lg rounded-lg flex flex-col items-center transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-2xl border-2 m-2 ${globalStoreId === store.id ? 'bg-green-50 border-green-700': 'bg-white'}`}>
-                        <h2 className="text-xl font-semibold mb-2">{store.name}</h2>
-                        <div className="h-32 w-32 mb-3 overflow-hidden rounded-full border-8 border-gray-200">
-                            {store.base64String ? (
-                                <img
-                                    src={store.base64String}
-                                    className="object-cover w-full h-full"
-                                    alt={`${store.resourceFile.name}`}
-                                    onError={(e) => { e.target.src = 'src/assets/store.png'; }}
-                                />
-                            ) : (
-                                <img
-                                    src="src/assets/store.png"
-                                    className="object-cover w-full h-full"
-                                    alt="Default"
-                                />
-                            )}
+            {Array.isArray(stores) && stores.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center">
+                    {stores.map((store) => (
+                        <div key={store.id}
+                             className={`p-6 shadow-lg rounded-lg flex flex-col items-center transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-2xl border-2 m-2 ${globalStoreId === store.id ? 'bg-green-50 border-green-700': 'bg-white'}`}>
+                            <h2 className="text-xl font-semibold mb-2">{store.name}</h2>
+                            <div className="h-32 w-32 mb-3 overflow-hidden rounded-full border-8 border-gray-200">
+                                {store.base64String ? (
+                                    <img
+                                        src={store.base64String}
+                                        className="object-cover w-full h-full"
+                                        alt={`${store.resourceFile.name}`}
+                                        onError={(e) => { e.target.src = 'src/assets/store.png'; }}
+                                    />
+                                ) : (
+                                    <img
+                                        src="src/assets/store.png"
+                                        className="object-cover w-full h-full"
+                                        alt="Default"
+                                    />
+                                )}
+                            </div>
+                            <p className="text-gray-600 text-sm mb-4">{store.description}</p>
+                            <button
+                                onClick={() => handleSelectStore(store.id)}
+                                className="bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-900 transition-colors">
+                                Select
+                            </button>
                         </div>
-                        <p className="text-gray-600 text-sm mb-4">{store.description}</p>
-                        <button
-                            onClick={() => handleSelectStore(store.id)}
-                            className="bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-900 transition-colors">
-                            Select
-                        </button>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            ) : (
+                <div className="flex flex-col items-center justify-center text-center text-gray-500">
+                    <p>No stores found.</p>
+                    <button
+                        onClick={() => navigate('/add-store')}
+                        className="bg-green-600 text-white py-2 px-4 rounded hover:bg-gray-900 transition-colors mt-4">
+                        New Store
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

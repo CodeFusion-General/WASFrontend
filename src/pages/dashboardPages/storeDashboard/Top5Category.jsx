@@ -1,9 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { getTop5MostProfitableCategory } from '../../../api/category/CategoryApi.jsx';
-import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
-import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
 import Chart from 'chart.js/auto';
 
 const COLORS = [
@@ -24,27 +21,19 @@ const BORDER_COLORS = [
     'rgba(255, 99, 132, 1)',
 ];
 
-const Top5Category = ({ storeId }) => {
+const Top5Category = (props) => {
+    const { storeId } = props;
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const navigate = useNavigate();
-    const { globalStoreId } = useContext(GlobalStoreId);
 
-    const determineStoreId = () => {
-        const token = decodeUserToken();
-        if (token && (token.role === 'MANAGER' || token.role === 'USER')) {
-            return token.storeId;
-        }
-        return globalStoreId;
-    };
+    console.log("StoreId: category", storeId);
 
     useEffect(() => {
-        const id = storeId || determineStoreId();
 
         const fetchCategoryData = async () => {
             try {
-                const response = await getTop5MostProfitableCategory(id);
+                const response = await getTop5MostProfitableCategory(storeId);
                 setCategories(response.data);
                 setLoading(false);
             } catch (error) {
@@ -54,7 +43,7 @@ const Top5Category = ({ storeId }) => {
         };
 
         fetchCategoryData();
-    }, [storeId, globalStoreId]);
+    }, [storeId]);
 
     useEffect(() => {
         return () => {

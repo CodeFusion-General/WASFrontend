@@ -24,10 +24,6 @@ function ProductAdd({ onClose }) {
     const [newCategory, setNewCategory] = useState('');
     const [showNewCategoryInput, setShowNewCategoryInput] = useState(false);
 
-    const tokenStoreId = () => {
-        const token = decodeUserToken();
-        return token && (token.role === 'MANAGER' || token.role === 'USER') ? token.storeId : null;
-    };
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -42,7 +38,7 @@ function ProductAdd({ onClose }) {
 
         const fetchStore = async () => {
             try {
-                const storeData = await getStoreById(tokenStoreId() || globalStoreId);
+                const storeData = await getStoreById(decodeUserToken().storeId || globalStoreId);
                 setStore(storeData.data);
                 setProduct(prev => ({ ...prev, store: storeData.data.id }));
             } catch (error) {
@@ -145,7 +141,7 @@ function ProductAdd({ onClose }) {
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="p-5 my-10 w-full max-w-4xl bg-white rounded-lg shadow-lg mt-16">
+            <div className="p-5 my-10 w-full max-w-4xl bg-white rounded-lg shadow-lg mt-2">
                 <h2 className="text-2xl font-bold mb-6 text-gray-800">New Product</h2>
                 <div className="product-fields">
                     <div className="field-pair">

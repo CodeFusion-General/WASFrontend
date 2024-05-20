@@ -19,18 +19,10 @@ const StoreEmployee = () => {
     const [currentUserRole, setCurrentUserRole] = useState(null);
     const navigate = useNavigate();
 
-    const tokenStoreId = () => {
-        const token = decodeUserToken();
-        if (token) {
-            setCurrentUserRole(token.roles[0]);
-            return token && (token.roles.includes('BOSS') || token.roles.includes('MANAGER') || token.roles.includes('ADMIN')) ? token.storeId : null;
-        }
-        return null;
-    };
 
     useEffect(() => {
         const fetchEmployees = async () => {
-            const storeId = tokenStoreId() || globalStoreId;
+            const storeId = decodeUserToken().storeId || globalStoreId;
             if (storeId) {
                 try {
                     const response = await getUsersByStoreId(storeId);
@@ -49,8 +41,8 @@ const StoreEmployee = () => {
                     console.error('Error fetching employees:', error);
                 }
             } else {
-                alert('You have to choose store.');
-                navigate("/stores");
+                alert("You have to choose a store first.");
+                navigate('/stores');
             }
         };
         fetchEmployees();

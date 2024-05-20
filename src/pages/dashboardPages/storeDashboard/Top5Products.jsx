@@ -1,31 +1,20 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getTop5MostProfitableProducts } from '../../../api/store/StoreApi';
-import { GlobalStoreId } from "../../../api/store/GlobalStoreId";
-import { decodeUserToken } from "../../../api/authentication/AuthenticationApi";
 
-const Top5Products = ({ storeId, top = true }) => {
+const Top5Products = (props) => {
+    const { storeId, top = true } = props;
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const { globalStoreId } = useContext(GlobalStoreId);
-
-    const determineStoreId = () => {
-        const token = decodeUserToken();
-        if (token && (token.role === 'MANAGER' || token.role === 'USER')) {
-            return token.storeId;
-        }
-        return globalStoreId;
-    };
 
     useEffect(() => {
-        const storeIdToUse = storeId || determineStoreId();
 
         const fetchData = async () => {
             try {
-                const response = await getTop5MostProfitableProducts(storeIdToUse, top);
+                const response = await getTop5MostProfitableProducts(storeId, top);
                 setProducts(response.data);
                 setLoading(false);
             } catch (error) {
@@ -35,7 +24,7 @@ const Top5Products = ({ storeId, top = true }) => {
         };
 
         fetchData();
-    }, [storeId, top, globalStoreId]);
+    }, [storeId, top]);
 
     if (loading) {
         return <div className="text-center">Loading...</div>;

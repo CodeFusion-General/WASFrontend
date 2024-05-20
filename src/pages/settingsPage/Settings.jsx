@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { decodeUserToken} from "../../api/authentication/AuthenticationApi.jsx";
-import { getTelegramLink} from "../../api/telegram/TelegramApi.jsx";
+import { decodeUserToken } from "../../api/authentication/AuthenticationApi.jsx";
+import { getTelegramLink } from "../../api/telegram/TelegramApi.jsx";
 
 function Settings() {
     const [isPaired, setIsPaired] = useState(false);
@@ -10,7 +10,7 @@ function Settings() {
         try {
             const response = await getTelegramLink(userId);
             if (response && response.data) {
-                window.open(response.data, '_blank');
+                window.location.href = response.data;
                 setIsPaired(true);
                 alert('Telegram pairing link opened successfully.');
             }

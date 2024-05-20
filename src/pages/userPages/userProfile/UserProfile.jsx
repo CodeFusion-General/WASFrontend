@@ -1,17 +1,14 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUserById } from '../../../api/user/UserApi';
-import Cookies from 'js-cookie';
-import {decodeUserToken, logout} from '../../../api/authentication/AuthenticationApi';
+import { decodeUserToken, logout } from '../../../api/authentication/AuthenticationApi';
 import defaultUserIcon from '../../../assets/user.webp';
 import { GlobalStoreId } from '../../../api/store/GlobalStoreId.jsx';
-
 
 function UserProfile() {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const { setGlobalStoreId } = useContext(GlobalStoreId);
-
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -37,13 +34,15 @@ function UserProfile() {
         return <div>Loading...</div>;
     }
 
+    const imageUrl = user.resourceFile && user.resourceFile.data ? `data:image/jpeg;base64,${user.resourceFile.data}` : defaultUserIcon;
+
     return (
         <div className="max-w-6xl mx-auto p-5 bg-white shadow-lg rounded-lg mt-16">
             <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">User Profile</h1>
             <div className="bg-white shadow-md rounded-lg p-6 mb-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="flex justify-center">
-                        <img src={user.resourceFileUrl || defaultUserIcon} alt="Profile" className="w-32 h-32 rounded-full shadow" />
+                        <img src={imageUrl} alt="Profile" className="w-32 h-32 rounded-full shadow" onError={(e) => { e.target.src = defaultUserIcon; }} />
                     </div>
                     <div className="md:col-span-2">
                         <div className="mb-4">

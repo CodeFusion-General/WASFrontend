@@ -98,13 +98,16 @@ const addAccount = async (formData) => {
     }
 };
 
-const updateUser = async (id, { name, surname, email, roles }, file) => {
+const updateUser = async (id, userDTO, file) => {
     let formData = new FormData();
     formData.append('id', id);
-    formData.append('name', name);
-    formData.append('surname', surname);
-    formData.append('email', email);
-    formData.append('roles', roles[0]);
+    formData.append('name', userDTO.name);
+    formData.append('surname', userDTO.surname);
+    formData.append('email', userDTO.email);
+    formData.append('phoneNo', userDTO.phoneNo);
+    if (userDTO.roles && userDTO.roles.length > 0) {
+        formData.append('roles', userDTO.roles[0]);
+    }
     if (file) {
         formData.append('file', file);
     }
@@ -126,6 +129,7 @@ const updateUser = async (id, { name, surname, email, roles }, file) => {
         console.error("Error updating the user:", error);
     }
 };
+
 
 
 const deleteUser = async (id) => {

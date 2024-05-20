@@ -9,8 +9,8 @@ import { GlobalStoreId } from "../../api/store/GlobalStoreId.jsx";
 import { getTop3NotifiticationsByUserId, markNotificationIsSeen } from "../../api/notification/NotificationApi.jsx";
 
 const navigation = [
-    { name: 'Dashboard', href: '#', current: true },
-    { name: 'Team', href: '#', current: false },
+    { name: 'Dashboard', href: '/boss-dashboard', current: true },
+    { name: 'Team', href: '/store-employees', current: false },
     { name: 'Projects', href: '#', current: false },
     { name: 'Calendar', href: '#', current: false },
 ];

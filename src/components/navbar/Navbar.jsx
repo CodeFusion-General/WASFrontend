@@ -6,7 +6,7 @@ import { getUserPhoto } from "../../api/resource/ResourceApi.jsx";
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import { GlobalStoreId } from "../../api/store/GlobalStoreId.jsx";
-import { getTop3NotifiticationsByUserId, markNotificationIsSeen} from "../../api/notification/NotificationApi.jsx";
+import { getTop3NotifiticationsByUserId, markNotificationIsSeen } from "../../api/notification/NotificationApi.jsx";
 
 const navigation = [
     { name: 'Dashboard', href: '#', current: true },
@@ -35,100 +35,27 @@ const getNotificationLevelColor = (level) => {
     }
 };
 
-// Initial fake notifications data
-const initialNotifications = [
-    {
-        id: 1,
-        isDeleted: false,
-        isSeen: false,
-        recordDate: new Date(),
-        subject: 'New comment on your post',
-        description: 'You have a new comment on your post',
-        telegramId: 123456789,
-        isSent: true,
-        isTelegram: true,
-        text: 'Check out the new comment on your post',
-        user: { id: 1, name: 'John Doe' },
-        notificationLevel: 'INFO',
-    },
-    {
-        id: 2,
-        isDeleted: false,
-        isSeen: true,
-        recordDate: new Date(),
-        subject: 'Your profile has been updated',
-        description: 'Your profile information has been updated successfully',
-        telegramId: null,
-        isSent: true,
-        isTelegram: false,
-        text: 'Your profile has been updated',
-        user: { id: 1, name: 'John Doe' },
-        notificationLevel: 'SUCCESS',
-    },
-    {
-        id: 3,
-        isDeleted: false,
-        isSeen: false,
-        recordDate: new Date(),
-        subject: 'New friend request',
-        description: 'You have a new friend request',
-        telegramId: 123456789,
-        isSent: false,
-        isTelegram: true,
-        text: 'You have received a new friend request',
-        user: { id: 1, name: 'John Doe' },
-        notificationLevel: 'WARNING',
-    },
-    {
-        id: 4,
-        isDeleted: false,
-        isSeen: true,
-        recordDate: new Date(),
-        subject: 'System update available',
-        description: 'A new system update is available for your device',
-        telegramId: 987654321,
-        isSent: true,
-        isTelegram: true,
-        text: 'Update your system to the latest version',
-        user: { id: 2, name: 'Jane Doe' },
-        notificationLevel: 'INFO',
-    },
-    {
-        id: 5,
-        isDeleted: false,
-        isSeen: false,
-        recordDate: new Date(),
-        subject: 'Password change required',
-        description: 'It\'s time to update your password for security reasons',
-        telegramId: null,
-        isSent: true,
-        isTelegram: false,
-        text: 'Please update your password',
-        user: { id: 3, name: 'Jim Beam' },
-        notificationLevel: 'WARNING',
-    },
-];
-
 function Navbar() {
     const [photo, setPhoto] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
-    const [notifications,setNotifications] = useState(initialNotifications);
+    const [notifications, setNotifications] = useState([]);
     const { setGlobalStoreId } = useContext(GlobalStoreId);
 
     useEffect(() => {
         const decodedToken = decodeUserToken();
-        if(decodedToken) {
+        if (decodedToken) {
             getTop3NotifiticationsByUserId(decodedToken.userId)
                 .then(response => {
-                    setNotifications(response.data);
+                    setNotifications(response.data || []);
                 })
                 .catch(error => {
-                        console.error('Failed to load notifications', error);
-                    }
-                );
+                    console.error('Failed to load notifications', error);
+                    setNotifications([]); // Ensure notifications is always an array
+                });
         }
     }, []);
+
     const viewAllNotifications = () => {
         navigate('/notifications');
     };
@@ -143,11 +70,13 @@ function Navbar() {
                     }
                     return notification;
                 });
+                setNotifications(updatedNotifications);
             })
             .catch(error => {
                 console.error('Failed to mark notification as read', error);
             });
     }
+
     const handleLogout = () => {
         setGlobalStoreId(null);
         logout();
@@ -241,7 +170,7 @@ function Navbar() {
                                                                 <div
                                                                     className={classNames(
                                                                         'px-2 py-1 rounded-full text-xs font-semibold mb-1 inline-block',
-                                                                        getNotificationLevelColor(notification.notificationLevel[0])
+                                                                        getNotificationLevelColor(notification.notificationLevel)
                                                                     )}
                                                                 >
                                                                     {notification.notificationLevel}
@@ -361,4 +290,5 @@ function Navbar() {
         </Disclosure>
     )
 }
+
 export default Navbar;

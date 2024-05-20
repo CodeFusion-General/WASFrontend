@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getNotificationsByUserId, markNotificationIsSeen} from "../../api/notification/NotificationApi.jsx";
+import { getNotificationsByUserId, markNotificationIsSeen } from "../../api/notification/NotificationApi.jsx";
 import { decodeUserToken } from "../../api/authentication/AuthenticationApi.jsx";
 import { format } from 'date-fns';
 
@@ -54,13 +54,13 @@ function NotificationList() {
     const getNotificationLevelColor = (level) => {
         switch (level) {
             case 'INFO':
-                return 'text-blue-800 bg-blue-100';
+                return 'bg-blue-100 text-blue-800';
             case 'SUCCESS':
-                return 'text-green-800 bg-green-100';
+                return 'bg-green-100 text-green-800';
             case 'ERROR':
-                return 'text-red-800 bg-red-100';
+                return 'bg-red-100 text-red-800';
             case 'WARNING':
-                return 'text-yellow-800 bg-yellow-100';
+                return 'bg-yellow-100 text-yellow-800';
             default:
                 return '';
         }
@@ -77,7 +77,6 @@ function NotificationList() {
                         <th className="px-4 py-2 border border-gray-300">Description</th>
                         <th className="px-4 py-2 border border-gray-300">Date</th>
                         <th className="px-4 py-2 border border-gray-300">Level</th>
-                        <th className="px-4 py-2 border border-gray-300">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -91,16 +90,6 @@ function NotificationList() {
                                         {notification.notificationLevel}
                                     </span>
                             </td>
-                            <td className="px-4 py-2 border border-gray-300">
-                                {!notification.isSeen && (
-                                    <button
-                                        onClick={() => handleMarked(notification.id)}
-                                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
-                                    >
-                                        Mark as Seen
-                                    </button>
-                                )}
-                            </td>
                         </tr>
                     ))}
                     </tbody>
@@ -110,14 +99,25 @@ function NotificationList() {
                 <button
                     onClick={() => handlePageChange(page - 1)}
                     disabled={page === 1}
-                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+                    className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l ${page === 1 && 'cursor-not-allowed opacity-50'}`}
                 >
                     Previous
                 </button>
+                <div className="flex items-center space-x-2">
+                    {Array.from({ length: totalPages }, (_, index) => (
+                        <span
+                            key={index + 1}
+                            className={`px-4 py-2 ${page === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-800'} rounded-full cursor-pointer`}
+                            onClick={() => handlePageChange(index + 1)}
+                        >
+                            {index + 1}
+                        </span>
+                    ))}
+                </div>
                 <button
                     onClick={() => handlePageChange(page + 1)}
                     disabled={page === totalPages}
-                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
+                    className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r ${page === totalPages && 'cursor-not-allowed opacity-50'}`}
                 >
                     Next
                 </button>

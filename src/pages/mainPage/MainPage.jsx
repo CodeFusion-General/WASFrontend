@@ -5,7 +5,7 @@ import "../../index.css";
 import logo from '../../assets/wislogo.png';
 import warehouseImage from '../../assets/WASLogo.png';
 import Footer from '../../components/footer/Footer.jsx';
-import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
+import { FaGithub } from 'react-icons/fa';
 
 function MainPage() {
     const [openIndex, setOpenIndex] = useState(null);
@@ -52,23 +52,11 @@ function MainPage() {
         },
     ];
 
-    const socialMediaIcons = [
-        {
-            name: 'Facebook',
-            icon: <FaFacebook size={20} />,
-            link: 'https://facebook.com',
-        },
-        {
-            name: 'Twitter',
-            icon: <FaTwitter size={20} />,
-            link: 'https://twitter.com',
-        },
-        {
-            name: 'Instagram',
-            icon: <FaInstagram size={20} />,
-            link: 'https://instagram.com',
-        },
-    ];
+    const socialMediaIcon = {
+        name: 'GitHub',
+        icon: <FaGithub size={20} />,
+        link: 'https://github.com/CodeFusion-General',
+    };
 
     const imageSections = [
         {
@@ -207,11 +195,9 @@ function MainPage() {
                                         <img src={section.imageUrl} alt={section.title} className="absolute inset-0 w-full h-full object-cover" />
                                         <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                                             <div className="flex space-x-4">
-                                                {socialMediaIcons.map((icon, idx) => (
-                                                    <a key={idx} href={icon.link} target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-300">
-                                                        {icon.icon}
-                                                    </a>
-                                                ))}
+                                                <a href={socialMediaIcon.link} target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-300">
+                                                    {socialMediaIcon.icon}
+                                                </a>
                                             </div>
                                         </div>
                                     </div>

@@ -27,6 +27,7 @@ import Settings from "./pages/settingsPage/Settings.jsx";
 import {GlobalStoreIdProvider} from "./api/store/GlobalStoreId.jsx";
 import BossDashboard from "./pages/dashboardPages/bossDashboard/BossDashboard.jsx";
 import EmployeeRouter from "./router/EmployeeRouter.jsx";
+import UserUpdate from "./pages/userPages/userUpdate/UserUpdate.jsx";
 
 const Dashboard = () => {
     return (
@@ -136,6 +137,12 @@ const router = createBrowserRouter([
                 path: "/notifications",
                 element: <EmployeeRouter
                     element={<NotificationList />}
+                />,
+            },
+            {
+                path: "/edit-profile",
+                element: <EmployeeRouter
+                    element={<UserUpdate />}
                 />,
             },
             {

@@ -6,24 +6,34 @@ import { format } from 'date-fns';
 function NotificationList() {
     const [notifications, setNotifications] = useState([]);
     const [page, setPage] = useState(1);
-    const notificationsPerPage = 5;
+    const notificationsPerPage = 10;
 
     useEffect(() => {
         const fetchNotifications = async () => {
             const decodedToken = decodeUserToken();
             if (decodedToken) {
                 const response = await getNotificationsByUserId(decodedToken.userId);
+                console.log(response.data);
                 if (response && response.data) {
                     const sortedNotifications = response.data.sort(
                         (a, b) => new Date(b.recordDate) - new Date(a.recordDate)
                     );
                     setNotifications(sortedNotifications);
+                    setPage(1); // Ensure the first page is selected when notifications are fetched
                 }
             }
         };
 
         fetchNotifications();
     }, []);
+
+    useEffect(() => {
+        // Ensure we show the correct page if the current page exceeds total pages after fetching data
+        const totalPages = Math.ceil(notifications.length / notificationsPerPage);
+        if (page > totalPages) {
+            setPage(totalPages);
+        }
+    }, [notifications]);
 
     const totalPages = Math.ceil(notifications.length / notificationsPerPage);
     const displayedNotifications = notifications.slice((page - 1) * notificationsPerPage, page * notificationsPerPage);
@@ -62,7 +72,7 @@ function NotificationList() {
             case 'WARNING':
                 return 'bg-yellow-100 text-yellow-800';
             default:
-                return '';
+                return 'bg-gray-100 text-gray-800'; // default color for unknown levels
         }
     };
 
@@ -70,13 +80,13 @@ function NotificationList() {
         <div className="max-w-6xl mx-auto p-5 bg-white shadow-lg rounded-lg mt-16">
             <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">Notifications</h1>
             <div className="overflow-x-auto">
-                <table className="min-w-full bg-white border border-gray-300">
+                <table className="min-w-full bg-white border border-gray-300 table-fixed">
                     <thead>
                     <tr className="text-center">
-                        <th className="px-4 py-2 border border-gray-300">Subject</th>
-                        <th className="px-4 py-2 border border-gray-300">Description</th>
-                        <th className="px-4 py-2 border border-gray-300">Date</th>
-                        <th className="px-4 py-2 border border-gray-300">Level</th>
+                        <th className="w-1/6 px-4 py-2 border border-gray-300">Subject</th>
+                        <th className="w-2/5 px-4 py-2 border border-gray-300">Description</th>
+                        <th className="w-1/6 px-4 py-2 border border-gray-300">Date</th>
+                        <th className="w-1/6 px-4 py-2 border border-gray-300">Level</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -86,9 +96,9 @@ function NotificationList() {
                             <td className="px-4 py-2 border border-gray-300">{notification.description}</td>
                             <td className="px-4 py-2 border border-gray-300">{format(new Date(notification.recordDate), 'PPP')}</td>
                             <td className="px-4 py-2 border border-gray-300">
-                                    <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getNotificationLevelColor(notification.notificationLevel)}`}>
-                                        {notification.notificationLevel}
-                                    </span>
+                                <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getNotificationLevelColor(notification.notificationLevel[0])}`}>
+                                    {notification.notificationLevel[0]}
+                                </span>
                             </td>
                         </tr>
                     ))}

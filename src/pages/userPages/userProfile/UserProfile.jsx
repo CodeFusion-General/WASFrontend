@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getUserById } from '../../../api/user/UserApi';
 import Cookies from 'js-cookie';
 import { decodeUserToken } from '../../../api/authentication/AuthenticationApi';
-import defaultUserIcon from '../../../assets/default-user-icon.webp';
+import defaultUserIcon from '../../../assets/user.webp';
 
 function UserProfile() {
     const navigate = useNavigate();

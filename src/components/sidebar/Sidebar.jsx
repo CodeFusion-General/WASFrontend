@@ -1,6 +1,6 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaBox, FaHome, FaRegUser, FaStore, FaUsers } from 'react-icons/fa';
+import logo from '../../assets/logowis.png';
 
 const Sidebar = () => {
     return (
@@ -8,7 +8,7 @@ const Sidebar = () => {
             <div className="flex items-center justify-center p-2 border-b border-gray-700">
                 <img
                     className="h-12 w-auto"
-                    src="src/assets/logowis.png"
+                    src={logo}
                     alt="Warehouse Information Systems Logo"
                 />
             </div>

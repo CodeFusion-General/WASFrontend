@@ -104,7 +104,7 @@ const updateUser = async (id, { name, surname, email, roles }, file) => {
     formData.append('name', name);
     formData.append('surname', surname);
     formData.append('email', email);
-    formData.append('roles', JSON.stringify(roles)); // Append roles as JSON string
+    formData.append('roles', roles[0]); // Array'in ilk elemanını ekleyin
     if (file) {
         formData.append('file', file);
     }
@@ -126,6 +126,7 @@ const updateUser = async (id, { name, surname, email, roles }, file) => {
         console.error("Error updating the user:", error);
     }
 };
+
 
 const deleteUser = async (id) => {
     const url = `${API_BASE_URL}/user/deleteUser/${id}`;

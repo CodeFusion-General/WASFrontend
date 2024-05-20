@@ -4,6 +4,7 @@ import { PlusCircleIcon } from "@heroicons/react/24/solid/index.js";
 
 import { useState } from "react";
 import { addStore } from "../../../api/store/StoreApi.jsx";
+import {decodeUserToken} from "../../../api/authentication/AuthenticationApi.jsx";
 
 function StoreAdd() {
   const [store, setStore] = useState({
@@ -12,6 +13,7 @@ function StoreAdd() {
     description: "",
     storePhoneNo: "",
   });
+  const userId = decodeUserToken().userId;
   const [photo, setPhoto] = useState(null);
   const handlePhotoChange = (event) => {
     const file = event.target.files[0];
@@ -36,7 +38,7 @@ function StoreAdd() {
     formData.append("address", store.address);
     formData.append("description", store.description);
     formData.append("storePhoneNo", store.storePhoneNo);
-    formData.append("userIds", 1);
+    formData.append("userIds", userId);
 
     const fileInput = document.getElementById("photoInput");
     if (fileInput.files.length > 0) {

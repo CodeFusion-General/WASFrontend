@@ -4,7 +4,7 @@ import { getAllCategories } from "../../../api/category/CategoryApi.jsx";
 import { useNavigate, useParams } from "react-router-dom";
 import {XMarkIcon} from "@heroicons/react/24/outline";
 
-const placeholderImage = '/path/to/your/placeholder/image.png';
+const placeholderImage = 'src/assets/product.png';
 
 function ProductDetail() {
     const { productId } = useParams();

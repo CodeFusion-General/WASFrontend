@@ -7,7 +7,7 @@ const GlobalStoreIdProvider = ({ children }) => {
     const [globalStoreId, setGlobalStoreId] = useState(() => {
         // Retrieve the initial state from localStorage if it exists
         const savedValue = localStorage.getItem('globalStoreId');
-        return savedValue !== null ? JSON.parse(savedValue) : "initial value";
+        return savedValue !== null ? JSON.parse(savedValue) : null;
     });
 
     useEffect(() => {

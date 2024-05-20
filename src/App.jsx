@@ -4,6 +4,7 @@ import Navbar from './components/navbar/Navbar.jsx';
 import Sidebar from './components/sidebar/Sidebar.jsx'
 //router
 import BossRouter from "./router/BossRouter.jsx";
+import AdminRouter from "./router/AdminRouter.jsx";
 import ManagerRouter from "./router/ManagerRouter.jsx";
 //pages
 import MainPage from './pages/mainPage/MainPage.jsx';
@@ -53,8 +54,8 @@ const router = createBrowserRouter([
             },
             {
                 path: "/register",
-                element: <UserAdd
-                    type="Boss"
+                element: <AdminRouter
+                    element={<UserAdd type="Boss"/>}
                 />,
             },
             {

@@ -18,10 +18,11 @@ import ProductAdd from "./pages/productPages/productAdd/ProductAdd.jsx";
 import TransactionList from "./pages/transactionPages/transactionList/TransactionList.jsx";
 import TransactionAdd from "./pages/transactionPages/transactionAdd/TransactionAdd.jsx";
 import TransactionDetails from "./pages/transactionPages/transactionDetails/TransactionDetails.jsx";
-import StoreDashboard from "./pages/storePages/storeDashboard/StoreDashboard.jsx";
+import StoreDashboard from "./pages/dashboardPages/storeDashboard/StoreDashboard.jsx";
 import UserProfile from "./pages/userPages/userProfile/UserProfile.jsx";
 //global
 import {GlobalStoreIdProvider} from "./api/store/GlobalStoreId.jsx";
+import BossDashboard from "./pages/dashboardPages/bossDashboard/BossDashboard.jsx";
 
 const Dashboard = () => {
     return (
@@ -102,6 +103,10 @@ const router = createBrowserRouter([
             {
                 path: "/store",
                 element: <StoreDashboard />,
+            },
+            {
+                path: "/bossDashboard",
+                element: <BossDashboard />,
             },
             {
                 path: "/profile",

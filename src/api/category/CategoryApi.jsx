@@ -48,6 +48,16 @@ const getAllCategories = async () => {
         `Unexpected response status while getting categories.`
     )
 }
+
+const getTop5MostProfitableCategory = async (storeId) => {
+    const url = `${API_BASE_URL}/category/top5CategoriesByProfit/${storeId}`;
+    return apiCall(
+        url,
+        { headers: getHeaders() },
+        'Unexpected response status while getting top 5 most profitable categories.'
+    );
+};
+
 const addCategory = async (category) => {
     const url = `${API_BASE_URL}/category/add`
 
@@ -75,5 +85,6 @@ const addCategory = async (category) => {
 
 export {
     getAllCategories,
+    getTop5MostProfitableCategory,
     addCategory
 }

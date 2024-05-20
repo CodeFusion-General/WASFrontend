@@ -72,6 +72,15 @@ const getAllUsers = async () => {
     return apiCall(url, { headers: getHeaders() }, "Error getting all users:");
 };
 
+const getTop3EmployeesByStoreProfit = async () => {
+    const url = `${API_BASE_URL}/user/top3EmployeesByStoreProfit`;
+    return apiCall(
+        url,
+        { headers: getHeaders() },
+        'Unexpected response status while getting top 3 most profitable Employee.'
+    );
+};
+
 
 const addAccount = async (formData) => {
     const url = `${API_BASE_URL}/account/addAccount`;
@@ -144,6 +153,7 @@ export
     getUsersByStoreId,
     getAllUsers,
     getUsersByStoreIdAndRoles,
+    getTop3EmployeesByStoreProfit,
     //add methods
     addAccount,
     //update methods

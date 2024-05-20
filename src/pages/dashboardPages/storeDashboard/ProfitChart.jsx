@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, Title, Tooltip, Legend, PointElement } from 'chart.js';
-import { getDailyTotalTransactions } from '../../../api/transaction/TransactionApi';
-import { GlobalStoreId } from '../../../api/store/GlobalStoreId';
-import { decodeUserToken } from '../../../api/authentication/AuthenticationApi';
+import { getDailyTotalTransactions } from '../../../api/transaction/TransactionApi.jsx';
+import { GlobalStoreId } from '../../../api/store/GlobalStoreId.jsx';
+import { decodeUserToken } from '../../../api/authentication/AuthenticationApi.jsx';
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, Title, Tooltip, Legend, PointElement);
 

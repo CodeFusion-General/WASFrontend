@@ -84,8 +84,15 @@ const ProfitChart = () => {
     };
 
     return (
-        <div>
-            {error ? <div className="text-red-500">{error}</div> : <Line data={chartData} options={options} />}
+        <div className="bg-white p-6 rounded-lg shadow-lg w-full h-full flex flex-col justify-between">
+            <div>
+                <h2 className="text-2xl font-bold mb-6 text-center">Daily Total Transactions</h2>
+                {error ? (
+                    <div className="text-red-500">{error}</div>
+                ) : (
+                    <Line data={chartData} options={options} />
+                )}
+            </div>
         </div>
     );
 };

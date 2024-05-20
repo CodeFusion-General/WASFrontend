@@ -39,11 +39,11 @@ const Top5Products = () => {
     }, [globalStoreId]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className="text-center">Loading...</div>;
     }
 
     if (error) {
-        return <div>{error}</div>;
+        return <div className="text-red-500">{error}</div>;
     }
 
     const handleViewAllProducts = () => {
@@ -65,24 +65,26 @@ const Top5Products = () => {
     };
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-lg w-full">
-            <h2 className="text-2xl font-bold mb-6 text-center">Top 5 Most Profitable Products</h2>
-            <table className="min-w-full bg-white mb-6 border border-gray-200 rounded-lg overflow-hidden shadow-md">
-                <thead className="bg-gray-100">
-                <tr>
-                    <th className="py-3 px-5 text-left font-semibold text-gray-600">Product Name</th>
-                    <th className="py-3 px-5 text-left font-semibold text-gray-600">Profit</th>
-                </tr>
-                </thead>
-                <tbody>
-                {products.map((product, index) => (
-                    <tr key={index} className={`hover:bg-gray-50 ${getShadowClass(product.profit, index)}`}>
-                        <td className="py-3 px-5 border-b">{product.name}</td>
-                        <td className="py-3 px-5 border-b">{product.profit >= 0 ? `$${product.profit.toFixed(2)}` : `-$${Math.abs(product.profit).toFixed(2)}`}</td>
+        <div className="bg-white p-6 rounded-lg shadow-lg w-full h-full flex flex-col justify-between">
+            <div>
+                <h2 className="text-2xl font-bold mb-6 text-center">Top 5 Most Profitable Products</h2>
+                <table className="min-w-full bg-white mb-6 border border-gray-200 rounded-lg overflow-hidden shadow-md">
+                    <thead className="bg-gray-100">
+                    <tr>
+                        <th className="py-3 px-5 text-left font-semibold text-gray-600">Product Name</th>
+                        <th className="py-3 px-5 text-left font-semibold text-gray-600">Profit</th>
                     </tr>
-                ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {products.map((product, index) => (
+                        <tr key={index} className={`hover:bg-gray-50 ${getShadowClass(product.profit, index)}`}>
+                            <td className="py-3 px-5 border-b">{product.name}</td>
+                            <td className="py-3 px-5 border-b">{product.profit >= 0 ? `$${product.profit.toFixed(2)}` : `-$${Math.abs(product.profit).toFixed(2)}`}</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            </div>
             <div className="flex justify-center">
                 <button
                     onClick={handleViewAllProducts}

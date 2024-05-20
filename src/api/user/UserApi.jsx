@@ -3,8 +3,6 @@ import Cookies from "js-cookie";
 
 const API_BASE_URL = "http://localhost:8080";
 
-//add region in here
-
 //#region Fun
 
 const checkResponseStatusCode = (status) => {
@@ -81,7 +79,6 @@ const getTop3EmployeesByStoreProfit = async () => {
     );
 };
 
-
 const addAccount = async (formData) => {
     const url = `${API_BASE_URL}/account/addAccount`;
 
@@ -101,14 +98,13 @@ const addAccount = async (formData) => {
     }
 };
 
-
-const updateUser = async (id, name, surname, email, file, role) => {
+const updateUser = async (id, { name, surname, email, roles }, file) => {
     let formData = new FormData();
     formData.append('id', id);
     formData.append('name', name);
     formData.append('surname', surname);
     formData.append('email', email);
-    formData.append('role', role); // Append role to the formData
+    formData.append('roles', JSON.stringify(roles)); // Append roles as JSON string
     if (file) {
         formData.append('file', file);
     }
@@ -148,9 +144,7 @@ const deleteUser = async (id) => {
 
 //#endregion
 
-
-export
-{
+export {
     //get methods
     getUserById,
     getUsersByStoreId,

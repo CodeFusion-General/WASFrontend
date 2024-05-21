@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { addProductFields, updateProductField } from "../productField/ProductFieldApi.jsx";
 
-const API_BASE_URL = "http://localhost:8080";
+const API_BASE_URL = "https://wasbackend-production.up.railway.app";
 
 const checkResponseStatusCode = (status) => {
     if (status === 403) {

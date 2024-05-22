@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import {jwtDecode} from 'jwt-decode';
 
-const API_BASE_URL = "https://wasbackend-production.up.railway.app";
+const API_BASE_URL = "http://localhost:8080";
 
 const login = async (username, password) => {
     console.log(username, password)

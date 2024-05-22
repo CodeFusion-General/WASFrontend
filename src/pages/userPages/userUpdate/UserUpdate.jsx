@@ -27,6 +27,7 @@ function UserUpdate() {
                     alert('Failed to fetch user data. Please log in again.');
                     navigate('/login');
                 }
+                
             } else {
                 alert('User ID not found. Please log in again.');
                 navigate('/login');

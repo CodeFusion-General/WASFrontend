@@ -6,7 +6,9 @@ import { getUserPhoto } from "../../api/resource/ResourceApi.jsx";
 import { format } from 'date-fns';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { GlobalStoreId } from "../../api/store/GlobalStoreId.jsx";
+import { GlobalCompanyId } from "../../api/company/GlobalCompanyId.jsx";
 import { getTop3NotifiticationsByUserId, markNotificationIsSeen } from "../../api/notification/NotificationApi.jsx";
+import User from '../../assets/user.webp';
 
 const token = decodeUserToken() || { roles: [] };
 const navigation = [
@@ -46,6 +48,7 @@ function Navbar() {
     const location = useLocation();
     const [notifications, setNotifications] = useState([]);
     const { setGlobalStoreId } = useContext(GlobalStoreId);
+    const { setGlobalCompanyId } = useContext(GlobalCompanyId);
 
     useEffect(() => {
         const decodedToken = decodeUserToken();
@@ -83,6 +86,7 @@ function Navbar() {
 
     const handleLogout = () => {
         setGlobalStoreId(null);
+        setGlobalCompanyId(null);
         logout();
     }
 
@@ -217,7 +221,7 @@ function Navbar() {
                                                 <span className="sr-only">Open user menu</span>
                                                 <img
                                                     className="h-8 w-8 rounded-full"
-                                                    src={photo || 'src/assets/user.webp'}
+                                                    src={photo || User}
                                                     alt=""
                                                 />
                                             </Menu.Button>

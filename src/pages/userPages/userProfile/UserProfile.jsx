@@ -4,11 +4,13 @@ import { getUserById } from '../../../api/user/UserApi';
 import { decodeUserToken, logout } from '../../../api/authentication/AuthenticationApi';
 import defaultUserIcon from '../../../assets/user.webp';
 import { GlobalStoreId } from '../../../api/store/GlobalStoreId.jsx';
+import { GlobalCompanyId } from '../../../api/company/GlobalCompanyId.jsx';
 
 function UserProfile() {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const { setGlobalStoreId } = useContext(GlobalStoreId);
+    const { setGlobalCompanyId } = useContext(GlobalCompanyId);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -76,6 +78,7 @@ function UserProfile() {
                             <button
                                 onClick={() => {
                                     setGlobalStoreId(null);
+                                    setGlobalCompanyId(null);
                                     logout();
                                 }}
                                 className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded shadow"

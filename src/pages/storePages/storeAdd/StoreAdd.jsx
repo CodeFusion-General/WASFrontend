@@ -1,18 +1,32 @@
 // eslint-disable-next-line no-unused-vars
-import React from "react";
+import React, {useEffect} from "react";
 import { PlusCircleIcon } from "@heroicons/react/24/solid/index.js";
-
-import { useState } from "react";
+import {GlobalCompanyId} from "../../../api/company/GlobalCompanyId.jsx";
+import { useState,useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { addStore } from "../../../api/store/StoreApi.jsx";
 import {decodeUserToken} from "../../../api/authentication/AuthenticationApi.jsx";
 
 function StoreAdd() {
+  const { globalCompanyId } = useContext(GlobalCompanyId);
+  const [companyId, setCompanyId] = useState();
+  const navigate = useNavigate();
   const [store, setStore] = useState({
     name: "",
     address: "",
     description: "",
     storePhoneNo: "",
   });
+  useEffect(() => {
+    if(decodeUserToken().roles[0] === "ADMIN" && !globalCompanyId){
+      alert("Please select a company first.")
+      navigate("/companies");
+    } else if(decodeUserToken().roles[0] === "BOSS") {
+      setCompanyId(decodeUserToken().companyId);
+    } else {
+      setCompanyId(globalCompanyId);
+    }
+  }, []);
   const userId = decodeUserToken().userId;
   const [photo, setPhoto] = useState(null);
   const handlePhotoChange = (event) => {
@@ -39,6 +53,7 @@ function StoreAdd() {
     formData.append("description", store.description);
     formData.append("storePhoneNo", store.storePhoneNo);
     formData.append("userIds", userId);
+    formData.append("companyId", companyId);
 
     const fileInput = document.getElementById("photoInput");
     if (fileInput.files.length > 0) {

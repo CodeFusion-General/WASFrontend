@@ -38,7 +38,7 @@ function CompanyDetail() {
 
     return (
         <div className="max-w-6xl mx-auto p-5 bg-white shadow-lg rounded-lg mt-16">
-            <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">User Profile</h1>
+            <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">Company Details</h1>
             <div className="bg-white shadow-md rounded-lg p-6 mb-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="flex justify-center">
@@ -57,7 +57,7 @@ function CompanyDetail() {
 
                         <div className="flex justify-start items-center gap-4">
                             <button
-                                onClick={() => navigate('/edit-profile')}
+                                onClick={() => navigate('/company-update')}
                                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
                             >
                                 Edit Company

@@ -1,20 +1,23 @@
 import { Link } from 'react-router-dom';
-import { FaBox, FaHome, FaStore } from 'react-icons/fa';
+import { FaBox, FaHome, FaStore, FaBuilding } from 'react-icons/fa';
 import logo from '../../assets/logowis.png';
-import {useEffect, useState} from "react";
-import {decodeUserToken} from "../../api/authentication/AuthenticationApi.jsx";
+import { useEffect, useState } from "react";
+import { decodeUserToken } from "../../api/authentication/AuthenticationApi.jsx";
 
 const Sidebar = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userRole, setUserRole] = useState(null);
+
     useEffect(() => {
         const decodedToken = decodeUserToken();
         if (decodedToken) {
             setIsLoggedIn(true);
+            setUserRole(decodedToken.roles[0]); // Assuming the first role is the primary role
         }
     }, []);
+
     return (
-        <div
-            className="fixed top-0 bottom-0 left-0 z-30 w-64 bg-gray-900 text-gray-100 rounded-br-lg shadow-colorful-r">
+        <div className="fixed top-0 bottom-0 left-0 z-30 w-64 bg-gray-900 text-gray-100 rounded-br-lg shadow-colorful-r">
             <div className="flex items-center justify-center p-2 border-b border-gray-700">
                 <img
                     className="h-12 w-auto"
@@ -29,13 +32,18 @@ const Sidebar = () => {
                             <FaHome className="mr-4"/> {/* Home icon */}
                             <Link to="/" className="flex-grow text-white hover:text-blue-500">Home</Link>
                         </li>
-                        {(decodeUserToken().roles[0] === 'BOSS') &&
+                        {(userRole === 'BOSS') &&
                             <li className="px-6 py-2 border-b border-gray-700 flex items-center">
                                 <FaStore className="mr-4"/> {/* Stores icon */}
                                 <Link to="/stores" className="flex-grow text-white hover:text-blue-500">Stores</Link>
                             </li>
                         }
-
+                        {(userRole === 'ADMIN') &&
+                            <li className="px-6 py-2 border-b border-gray-700 flex items-center">
+                                <FaBuilding className="mr-4"/> {/* Companies icon */}
+                                <Link to="/companies" className="flex-grow text-white hover:text-blue-500">All Companies</Link>
+                            </li>
+                        }
                         <li className="px-6 py-2 border-b border-gray-700 flex items-center">
                             <FaBox className="mr-4"/> {/* Products icon */}
                             <Link to="/product-list"
@@ -43,9 +51,7 @@ const Sidebar = () => {
                         </li>
                     </ul>
                 </nav>
-
             }
-
         </div>
     );
 };

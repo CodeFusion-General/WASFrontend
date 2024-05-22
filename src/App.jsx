@@ -29,6 +29,7 @@ import UserUpdate from "./pages/userPages/userUpdate/UserUpdate.jsx";
 import CompanyAdd from "./pages/companyPages/companyAdd/CompanyAdd.jsx";
 import CompanyDetail from "./pages/companyPages/companyDetail/CompanyDetail.jsx";
 import CompanyList from "./pages/companyPages/companyList/CompanyList.jsx";
+import CompanyUpdate from "./pages/companyPages/companyUpdate/CompanyUpdate.jsx";
 //global
 import {GlobalStoreIdProvider} from "./api/store/GlobalStoreId.jsx";
 import {GlobalCompanyIdProvider} from "./api/company/GlobalCompanyId.jsx";
@@ -172,6 +173,12 @@ const router = createBrowserRouter([
                 path: "/company-detail",
                 element: <BossRouter
                     element={<CompanyDetail />}
+                />,
+            },
+            {
+                path: "/company-update",
+                element: <AdminRouter
+                    element={<CompanyUpdate />}
                 />,
             },
         ],

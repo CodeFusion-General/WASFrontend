@@ -89,9 +89,38 @@ const addCompany = async (company, file) => {
     }
 
 }
+const updateCompany = async (company, file) => {
+    let formData = new FormData();
+    console.log(company);
+    formData.append('name', company.name);
+    formData.append('description', company.description);
+    formData.append('taxLevel', company.taxLevel);
+    formData.append('userId', company.user.id);
+    if (file) {
+        formData.append('file', file);
+    }
+
+    const url = `${API_BASE_URL}/company/company-update/${company.id}`;
+
+    const config = {
+        headers: getHeaders(true)
+    };
+
+    try {
+        const response = await axios.put(url, formData, config);
+        checkResponseStatusCode(response.status);
+        return response.data;
+    } catch (error) {
+        if (!checkResponseStatusCode(error.response.status)) {
+            return;
+        }
+        console.error("Error updating the company:", error);
+    }
+};
 
 export {
     getCompanyById,
     getAllCompanies,
-    addCompany
+    addCompany,
+    updateCompany
 }

@@ -1,15 +1,14 @@
-// eslint-disable-next-line no-unused-vars
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getCompanyById, updateCompany } from '../../../api/company/CompanyApi';
 import { decodeUserToken } from '../../../api/authentication/AuthenticationApi';
-import { GlobalCompanyId} from "../../../api/company/GlobalCompanyId.jsx";
+import { GlobalCompanyId } from "../../../api/company/GlobalCompanyId.jsx";
 
 const placeholderImage = 'src/assets/company-placeholder.png';
 
 function CompanyUpdate() {
     const [photo, setPhoto] = useState(null);
-    const {globalCompanyId} = useContext(GlobalCompanyId);
+    const { globalCompanyId } = useContext(GlobalCompanyId);
     const { id } = useParams();
     const navigate = useNavigate();
     const [company, setCompany] = useState({});
@@ -62,7 +61,7 @@ function CompanyUpdate() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await updateCompany(company, photo );
+            await updateCompany(company, photo);
             alert('Company updated successfully!');
             navigate('/companies');
         } catch (error) {

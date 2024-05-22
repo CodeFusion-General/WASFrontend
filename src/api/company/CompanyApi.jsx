@@ -89,21 +89,26 @@ const addCompany = async (company, file) => {
     }
 
 }
+
 const updateCompany = async (company, file) => {
     let formData = new FormData();
-    console.log(company);
+    formData.append('id', company.id);
     formData.append('name', company.name);
     formData.append('description', company.description);
     formData.append('taxLevel', company.taxLevel);
-    formData.append('userId', company.user.id);
+    formData.append('user.id', company.user.id);
+
     if (file) {
         formData.append('file', file);
     }
 
-    const url = `${API_BASE_URL}/company/company-update/${company.id}`;
+    const url = `${API_BASE_URL}/company/update/${company.id}`;
 
     const config = {
-        headers: getHeaders(true)
+        headers: {
+            ...getHeaders(true),
+            'Content-Type': 'multipart/form-data'
+        }
     };
 
     try {
@@ -115,6 +120,7 @@ const updateCompany = async (company, file) => {
             return;
         }
         console.error("Error updating the company:", error);
+        throw error;
     }
 };
 

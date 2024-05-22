@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import axios from "axios";
 
-const API_BASE_URL = "https://wasbackend-production.up.railway.app";
+const API_BASE_URL = "http://localhost:8080";
 
 
 //#region Fun

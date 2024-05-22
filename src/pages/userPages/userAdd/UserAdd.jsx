@@ -65,8 +65,14 @@ export default function UserAdd(props) {
 
         try {
             const result = await addAccount(formData);
-            alert("Account successfully added!");
-            navigate('/');
+            if (type === 'Boss') {
+                alert("Account registered successfully. Continue with the company.");
+                navigate(`/new-company/${result.id}`);
+            }
+            else {
+                alert("Account registered successfully.");
+                navigate(`/`);
+            }
         } catch (error) {
             console.error("Error while registering the account:", error);
             alert("Failed to register account. Please try again later.");

@@ -6,6 +6,7 @@ import Sidebar from './components/sidebar/Sidebar.jsx'
 import BossRouter from "./router/BossRouter.jsx";
 import AdminRouter from "./router/AdminRouter.jsx";
 import ManagerRouter from "./router/ManagerRouter.jsx";
+import EmployeeRouter from "./router/EmployeeRouter.jsx";
 //pages
 import MainPage from './pages/mainPage/MainPage.jsx';
 import Login from './pages/loginPage/LoginPage.jsx';
@@ -23,11 +24,15 @@ import StoreDashboard from "./pages/dashboardPages/storeDashboard/StoreDashboard
 import UserProfile from "./pages/userPages/userProfile/UserProfile.jsx";
 import NotificationList from "./pages/notificationPage/NotificationList.jsx";
 import Settings from "./pages/settingsPage/Settings.jsx";
+import BossDashboard from "./pages/dashboardPages/bossDashboard/BossDashboard.jsx";
+import UserUpdate from "./pages/userPages/userUpdate/UserUpdate.jsx";
+import CompanyAdd from "./pages/companyPages/companyAdd/CompanyAdd.jsx";
+import CompanyDetail from "./pages/companyPages/companyDetail/CompanyDetail.jsx";
+import CompanyList from "./pages/companyPages/companyList/CompanyList.jsx";
 //global
 import {GlobalStoreIdProvider} from "./api/store/GlobalStoreId.jsx";
-import BossDashboard from "./pages/dashboardPages/bossDashboard/BossDashboard.jsx";
-import EmployeeRouter from "./router/EmployeeRouter.jsx";
-import UserUpdate from "./pages/userPages/userUpdate/UserUpdate.jsx";
+import {GlobalCompanyIdProvider} from "./api/company/GlobalCompanyId.jsx";
+
 
 const Dashboard = () => {
     return (
@@ -151,6 +156,24 @@ const router = createBrowserRouter([
                     element={<Settings />}
                 />,
             },
+            {
+                path: "/new-company/:bossId",
+                element: <AdminRouter
+                    element={<CompanyAdd />}
+                />,
+            },
+            {
+                path: "/companies",
+                element: <AdminRouter
+                    element={<CompanyList />}
+                />,
+            },
+            {
+                path: "/company-detail",
+                element: <BossRouter
+                    element={<CompanyDetail />}
+                />,
+            },
         ],
     },
     {
@@ -163,7 +186,9 @@ function App() {
     return (
         <div className="App">
             <GlobalStoreIdProvider>
+                <GlobalCompanyIdProvider>
                 <RouterProvider router={router} />
+                </GlobalCompanyIdProvider>
             </GlobalStoreIdProvider>
         </div>
     );

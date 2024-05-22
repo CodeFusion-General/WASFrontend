@@ -24,7 +24,11 @@ function TransactionList() {
     }, [productId]);
 
     const exportExcel = () => {
-        const worksheet = XLSX.utils.json_to_sheet(transactions);
+        const exportData = transactions.map(({ fullName, date, quantity, price, isBuying }) => ({
+            fullName, date, quantity, price, type: isBuying ? 'Purchase' : 'Sale'
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(exportData);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Transactions');
         const buffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });

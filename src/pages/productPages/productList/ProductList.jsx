@@ -20,7 +20,7 @@ function ProductList() {
                 setProducts(response || []);
             } catch (error) {
                 console.error("Error in getProductsByStoreId:", error);
-                setProducts([]); // Set an empty array in case of error
+                setProducts([]);
             }
         };
         if (decodeUserToken().storeId || globalStoreId){

@@ -49,6 +49,15 @@ const getAllCategories = async () => {
     )
 }
 
+const getCategoriesByStoreId = async (storeId) => {
+    const url = `${API_BASE_URL}/category/store/${storeId}/categories`
+     
+    return apiCall(
+        url,
+        { headers: getHeaders() },
+        `Unexpected response status while getting categories by store id.`
+    );
+}
 const getTop5MostProfitableCategory = async (storeId) => {
     const url = `${API_BASE_URL}/category/top5CategoriesByProfit/${storeId}`;
     return apiCall(
@@ -59,32 +68,26 @@ const getTop5MostProfitableCategory = async (storeId) => {
 };
 
 const addCategory = async (category) => {
-    const url = `${API_BASE_URL}/category/add`
-
-    const categoryData = {
-        category : {
-            name: category.name,
-            prototypes: []
-        },
-        prototypes: category.prototypes
-    }
+    const url = `${API_BASE_URL}/category/add`;
+    
+    console.log("Category Data Sent to API:", category);  // Debugging: Log the category data
 
     try {
-        const response = await axios.post(url, categoryData, {headers: getHeaders()})
-        if (response.status === 200) {
-            return response.data
+        const response = await axios.post(url, category, { headers: getHeaders() });
+        if (response.status === 201) {
+            return response.data;
         } else {
-            throw new Error("Error adding category")
+            throw new Error("Error adding category");
         }
     } catch (error) {
-        console.error("Error in addCategory:", error)
+        console.error("Error in addCategory:", error);
+        throw error;  // Ensure error is thrown to be caught in handleAddCategory
     }
-
-
-}
+};
 
 export {
     getAllCategories,
+    getCategoriesByStoreId,
     getTop5MostProfitableCategory,
     addCategory
 }

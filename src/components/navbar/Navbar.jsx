@@ -9,6 +9,7 @@ import { GlobalStoreId } from "../../api/store/GlobalStoreId.jsx";
 import { GlobalCompanyId } from "../../api/company/GlobalCompanyId.jsx";
 import { getTop3NotifiticationsByUserId, markNotificationIsSeen } from "../../api/notification/NotificationApi.jsx";
 import User from '../../assets/user.webp';
+import LanguageDropdown from './LanguageDropdown'; // LanguageDropdown bileşenini içe aktarın
 
 const token = decodeUserToken() || { roles: [] };
 const navigation = [
@@ -269,17 +270,22 @@ function Navbar() {
                                             </Menu.Items>
                                         </Transition>
                                     </Menu>
+                                    <LanguageDropdown />
                                 </div>
                             ) : (
-                                <a
-                                    href="/login"
-                                    className={classNames(
-                                        'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                        'rounded-md px-3 py-2 text-sm font-medium'
-                                    )}
-                                >
-                                    Log In
-                                </a>
+                                <div>
+                                    <a
+                                        href="/login"
+                                        className={classNames(
+                                            'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                            'rounded-md px-3 py-2 text-sm font-medium'
+                                        )}
+                                    >
+                                        Log In
+                                    </a>
+                                    <LanguageDropdown/>
+                                </div>
+
                             )}
                         </div>
                     </div>

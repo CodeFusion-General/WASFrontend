@@ -1,7 +1,8 @@
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 //components
 import Navbar from './components/navbar/Navbar.jsx';
-import Sidebar from './components/sidebar/Sidebar.jsx'
+import Sidebar from './components/sidebar/Sidebar.jsx';
+import Footer from './components/footer/Footer.jsx';
 //router
 import BossRouter from "./router/BossRouter.jsx";
 import AdminRouter from "./router/AdminRouter.jsx";
@@ -42,6 +43,7 @@ const Dashboard = () => {
             <Sidebar />
             <div className="ml-64">
                 <Outlet />
+                <Footer />
             </div>
         </div>
     );

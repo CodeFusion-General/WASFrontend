@@ -4,8 +4,8 @@ import Slider from './Slider.jsx';
 import "../../index.css";
 import logo from '../../assets/wislogo.png';
 import warehouseImage from '../../assets/WASLogo.png';
-import Footer from '../../components/footer/Footer.jsx';
 import { FaGithub } from 'react-icons/fa';
+import { getLanguage, translate } from '../../language';
 
 function MainPage() {
     const [openIndex, setOpenIndex] = useState(null);
@@ -35,20 +35,20 @@ function MainPage() {
 
     const sections = [
         {
-            title: 'How Do We Ensure Quality Standards?',
-            content: 'Our systems and processes are designed to meet the highest quality standards.',
+            title: translate(getLanguage(), 'ensureQualityStandards'),
+            content: translate(getLanguage(), 'ensureQualityStandardsSolution'),
         },
         {
-            title: 'How Do We Ensure Fast Delivery?',
-            content: 'Our efficient logistics and operations ensure your orders are delivered swiftly.',
+            title: translate(getLanguage(), 'ensureFastDelivery'),
+            content: translate(getLanguage(), 'ensureFastDeliverySolution'),
         },
         {
-            title: 'What Customization Options Do We Offer?',
-            content: 'We provide various customization options to meet your specific needs.',
+            title: translate(getLanguage(), 'customizationOptions'),
+            content: translate(getLanguage(), 'customizationOptionsSolution'),
         },
         {
-            title: 'Which Courier Companies Do We Work With?',
-            content: 'We partner with reputable courier companies to ensure reliable delivery.',
+            title: translate(getLanguage(), 'courierCompanies'),
+            content: translate(getLanguage(), 'courierCompaniesSolution'),
         },
     ];
 
@@ -61,23 +61,23 @@ function MainPage() {
     const imageSections = [
         {
             imageUrl: 'https://images.pexels.com/photos/906494/pexels-photo-906494.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-            title: 'Inventory Management',
-            description: 'Efficiently track and manage your inventory with our state-of-the-art system. Real-time updates and detailed analytics help you maintain optimal stock levels and reduce overhead costs.',
+            title: translate(getLanguage(), 'inventoryManagement'),
+            description: translate(getLanguage(), 'inventoryManagementDescription'),
         },
         {
             imageUrl: 'https://images.pexels.com/photos/163726/belgium-antwerp-shipping-container-163726.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-            title: 'Efficient Container Management',
-            description: 'Our container management solutions optimize logistics with advanced tracking and inventory systems. Efficiently manage your fleet, reduce turnaround times, and ensure timely deliveries with our comprehensive tools.',
+            title: translate(getLanguage(), 'containerManagement'),
+            description: translate(getLanguage(), 'containerManagementDescription'),
         },
         {
             imageUrl: 'https://images.pexels.com/photos/2797828/pexels-photo-2797828.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-            title: 'Optimized Yard Management',
-            description: 'Our yard management system streamlines trailer organization and movement, providing real-time visibility and efficient scheduling to minimize delays, improve safety, and boost productivity. Ensure every trailer is in the right place at the right time with our cutting-edge solutions.',
+            title: translate(getLanguage(), 'yardManagement'),
+            description: translate(getLanguage(), 'yardManagementDescription'),
         },
         {
             imageUrl: 'https://images.pexels.com/photos/4484151/pexels-photo-4484151.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-            title: 'Efficient Inventory Scanning Solutions',
-            description: 'Our inventory scanning system ensures accurate, real-time tracking with advanced barcode scanners and software, streamlining management and improving efficiency.',
+            title: translate(getLanguage(), 'inventoryScanning'),
+            description: translate(getLanguage(), 'inventoryScanningDescription'),
         },
     ];
 
@@ -89,10 +89,10 @@ function MainPage() {
                 </div>
                 <div className="flex flex-col items-center mt-16">
                     <h1 className="text-4xl md:text-6xl font-extrabold mb-4">
-                        WAREHOUSE INFORMATION SYSTEM
+                        {translate(getLanguage(), 'warehouseInformationSystem')}
                     </h1>
                     <p className="text-lg md:text-2xl font-medium">
-                        Your Warehouse, Smarter.
+                        {translate(getLanguage(), 'yourWarehouseSmarter')}
                     </p>
                 </div>
             </div>
@@ -105,25 +105,25 @@ function MainPage() {
                 <div className="flex flex-col items-center max-w-[1400px] mx-auto flex-wrap md:flex-nowrap md:flex-row gap-8">
                     <div className="bg-white p-8 rounded-lg shadow-md transition-transform transform hover:scale-105 flex flex-col items-center text-center w-full md:w-1/3">
                         <div className="text-6xl text-gold mb-4">📦</div>
-                        <h2 className="text-2xl font-bold text-gray-900 mb-4">Stores</h2>
+                        <h2 className="text-2xl font-bold text-gray-900 mb-4">{translate(getLanguage(), "stores")}</h2>
                         <p className="text-gray-700">
-                            Find essential tools and resources for efficient warehouse management and inventory tracking. Optimize your storage and distribution with ease.
+                            {translate(getLanguage(), "findToolsResources")}
                         </p>
                         <div className="text-gold mt-4">⬛</div>
                     </div>
                     <div className="bg-white p-8 rounded-lg shadow-md transition-transform transform hover:scale-105 flex flex-col items-center text-center w-full md:w-1/3">
                         <div className="text-6xl text-gold mb-4">🛒</div>
-                        <h2 className="text-2xl font-bold text-gray-900 mb-4">Products</h2>
+                        <h2 className="text-2xl font-bold text-gray-900 mb-4">{translate(getLanguage(), "products")}</h2>
                         <p className="text-gray-700">
-                            Explore top-quality items and solutions for effective warehouse management. Enhance your inventory tracking and streamline distribution seamlessly.
+                            {translate(getLanguage(), "exploreTopQualityItems")}
                         </p>
                         <div className="text-gold mt-4">⬛</div>
                     </div>
                     <div className="bg-white p-8 rounded-lg shadow-md transition-transform transform hover:scale-105 flex flex-col items-center text-center w-full md:w-1/3">
                         <div className="text-6xl text-gold mb-4">👤</div>
-                        <h2 className="text-2xl font-bold text-gray-900 mb-4">Personals</h2>
+                        <h2 className="text-2xl font-bold text-gray-900 mb-4">{translate(getLanguage(), "personals")}</h2>
                         <p className="text-gray-700">
-                            Meet our dedicated team and discover their expertise. Enhance your warehouse operations with their skills and streamline your processes effectively
+                            {translate(getLanguage(), "meetOurTeam")}
                         </p>
                         <div className="text-gold mt-4">⬛</div>
                     </div>
@@ -131,9 +131,9 @@ function MainPage() {
             </div>
             <div className="w-full bg-gray-100 py-16">
                 <div className="max-w-6xl mx-auto px-4">
-                    <h2 className="text-3xl font-bold text-center mb-8">Why Choose Us?</h2>
+                    <h2 className="text-3xl font-bold text-center mb-8">{translate(getLanguage(), "whyChooseUs")}</h2>
                     <p className="text-center text-lg mb-12">
-                        Learn more about our warehouse management system and why it's the best choice for your business.
+                        {translate(getLanguage(), "learnMore")}
                     </p>
                     <div className="flex flex-wrap md:flex-nowrap md:space-x-8">
                         <div className="w-full md:w-2/3 mb-8 md:mb-0">
@@ -164,7 +164,7 @@ function MainPage() {
             </div>
             <div className="w-full py-16 bg-gray-100">
                 <div className="max-w-6xl mx-auto px-32">
-                    <h2 className="text-3xl font-bold text-center mb-8">Our Services</h2>
+                    <h2 className="text-3xl font-bold text-center mb-8">{translate(getLanguage(), "ourServices")}</h2>
                     <div className="flex justify-center flex-wrap md:flex-nowrap gap-8">
                         {imageSections.map((section, index) => {
                             const { ref, inView } = useInView({
@@ -174,14 +174,14 @@ function MainPage() {
 
                             // Adjust animation direction based on section title
                             const animationClass = inView
-                                ? section.title === 'Efficient Inventory Scanning Solutions' || section.title === 'Optimized Yard Management'
+                                ? section.title === translate(getLanguage(), 'inventoryScanning') || section.title === translate(getLanguage(), 'yardManagement')
                                     ? 'slide-in-right'
                                     : 'slide-in-left'
                                 : scrollDirection === 'down'
-                                    ? section.title === 'Efficient Inventory Scanning Solutions' || section.title === 'Optimized Yard Management'
+                                    ? section.title === translate(getLanguage(), 'inventoryScanning') || section.title === translate(getLanguage(), 'yardManagement')
                                         ? 'slide-out-left'
                                         : 'slide-out-right'
-                                    : section.title === 'Efficient Inventory Scanning Solutions' || section.title === 'Optimized Yard Management'
+                                    : section.title === translate(getLanguage(), 'inventoryScanning') || section.title === translate(getLanguage(), 'yardManagement')
                                         ? 'slide-out-right'
                                         : 'slide-out-left';
 
@@ -211,7 +211,6 @@ function MainPage() {
                     </div>
                 </div>
             </div>
-            <Footer />
         </div>
     );
 }

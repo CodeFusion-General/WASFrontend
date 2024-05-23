@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -11,19 +11,28 @@ const LanguageDropdown = () => {
     const [selectedLanguage, setSelectedLanguage] = useState('English');
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const lang = Cookies.get('lng');
+        if (lang === 'tr') {
+            setSelectedLanguage('Türkçe');
+        } else {
+            setSelectedLanguage('English');
+        }
+    }, []);
+
     const handleLanguageChange = (language) => {
         setSelectedLanguage(language);
         if (language === 'English') {
             Cookies.set('lng', 'en');
-            // navigate to the English version of the site, if needed
+            window.location.reload();
         } else if (language === 'Türkçe') {
             Cookies.set('lng', 'tr');
-            // navigate to the Turkish version of the site, if needed
+            window.location.reload();
         }
     }
 
     return (
-        <Menu as="div" className="relative inline-block text-left">
+        <Menu as="div" className="ml-2 relative inline-block text-left">
             <div>
                 <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
                     {selectedLanguage}

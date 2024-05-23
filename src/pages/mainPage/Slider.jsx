@@ -1,38 +1,39 @@
 import { useState } from 'react';
 import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
 import { RxDotFilled } from 'react-icons/rx';
+import { getLanguage, translate } from '../../language';
 
 function Slider() {
     const slides = [
         {
             url: 'https://images.pexels.com/photos/236705/pexels-photo-236705.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-            title: 'Spacious and Modern Warehouses',
-            description: 'Our state-of-the-art warehouses offer ample space and advanced infrastructure for efficient storage and operations.',
+            title: translate(getLanguage(), 'spaciousWarehouses'),
+            description: translate(getLanguage(), 'spaciousWarehousesDescription'),
         },
         {
             url: 'https://images.pexels.com/photos/209251/pexels-photo-209251.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-            title: 'High-Tech Loading Docks',
-            description: 'Our modern loading docks are designed for efficient and fast logistics operations, ensuring smooth and quick loading and unloading processes.',
+            title: translate(getLanguage(), 'highTechDocks'),
+            description: translate(getLanguage(), 'highTechDocksDescription'),
         },
         {
             url: 'https://images.pexels.com/photos/236698/pexels-photo-236698.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-            title: 'Versatile Warehouse Space',
-            description: 'Our versatile warehouse space is designed to accommodate a variety of storage and operational needs, ensuring flexibility and efficiency for your business.',
+            title: translate(getLanguage(), 'versatileSpace'),
+            description: translate(getLanguage(), 'versatileSpaceDescription'),
         },
         {
             url: 'https://images.pexels.com/photos/1427541/pexels-photo-1427541.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-            title: 'Efficient Container Storage',
-            description: 'Our facility provides organized and secure container storage, ensuring easy access and streamlined logistics for your shipping needs.',
+            title: translate(getLanguage(), 'efficientStorage'),
+            description: translate(getLanguage(), 'efficientStorageDescription'),
         },
         {
             url: 'https://images.pexels.com/photos/4484078/pexels-photo-4484078.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-            title: 'Dedicated Warehouse Staff',
-            description: 'Our skilled and dedicated staff ensure efficient warehouse operations and accurate inventory management, providing top-notch service and support.',
+            title: translate(getLanguage(), 'dedicatedStaff'),
+            description: translate(getLanguage(), 'dedicatedStaffDescription'),
         },
         {
             url: 'https://images.pexels.com/photos/4481259/pexels-photo-4481259.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-            title: 'Coordinated Teamwork',
-            description: 'Our team works collaboratively to ensure seamless warehouse operations and efficient inventory handling, delivering superior service and accuracy.',
+            title: translate(getLanguage(), 'coordinatedTeamwork'),
+            description: translate(getLanguage(), 'coordinatedTeamworkDescription'),
         },
     ];
 

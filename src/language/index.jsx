@@ -4,7 +4,12 @@ import resources from "./resources.jsx";
 export const translate = (lang, key) => {
     var translation;
     if (lang) {
-        translation = resources[lang][key];
+        const translated = resources[lang][key];
+        if (translated) {
+            translation = translated;
+        } else {
+            translation = resources["en"][key];
+        }
     } else {
         translation = resources["en"][key];
     }

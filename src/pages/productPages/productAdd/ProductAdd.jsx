@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import { addProduct } from '../../../api/product/ProductApi.jsx';
 import { getStoreById } from "../../../api/store/StoreApi.jsx";
-import { addCategory, getAllCategories } from "../../../api/category/CategoryApi.jsx";
+import { addCategory, getCategoriesByStoreId } from "../../../api/category/CategoryApi.jsx";
 import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
 import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
 import { useNavigate } from 'react-router-dom';
@@ -28,7 +28,7 @@ function ProductAdd({ onClose }) {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const categoryData = await getAllCategories();
+                const categoryData = await getCategoriesByStoreId(decodeUserToken().storeId || globalStoreId);
                 setCategories(categoryData.data);
             } catch (error) {
                 console.error("Failed to fetch categories", error);
@@ -49,7 +49,7 @@ function ProductAdd({ onClose }) {
 
         fetchCategories();
         fetchStore();
-    }, [globalStoreId]);
+    }, []);
 
     if (!store) {
         return <div>Loading...</div>;
@@ -106,17 +106,25 @@ function ProductAdd({ onClose }) {
     };
 
     const handleAddCategory = () => {
+        const storeId = parseInt(decodeUserToken().storeId || globalStoreId, 10);
         const newCategoryObj = {
-            id: categories.length + 1,
-            name: newCategory,
-            prototypes: product.productFields.map(field => ({ name: field.name }))
+            category: {
+                name: newCategory,
+                storeId: storeId,
+                prototypes: [],
+                products: []
+            },
+            prototypes: product.productFields.map(field => ({ name: field.name, isDelete: false }))
         };
+        
+        console.log("New Category Object:", newCategoryObj);  // Debugging: Log the newCategoryObj
+    
         addCategory(newCategoryObj)
             .then(() => alert("Category added successfully"))
             .catch((error) => {
                 console.error("Failed to add category", error);
-                return;
             });
+        
         setCategories([...categories, newCategoryObj]);
         setProduct({
             ...product,

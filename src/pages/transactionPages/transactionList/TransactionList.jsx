@@ -67,18 +67,6 @@ function TransactionList() {
         <div className="max-w-6xl mx-auto p-5 bg-white shadow-lg rounded-lg mt-16">
             <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">{translate(lang, 'transactionsForProduct')} {productId}</h1>
             <div className="flex justify-between items-center gap-4 mb-6">
-                <button
-                    onClick={() => navigate(`/add-transaction/${productId}`)}
-                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow"
-                >
-                    {translate(lang, 'addTransaction')}
-                </button>
-                <button
-                    onClick={exportExcel}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
-                >
-                    {translate(lang, 'exportToExcel')}
-                </button>
                 <input
                     type="text"
                     className="p-2 border border-gray-300 rounded"
@@ -86,6 +74,19 @@ function TransactionList() {
                     value={globalFilter}
                     onChange={(e) => setGlobalFilter(e.target.value)}
                 />
+                <button
+                    onClick={exportExcel}
+                    className="bg-blue-600 mr-20 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
+                >
+                    {translate(lang, 'exportToExcel')}
+                </button>
+
+                <button
+                    onClick={() => navigate(`/add-transaction/${productId}`)}
+                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow"
+                >
+                    {translate(lang, 'addTransaction')}
+                </button>
             </div>
             <div className="overflow-x-auto">
                 <table className="min-w-full bg-white border border-gray-300">

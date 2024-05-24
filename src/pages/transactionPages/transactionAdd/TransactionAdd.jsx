@@ -36,6 +36,10 @@ function TransactionAdd() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (transaction.phone.length < 9 || transaction.phone.length > 13) {
+            alert('Phone number must be between 9 to 13 characters long.');
+            return;
+        }
         console.log("Submitting transaction:", transaction); // Debugging line
         await addTransaction(transaction, photo);
         navigate(`/transactions/${productId}`);
@@ -82,10 +86,20 @@ function TransactionAdd() {
                            className="block w-full mt-1"/>
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700">{translate(lang, 'phone')}</label>
-                    <input type="text" name="phone" value={transaction.phone} onChange={handleChange}
-                           className="block w-full mt-1"/>
+                    <label htmlFor="phone"
+                           className="block text-sm font-medium text-gray-700">{translate(lang, 'phone')}</label>
+                    <input
+                        type="text"
+                        name="phone"
+                        value={transaction.phone}
+                        onChange={handleChange}
+                        minLength="9"
+                        maxLength="13"
+                        className="block w-full mt-1"
+                        required
+                    />
                 </div>
+
                 <div className="w-full mt-8">
                     <label htmlFor="imageFile" className="block mb-2 text-sm font-medium text-gray-700">{translate(lang, 'productImage')}:</label>
                     <input

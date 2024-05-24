@@ -3,6 +3,7 @@ import { FaBox, FaHome, FaStore, FaBuilding } from 'react-icons/fa';
 import logo from '../../assets/logowis.png';
 import { useEffect, useState } from "react";
 import { decodeUserToken } from "../../api/authentication/AuthenticationApi.jsx";
+import { getLanguage, translate } from '../../language';
 
 const Sidebar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -30,24 +31,31 @@ const Sidebar = () => {
                     <ul className="mt-4 space-y-2">
                         <li className="px-6 pb-2 border-b border-gray-700 flex items-center">
                             <FaHome className="mr-4"/> {/* Home icon */}
-                            <Link to="/" className="flex-grow text-white hover:text-blue-500">Home</Link>
+                            <Link to="/" className="flex-grow text-white hover:text-blue-500">
+                                {translate(getLanguage(), 'home')}
+                            </Link>
                         </li>
                         {(userRole === 'BOSS') &&
                             <li className="px-6 py-2 border-b border-gray-700 flex items-center">
                                 <FaStore className="mr-4"/> {/* Stores icon */}
-                                <Link to="/stores" className="flex-grow text-white hover:text-blue-500">Stores</Link>
+                                <Link to="/stores" className="flex-grow text-white hover:text-blue-500">
+                                    {translate(getLanguage(), 'stores')}
+                                </Link>
                             </li>
                         }
                         {(userRole === 'ADMIN') &&
                             <li className="px-6 py-2 border-b border-gray-700 flex items-center">
                                 <FaBuilding className="mr-4"/> {/* Companies icon */}
-                                <Link to="/companies" className="flex-grow text-white hover:text-blue-500">All Companies</Link>
+                                <Link to="/companies" className="flex-grow text-white hover:text-blue-500">
+                                    {translate(getLanguage(), 'companies')}
+                                </Link>
                             </li>
                         }
                         <li className="px-6 py-2 border-b border-gray-700 flex items-center">
                             <FaBox className="mr-4"/> {/* Products icon */}
-                            <Link to="/product-list"
-                                  className="flex-grow text-white hover:text-blue-500">Products</Link>
+                            <Link to="/product-list" className="flex-grow text-white hover:text-blue-500">
+                                {translate(getLanguage(), 'products')}
+                            </Link>
                         </li>
                     </ul>
                 </nav>

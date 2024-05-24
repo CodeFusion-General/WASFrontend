@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { decodeUserToken } from "../../api/authentication/AuthenticationApi.jsx";
 import { getTelegramLink } from "../../api/telegram/TelegramApi.jsx";
 import { getUserById } from "../../api/user/UserApi.jsx";
-import {getLanguage, translate} from '../../language';
+import { getLanguage, translate } from '../../language';
 
 function Settings() {
     const [isPaired, setIsPaired] = useState(false);
@@ -56,10 +56,9 @@ function Settings() {
                 <div className="w-1/4">
                     <button
                         onClick={handlePairing}
-                        disabled={isPaired}
-                        className={`text-center border border-blue-600 mt-6 justify-center w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-md shadow-sm ${isPaired && 'cursor-not-allowed opacity-50'}`}
+                        className="text-center border border-blue-600 mt-6 justify-center w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-md shadow-sm"
                     >
-                        {isPaired ? translate(lang, 'paired') : translate(lang, 'pairTelegram')}
+                        {translate(lang, 'pairTelegram')}
                     </button>
                 </div>
             </div>

@@ -70,18 +70,6 @@ function ProductList() {
             <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">{translate(lang, 'allProducts')}</h1>
             <div className="flex justify-between items-center gap-4 mb-6">
                 <>
-                    <button
-                        onClick={handleAddProductClick}
-                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow"
-                    >
-                        {translate(lang, 'addProduct')}
-                    </button>
-                    <button
-                        onClick={exportExcel}
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
-                    >
-                        {translate(lang, 'exportToExcel')}
-                    </button>
                     <input
                         type="text"
                         className="p-2 border border-gray-300 rounded"
@@ -89,6 +77,20 @@ function ProductList() {
                         value={globalFilter}
                         onChange={(e) => setGlobalFilter(e.target.value)}
                     />
+                    <div className="flex-grow flex justify-center">
+                        <button
+                            onClick={exportExcel}
+                            className="bg-blue-600 hover:bg-blue-700 mr-20 text-white px-4 py-2 rounded shadow"
+                        >
+                            {translate(lang, 'exportToExcel')}
+                        </button>
+                    </div>
+                    <button
+                        onClick={handleAddProductClick}
+                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow"
+                    >
+                        {translate(lang, 'addProduct')}
+                    </button>
                 </>
             </div>
             <div className="overflow-x-auto">

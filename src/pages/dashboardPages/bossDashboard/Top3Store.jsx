@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { getTop3StoresByProfitForUser } from '../../../api/store/StoreApi';
 import { decodeUserToken } from "../../../api/authentication/AuthenticationApi";
+import { getLanguage, translate } from '../../../language';
 
 const COLORS = [
     'rgba(75, 192, 192, 0.6)',
@@ -83,7 +84,9 @@ const Top3Store = () => {
 
     return (
         <div className="bg-white p-6 rounded-lg shadow-lg w-full h-full">
-            <h2 className="text-2xl font-bold mb-6 text-center">Top 3 Most Profitable Stores</h2>
+            <h2 className="text-2xl font-bold mb-6 text-center">
+                {translate(getLanguage(), 'top3Store')}
+            </h2>
             <div className="h-96">
                 <Doughnut data={data} options={options} />
             </div>

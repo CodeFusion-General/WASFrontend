@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { getTop5MostProfitableCategory } from '../../../api/category/CategoryApi.jsx';
 import Chart from 'chart.js/auto';
+import {getLanguage, translate} from "../../../language/index.jsx";
 
 const COLORS = [
     'rgba(75, 192, 192, 0.6)',
@@ -84,7 +85,9 @@ const Top5Category = (props) => {
 
     return (
         <div className="bg-white p-6 rounded-lg shadow-lg w-full">
-            <h2 className="text-2xl font-bold mb-6 text-center">Top 5 Most Profitable Categories</h2>
+            <h2 className="text-2xl font-bold mb-6 text-center">
+                {translate(getLanguage(), 'top5Category')}
+            </h2>
             <Bar data={data} options={options} />
         </div>
     );

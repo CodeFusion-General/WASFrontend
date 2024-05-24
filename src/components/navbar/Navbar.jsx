@@ -10,14 +10,15 @@ import { GlobalCompanyId } from "../../api/company/GlobalCompanyId.jsx";
 import { getTop3NotifiticationsByUserId, markNotificationIsSeen } from "../../api/notification/NotificationApi.jsx";
 import User from '../../assets/user.webp';
 import LanguageDropdown from './LanguageDropdown'; // LanguageDropdown bileşenini içe aktarın
+import { getLanguage, translate } from '../../language';
 
 const token = decodeUserToken() || { roles: [] };
 const navigation = [
-    { name: 'Dashboard', href: token.roles[0] === 'BOSS' ? '/boss-dashboard' : '/store', current: false },
-    ...(token.roles[0] === 'MANAGER' || token.roles[0] === 'BOSS' ? [{ name: 'Team', href: '/store-employees', current: false }] : []),
-    ...(token.roles[0] === 'BOSS' ? [{ name: 'New Store', href: '/add-store', current: false }] : []),
-    ...(token.roles[0] === 'BOSS' ? [{ name: 'New Employee', href: '/employee-register', current: false }] : []),
-    ...(token.roles[0] === 'ADMIN' ? [{ name: 'New Boss', href: '/register', current: false }] : []),
+    { name: translate(getLanguage(),'dashboard'), href: token.roles[0] === 'BOSS' ? '/boss-dashboard' : '/store', current: false },
+    ...(token.roles[0] === 'MANAGER' || token.roles[0] === 'BOSS' ? [{ name: translate(getLanguage(),'team'), href: '/store-employees', current: false }] : []),
+    ...(token.roles[0] === 'BOSS' ? [{ name: translate(getLanguage(),'newStore'), href: '/add-store', current: false }] : []),
+    ...(token.roles[0] === 'BOSS' ? [{ name: translate(getLanguage(),'newEmployee'), href: '/employee-register', current: false }] : []),
+    ...(token.roles[0] === 'ADMIN' ? [{ name: translate(getLanguage(),'newBoss'), href: '/register', current: false }] : []),
 ];
 
 
@@ -125,7 +126,9 @@ function Navbar() {
                                 {/* Mobile menu button*/}
                                 {isLoggedIn && <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                                     <span className="absolute -inset-0.5" />
-                                    <span className="sr-only">Open main menu</span>
+                                    <span className="sr-only">
+                                        {translate(getLanguage(), 'openMainMenu')}
+                                    </span>
                                     {open ? (
                                         <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
                                     ) : (
@@ -158,7 +161,9 @@ function Navbar() {
                                         <div>
                                             <Menu.Button className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                                 <span className="absolute -inset-1.5" />
-                                                <span className="sr-only">View notifications</span>
+                                                <span className="sr-only">
+                                                    {translate(getLanguage(), 'viewNotifications')}
+                                                </span>
                                                 <BellIcon className="h-6 w-6" aria-hidden="true" />
                                             </Menu.Button>
                                         </div>
@@ -207,7 +212,7 @@ function Navbar() {
                                                         className="px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100"
                                                         onClick={viewAllNotifications}
                                                     >
-                                                        More Notifications
+                                                        {translate(getLanguage(), 'viewAllNotifications')}
                                                     </div>
                                                 )}
                                             </Menu.Items>
@@ -219,7 +224,9 @@ function Navbar() {
                                         <div>
                                             <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                                 <span className="absolute -inset-1.5" />
-                                                <span className="sr-only">Open user menu</span>
+                                                <span className="sr-only">
+                                                    {translate(getLanguage(), 'openUserMenu')}
+                                                </span>
                                                 <img
                                                     className="h-8 w-8 rounded-full"
                                                     src={photo || User}
@@ -243,7 +250,7 @@ function Navbar() {
                                                             href="/profile"
                                                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                         >
-                                                            Your Profile
+                                                            {translate(getLanguage(), 'yourProfile')}
                                                         </a>
                                                     )}
                                                 </Menu.Item>
@@ -253,7 +260,7 @@ function Navbar() {
                                                             href="/settings"
                                                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                         >
-                                                            Settings
+                                                            {translate(getLanguage(), 'settings')}
                                                         </a>
                                                     )}
                                                 </Menu.Item>
@@ -263,7 +270,7 @@ function Navbar() {
                                                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                             onClick={() => handleLogout()}
                                                         >
-                                                            Sign out
+                                                            {translate(getLanguage(), 'logOut')}
                                                         </a>
                                                     )}
                                                 </Menu.Item>
@@ -281,7 +288,7 @@ function Navbar() {
                                             'rounded-md px-3 py-2 text-sm font-medium'
                                         )}
                                     >
-                                        Log In
+                                        {translate(getLanguage(), 'login')}
                                     </a>
                                     <LanguageDropdown/>
                                 </div>

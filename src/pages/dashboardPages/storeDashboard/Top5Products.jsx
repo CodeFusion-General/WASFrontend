@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getTop5MostProfitableProducts } from '../../../api/store/StoreApi';
+import {getLanguage, translate} from "../../../language/index.jsx";
 
 const Top5Products = (props) => {
     const { storeId, top = true } = props;
@@ -61,8 +62,12 @@ const Top5Products = (props) => {
                 <table className="min-w-full bg-white mb-6 border border-gray-200 rounded-lg overflow-hidden shadow-md">
                     <thead className="bg-gray-100">
                     <tr>
-                        <th className="py-3 px-5 text-left font-semibold text-gray-600">Product Name</th>
-                        <th className="py-3 px-5 text-left font-semibold text-gray-600">Profit</th>
+                        <th className="py-3 px-5 text-left font-semibold text-gray-600">
+                            {translate(getLanguage(), 'productName')}
+                        </th>
+                        <th className="py-3 px-5 text-left font-semibold text-gray-600">
+                            {translate(getLanguage(), 'profit')}
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -80,7 +85,7 @@ const Top5Products = (props) => {
                     onClick={handleViewAllProducts}
                     className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-lg shadow-md"
                 >
-                    View All Products
+                    {translate(getLanguage(), 'viewAllProducts')}
                 </button>
             </div>
         </div>

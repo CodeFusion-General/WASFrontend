@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, Title, Tooltip, Legend, PointElement } from 'chart.js';
 import { getDailyTotalTransactions } from '../../../api/transaction/TransactionApi.jsx';
-
+import {getLanguage, translate} from "../../../language/index.jsx";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, Title, Tooltip, Legend, PointElement);
 
@@ -72,7 +72,9 @@ const ProfitChart = (props) => {
     return (
         <div className="bg-white p-6 rounded-lg shadow-lg w-full h-full flex flex-col justify-between">
             <div>
-                <h2 className="text-2xl font-bold mb-6 text-center">Daily Total Transactions</h2>
+                <h2 className="text-2xl font-bold mb-6 text-center">
+                    {translate(getLanguage(), 'dailyTotalTransactions')}
+                </h2>
                 {error ? (
                     <div className="text-red-500">{error}</div>
                 ) : (

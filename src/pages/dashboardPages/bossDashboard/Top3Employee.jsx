@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { getTop3EmployeesByStoreProfit } from '../../../api/user/UserApi';
+import { getLanguage, translate } from '../../../language';
 
 const Top3Employee = () => {
     const [employees, setEmployees] = useState([]);
@@ -23,7 +24,9 @@ const Top3Employee = () => {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div>
+            {translate(getLanguage(), 'loading')}...
+        </div>;
     }
 
     if (error) {
@@ -87,7 +90,9 @@ const Top3Employee = () => {
 
     return (
         <div className="bg-white p-6 rounded-lg shadow-lg w-full h-full">
-            <h2 className="text-2xl font-bold mb-6 text-center">Top 3 Most Profitable Employees</h2>
+            <h2 className="text-2xl font-bold mb-6 text-center">
+                {translate(getLanguage(), 'top3Employee')}
+            </h2>
             <div className="h-96">
                 <Bar data={data} options={options} />
             </div>

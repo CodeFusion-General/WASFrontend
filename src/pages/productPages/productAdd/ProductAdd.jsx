@@ -5,6 +5,7 @@ import { addCategory, getCategoriesByStoreId } from "../../../api/category/Categ
 import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
 import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
 import { useNavigate } from 'react-router-dom';
+import {getLanguage, translate} from '../../../language';
 
 function ProductAdd({ onClose }) {
     const navigate = useNavigate();
@@ -23,7 +24,7 @@ function ProductAdd({ onClose }) {
     });
     const [newCategory, setNewCategory] = useState('');
     const [showNewCategoryInput, setShowNewCategoryInput] = useState(false);
-
+    const lang = getLanguage(); // Eklenen satır
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -116,15 +117,15 @@ function ProductAdd({ onClose }) {
             },
             prototypes: product.productFields.map(field => ({ name: field.name, isDelete: false }))
         };
-        
+
         console.log("New Category Object:", newCategoryObj);  // Debugging: Log the newCategoryObj
-    
+
         addCategory(newCategoryObj)
             .then(() => alert("Category added successfully"))
             .catch((error) => {
                 console.error("Failed to add category", error);
             });
-        
+
         setCategories([...categories, newCategoryObj]);
         setProduct({
             ...product,
@@ -150,19 +151,19 @@ function ProductAdd({ onClose }) {
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="p-5 my-10 w-full max-w-4xl bg-white rounded-lg shadow-lg mt-2">
-                <h2 className="text-2xl font-bold mb-6 text-gray-800">New Product</h2>
+                <h2 className="text-2xl font-bold mb-6 text-gray-800">{translate(lang, 'newProduct')}</h2>
                 <div className="product-fields">
                     <div className="field-pair">
                         <InputField
                             id="name"
-                            label="Name:"
+                            label={translate(lang, 'name')}
                             name="name"
                             value={product.name}
                             onChange={handleChange}
                         />
                         <InputField
                             id="model"
-                            label="Model:"
+                            label={translate(lang, 'model')}
                             name="model"
                             value={product.model}
                             onChange={handleChange}
@@ -171,7 +172,7 @@ function ProductAdd({ onClose }) {
                     <div className="field-pair">
                         <InputField
                             id="category"
-                            label="Category:"
+                            label={translate(lang, 'category')}
                             name="category"
                             value={product.category}
                             onChange={handleCategoryPrototype}
@@ -180,7 +181,7 @@ function ProductAdd({ onClose }) {
                         />
                         <InputField
                             id="productCode"
-                            label="Product Code:"
+                            label={translate(lang, 'productCode')}
                             name="productCode"
                             value={product.productCode}
                             onChange={handleChange}
@@ -189,7 +190,7 @@ function ProductAdd({ onClose }) {
                     <div className="field-pair">
                         <InputField
                             id="store"
-                            label="Store:"
+                            label={translate(lang, 'store')}
                             name="store"
                             enabled={false}
                             value={store.name}
@@ -199,86 +200,78 @@ function ProductAdd({ onClose }) {
                 </div>
                 {showNewCategoryInput && (
                     <div className="mt-6 mb-4">
-                        <label htmlFor="newCategory" className="block text-sm font-medium text-gray-700 mb-2">New Category:</label>
+                        <label htmlFor="newCategory" className="block text-sm font-medium text-gray-700 mb-2">{translate(lang, 'newCategory')}</label>
                         <div className="flex items-center">
                             <input
                                 id="newCategory"
                                 name="newCategory"
                                 type="text"
-                                className="w-full p-2 text-sm text-gray-900 bg-gray-100 rounded-md focus:ring focus:ring-blue-500"
+                                className="w-full p-2 text-sm text-gray-900 border rounded-lg bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                                 value={newCategory}
-                                onChange={(e) => setNewCategory(e.target.value)}
+                                onChange={e => setNewCategory(e.target.value)}
                             />
                             <button
-                                className="ml-4 py-2 px-4 bg-green-500 hover:bg-green-600 text-white font-medium rounded-md"
+                                className="ml-4 px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
                                 onClick={handleAddCategory}
                             >
-                                Add Category
+                                {translate(lang, 'addCategory')}
                             </button>
                         </div>
                     </div>
                 )}
-                <div className="mt-6" id='product-fields'>
-                    <label className="block mb-4 text-lg font-medium leading-6 text-gray-700">Product Fields:</label>
-                    <div className="product-fields">
-                        {product.productFields.map((field, index) => (
-                            <div key={index} className="field-pair">
-                                <InputField id={`name${index}`} label="Field Name:" name="name" value={field.name}
-                                            onChange={(e) => handleChange(e, index)} />
-                                <InputField id={`feature${index}`} label="Feature:" name="feature"
-                                            value={field.feature} onChange={(e) => handleChange(e, index)} />
-                                <button
-                                    className="py-2 px-4 mt-4 bg-red-500 hover:bg-red-600 text-white font-medium rounded-md"
-                                    onClick={() => removeInputField(index)}
-                                >
-                                    Delete Field
-                                </button>
-                            </div>
-                        ))}
-                    </div>
+                <div className="mt-6 mb-4">
+                    <h3 className="text-lg font-medium text-gray-800 mb-2">{translate(lang, 'productFields')}</h3>
+                    {product.productFields.map((field, index) => (
+                        <div key={index} className="field-pair mb-2">
+                            <InputField
+                                label={translate(lang, 'fieldName')}
+                                name="name"
+                                value={field.name}
+                                onChange={e => handleChange(e, index)}
+                            />
+                            <InputField
+                                label={translate(lang, 'feature')}
+                                name="feature"
+                                value={field.feature}
+                                onChange={e => handleChange(e, index)}
+                            />
+                            <button
+                                className="ml-4 px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600"
+                                onClick={() => removeInputField(index)}
+                            >
+                                {translate(lang, 'deleteField')}
+                            </button>
+                        </div>
+                    ))}
                     <button
-                        className="py-2 px-4 mt-4 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-md"
-                        onClick={() => addInputField()}>
-                        Add Field
+                        className="mt-4 px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                        onClick={() => addInputField()}
+                    >
+                        {translate(lang, 'addField')}
                     </button>
                 </div>
-                <div className="w-full mt-8">
-                    <label htmlFor="imageFile" className="block mb-2 text-sm font-medium text-gray-700">Product Image:</label>
+                <div className="mt-6 mb-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">{translate(lang, 'productImage')}</label>
                     <input
                         id="imageFile"
                         name="imageFile"
                         type="file"
-                        className="block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                        onChange={(event) => {
-                            const file = event.target.files[0];
-                            if (file) {
-                                const reader = new FileReader();
-                                reader.onload = (e) => {
-                                    setPhoto(e.target.result);
-                                };
-                                reader.readAsDataURL(file);
-                            }
-                        }}
+                        className="w-full text-sm text-gray-900 border rounded-lg bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                        onChange={e => setPhoto(e.target.files[0])}
                     />
-                    <p className="mt-1 text-sm text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
-                    {photo && (
-                        <img
-                            src={photo}
-                            className="rounded-lg w-full object-cover mt-2"
-                            style={{ maxHeight: '400px' }}
-                        />
-                    )}
                 </div>
-                <div className="flex justify-between mt-6">
+                <div className="flex justify-end">
                     <button
-                        className="py-2 px-4 bg-green-500 hover:bg-green-600 text-white font-medium rounded-md"
-                        onClick={handleSubmit}>
-                        Add Product
+                        className="mr-4 px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                        onClick={handleSubmit}
+                    >
+                        {translate(lang, 'addProduct')}
                     </button>
                     <button
-                        className="py-2 px-4 bg-red-500 hover:bg-red-600 text-white font-medium rounded-md"
-                        onClick={onClose}>
-                        Cancel
+                        className="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600"
+                        onClick={onClose}
+                    >
+                        {translate(lang, 'cancel')}
                     </button>
                 </div>
             </div>
@@ -286,20 +279,20 @@ function ProductAdd({ onClose }) {
     );
 }
 
-function InputField({ id, label, type = 'text', name, value, onChange, isSelect = false, options = [], enabled = true }) {
+function InputField({ id, label, name, value, onChange, enabled = true, isSelect = false, options = [] }) {
     return (
-        <div className="mb-4 input-field">
-            <label htmlFor={id} className="block text-sm font-medium text-gray-700">{label}</label>
+        <div className="w-full mb-4 mr-3">
+            <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-2">{label}</label>
             {isSelect ? (
                 <select
                     id={id}
                     name={name}
-                    className="w-full p-2 mt-1 text-sm text-gray-900 bg-gray-100 rounded-md focus:ring focus:ring-blue-500"
                     value={value}
                     onChange={onChange}
+                    className="w-full p-2 text-sm text-gray-900 border rounded-lg bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                 >
-                    <option value="">Select a category</option>
-                    <option value="new">New Category</option>
+                    <option value="">{translate(getLanguage(), 'selectCategory')}</option>
+                    <option value="new">{translate(getLanguage(), 'newCategory')}</option>
                     {options.map(option => (
                         <option key={option.id} value={option.id}>{option.name}</option>
                     ))}
@@ -308,10 +301,10 @@ function InputField({ id, label, type = 'text', name, value, onChange, isSelect 
                 <input
                     id={id}
                     name={name}
-                    type={type}
-                    className="w-full p-2 mt-1 text-sm text-gray-900 bg-gray-100 rounded-md focus:ring focus:ring-blue-500"
+                    type="text"
                     value={value}
                     onChange={onChange}
+                    className={`w-full p-2 text-sm text-gray-900 border rounded-lg bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500 ${!enabled && 'bg-gray-100 cursor-not-allowed'}`}
                     disabled={!enabled}
                 />
             )}

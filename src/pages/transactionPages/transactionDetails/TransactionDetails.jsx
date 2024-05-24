@@ -1,7 +1,9 @@
+
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getTransactionById, updateTransaction, deleteTransaction } from '../../../api/transaction/TransactionApi.jsx';
 import placeholderImage from '../../../assets/transaction.png';
+import { getLanguage, translate } from '../../../language';
 
 function TransactionDetails() {
     const { transactionId } = useParams();
@@ -9,6 +11,7 @@ function TransactionDetails() {
     const [editableTransaction, setEditableTransaction] = useState(null);
     const [imageUrl, setImageUrl] = useState(placeholderImage);
     const navigate = useNavigate();
+    const lang = getLanguage();
 
     useEffect(() => {
         const fetchTransaction = async () => {
@@ -26,29 +29,19 @@ function TransactionDetails() {
         setEditableTransaction({ ...editableTransaction, [name]: type === 'radio' ? value === 'true' : newValue });
     };
 
-    /*const handleUpdate = async () => {
-        const photo = document.getElementById('imageFile').files[0];
-        await updateTransaction(transactionId, editableTransaction, photo).then(() => {
-            alert('Transaction updated successfully');
-            navigate(`/transactions/${editableTransaction.product.id}`);
-        }).catch((error) => {
-            console.error('Error updating transaction:', error);
-        });
-    };*/
-
     const handleDelete = async () => {
-        if (window.confirm("Are you sure you want to delete this transaction?")) {
+        if (window.confirm(translate(lang, 'deleteConfirmation'))) {
             await deleteTransaction(transactionId);
             navigate(`/transactions/${editableTransaction.product.id}`);
         }
     };
 
-    if (!transaction) return <div>Loading...</div>;
+    if (!transaction) return <div>{translate(lang, 'loading')}</div>;
 
     return (
         <div className="flex justify-center items-center h-screen">
             <div className="w-2/3 bg-white shadow-lg rounded-lg p-5">
-                <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">Transaction Details</h1>
+                <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">{translate(lang, 'transactionDetails')}</h1>
                 <div className="flex flex-wrap md:flex-nowrap bg-white rounded-lg mx-auto">
                     {/* Image Section */}
                     <div className="md:w-1/2 p-2 flex flex-col items-center">
@@ -58,7 +51,7 @@ function TransactionDetails() {
                             className="rounded-lg object-cover"
                         />
                         <div className="mt-2 w-full">
-                            <label htmlFor="imageFile" className="block text-sm font-medium text-gray-700">Product Image:</label>
+                            <label htmlFor="imageFile" className="block text-sm font-medium text-gray-700">{translate(lang, 'productImage')}</label>
                             <input
                                 id="imageFile"
                                 name="imageFile"
@@ -92,7 +85,7 @@ function TransactionDetails() {
                                         onChange={handleChange}
                                         className="mr-2"
                                     />
-                                    <label htmlFor="buying" className="mr-4">Buying</label>
+                                    <label htmlFor="buying" className="mr-4">{translate(lang, 'buying')}</label>
                                     <input
                                         type="radio"
                                         id="selling"
@@ -102,11 +95,11 @@ function TransactionDetails() {
                                         onChange={handleChange}
                                         className="mr-2"
                                     />
-                                    <label htmlFor="selling">Selling</label>
+                                    <label htmlFor="selling">{translate(lang, 'selling')}</label>
                                 </div>
                             </div>
                             <div className="mb-4">
-                                <label htmlFor="date" className="block text-sm font-medium text-gray-900">Date:</label>
+                                <label htmlFor="date" className="block text-sm font-medium text-gray-900">{translate(lang, 'date')}</label>
                                 <input
                                     type="date"
                                     name="date"
@@ -116,7 +109,7 @@ function TransactionDetails() {
                                 />
                             </div>
                             <div className="mb-4">
-                                <label htmlFor="quantity" className="block text-sm font-medium text-gray-900">Quantity:</label>
+                                <label htmlFor="quantity" className="block text-sm font-medium text-gray-900">{translate(lang, 'quantity')}</label>
                                 <input
                                     type="number"
                                     name="quantity"
@@ -126,7 +119,7 @@ function TransactionDetails() {
                                 />
                             </div>
                             <div className="mb-4">
-                                <label htmlFor="price" className="block text-sm font-medium text-gray-900">Price:</label>
+                                <label htmlFor="price" className="block text-sm font-medium text-gray-900">{translate(lang, 'price')}</label>
                                 <input
                                     type="number"
                                     step="0.01"
@@ -137,7 +130,7 @@ function TransactionDetails() {
                                 />
                             </div>
                             <div className="mb-4">
-                                <label htmlFor="fullName" className="block text-sm font-medium text-gray-900">Full Name:</label>
+                                <label htmlFor="fullName" className="block text-sm font-medium text-gray-900">{translate(lang, 'fullName')}</label>
                                 <input
                                     type="text"
                                     name="fullName"
@@ -147,7 +140,7 @@ function TransactionDetails() {
                                 />
                             </div>
                             <div className="mb-4">
-                                <label htmlFor="address" className="block text-sm font-medium text-gray-900">Address:</label>
+                                <label htmlFor="address" className="block text-sm font-medium text-gray-900">{translate(lang, 'address')}</label>
                                 <input
                                     type="text"
                                     name="address"
@@ -157,7 +150,7 @@ function TransactionDetails() {
                                 />
                             </div>
                             <div className="mb-4">
-                                <label htmlFor="phone" className="block text-sm font-medium text-gray-900">Phone:</label>
+                                <label htmlFor="phone" className="block text-sm font-medium text-gray-900">{translate(lang, 'phone')}</label>
                                 <input
                                     type="text"
                                     name="phone"
@@ -172,12 +165,12 @@ function TransactionDetails() {
                             <button
                                 className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                                 onClick={handleDelete}>
-                                Delete
+                                {translate(lang, 'delete')}
                             </button>
                             <button
                                 className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                                 onClick={() => navigate(`/transactions/${editableTransaction.product.id}`)}>
-                                Back
+                                {translate(lang, 'back')}
                             </button>
                         </div>
                     </div>

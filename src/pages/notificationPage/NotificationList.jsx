@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { getNotificationsByUserId, markNotificationIsSeen } from "../../api/notification/NotificationApi.jsx";
 import { decodeUserToken } from "../../api/authentication/AuthenticationApi.jsx";
 import { format } from 'date-fns';
+import {getLanguage, translate} from '../../language';
 
 function NotificationList() {
     const [notifications, setNotifications] = useState([]);
     const [page, setPage] = useState(1);
     const notificationsPerPage = 10;
+    const lang = getLanguage();
 
     useEffect(() => {
         const fetchNotifications = async () => {
@@ -78,30 +80,36 @@ function NotificationList() {
 
     return (
         <div className="max-w-6xl mx-auto p-5 bg-white shadow-lg rounded-lg mt-16">
-            <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">Notifications</h1>
+            <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">{translate(lang, 'notifications')}</h1>
             <div className="overflow-x-auto">
                 <table className="min-w-full bg-white border border-gray-300 table-fixed">
                     <thead>
                     <tr className="text-center">
-                        <th className="w-1/6 px-4 py-2 border border-gray-300">Subject</th>
-                        <th className="w-2/5 px-4 py-2 border border-gray-300">Description</th>
-                        <th className="w-1/6 px-4 py-2 border border-gray-300">Date</th>
-                        <th className="w-1/6 px-4 py-2 border border-gray-300">Level</th>
+                        <th className="w-1/6 px-4 py-2 border border-gray-300">{translate(lang, 'subject')}</th>
+                        <th className="w-2/5 px-4 py-2 border border-gray-300">{translate(lang, 'description')}</th>
+                        <th className="w-1/6 px-4 py-2 border border-gray-300">{translate(lang, 'date')}</th>
+                        <th className="w-1/6 px-4 py-2 border border-gray-300">{translate(lang, 'level')}</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {displayedNotifications.map((notification) => (
-                        <tr key={notification.id} className="text-center">
-                            <td className="px-4 py-2 border border-gray-300">{notification.subject}</td>
-                            <td className="px-4 py-2 border border-gray-300">{notification.description}</td>
-                            <td className="px-4 py-2 border border-gray-300">{format(new Date(notification.recordDate), 'PPP')}</td>
-                            <td className="px-4 py-2 border border-gray-300">
-                                <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getNotificationLevelColor(notification.notificationLevel[0])}`}>
-                                    {notification.notificationLevel[0]}
-                                </span>
-                            </td>
+                    {displayedNotifications.length > 0 ? (
+                        displayedNotifications.map((notification) => (
+                            <tr key={notification.id} className="text-center">
+                                <td className="px-4 py-2 border border-gray-300">{notification.subject}</td>
+                                <td className="px-4 py-2 border border-gray-300">{notification.description}</td>
+                                <td className="px-4 py-2 border border-gray-300">{format(new Date(notification.recordDate), 'PPP')}</td>
+                                <td className="px-4 py-2 border border-gray-300">
+                                    <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getNotificationLevelColor(notification.notificationLevel[0])}`}>
+                                        {notification.notificationLevel[0]}
+                                    </span>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="4" className="px-4 py-2 border border-gray-300 text-center">{translate(lang, 'noNotifications')}</td>
                         </tr>
-                    ))}
+                    )}
                     </tbody>
                 </table>
             </div>
@@ -111,7 +119,7 @@ function NotificationList() {
                     disabled={page === 1}
                     className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l ${page === 1 && 'cursor-not-allowed opacity-50'}`}
                 >
-                    Previous
+                    {translate(lang, 'previous')}
                 </button>
                 <div className="flex items-center space-x-2">
                     {Array.from({ length: totalPages }, (_, index) => (
@@ -129,7 +137,7 @@ function NotificationList() {
                     disabled={page === totalPages}
                     className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r ${page === totalPages && 'cursor-not-allowed opacity-50'}`}
                 >
-                    Next
+                    {translate(lang, 'next')}
                 </button>
             </div>
         </div>

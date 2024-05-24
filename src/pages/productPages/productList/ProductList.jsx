@@ -5,13 +5,14 @@ import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.j
 import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import {getLanguage, translate} from '../../../language';
 
 function ProductList() {
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
     const [globalFilter, setGlobalFilter] = useState('');
     const { globalStoreId } = useContext(GlobalStoreId);
-
+    const lang = getLanguage();
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -27,7 +28,7 @@ function ProductList() {
             fetchProducts();
         }
         else {
-            alert("You have to choose a store first.");
+            alert(translate(lang, 'chooseStoreFirst'));
             navigate('/stores');
         }
     }, []);
@@ -60,31 +61,31 @@ function ProductList() {
                 profit > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
             }`}
         >
-            {profit > 0 ? 'Profit' : 'Profit Loss'}
+            {profit > 0 ? translate(lang, 'profitStatus') : translate(lang, 'profitLossStatus')}
         </div>
     );
 
     return (
         <div className="max-w-6xl mx-auto p-5 bg-white shadow-lg rounded-lg mt-16">
-            <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">All Products</h1>
+            <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">{translate(lang, 'allProducts')}</h1>
             <div className="flex justify-between items-center gap-4 mb-6">
                 <>
                     <button
                         onClick={handleAddProductClick}
                         className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow"
                     >
-                        Add Product
+                        {translate(lang, 'addProduct')}
                     </button>
                     <button
                         onClick={exportExcel}
                         className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
                     >
-                        Export to Excel
+                        {translate(lang, 'exportToExcel')}
                     </button>
                     <input
                         type="text"
                         className="p-2 border border-gray-300 rounded"
-                        placeholder="Global Search"
+                        placeholder={translate(lang, 'globalSearch')}
                         value={globalFilter}
                         onChange={(e) => setGlobalFilter(e.target.value)}
                     />
@@ -94,13 +95,13 @@ function ProductList() {
                 <table className="min-w-full bg-white border border-gray-300">
                     <thead>
                     <tr className="text-center">
-                        <th className="px-4 py-2 border border-gray-300">Product</th>
-                        <th className="px-4 py-2 border border-gray-300">Model</th>
-                        <th className="px-4 py-2 border border-gray-300">Product Code</th>
-                        <th className="px-4 py-2 border border-gray-300">Profit</th>
-                        <th className="px-4 py-2 border border-gray-300">Current Stock</th>
-                        <th className="px-4 py-2 border border-gray-300">Status</th>
-                        <th className="px-4 py-2 border border-gray-300">Actions</th>
+                        <th className="px-4 py-2 border border-gray-300">{translate(lang, 'product')}</th>
+                        <th className="px-4 py-2 border border-gray-300">{translate(lang, 'model')}</th>
+                        <th className="px-4 py-2 border border-gray-300">{translate(lang, 'productCode')}</th>
+                        <th className="px-4 py-2 border border-gray-300">{translate(lang, 'profit')}</th>
+                        <th className="px-4 py-2 border border-gray-300">{translate(lang, 'currentStock')}</th>
+                        <th className="px-4 py-2 border border-gray-300">{translate(lang, 'status')}</th>
+                        <th className="px-4 py-2 border border-gray-300">{translate(lang, 'actions')}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -119,7 +120,7 @@ function ProductList() {
                                     onClick={() => navigate(`/product-details/${product.id}`)}
                                     className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
                                 >
-                                    View Details
+                                    {translate(lang, 'viewDetails')}
                                 </button>
                             </td>
                         </tr>

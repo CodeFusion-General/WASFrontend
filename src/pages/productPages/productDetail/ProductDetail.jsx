@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { deleteProduct, updateProduct, getProductById } from "../../../api/product/ProductApi.jsx";
 import { getAllCategories } from "../../../api/category/CategoryApi.jsx";
 import { useNavigate, useParams } from "react-router-dom";
-import {XMarkIcon} from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import {getLanguage, translate} from '../../../language';
 
 const placeholderImage = 'src/assets/product.png';
 
@@ -12,6 +13,7 @@ function ProductDetail() {
     const [categories, setCategories] = useState([]);
     const [imageUrl, setImageUrl] = useState(placeholderImage);
     const navigate = useNavigate();
+    const lang = getLanguage(); // Eklenen satır
 
     useEffect(() => {
         const fetchProductAndCategories = async () => {
@@ -96,7 +98,7 @@ function ProductDetail() {
 
     return (
         <div>
-            <h1 className="mt-10 text-3xl font-bold text-center text-gray-800 mb-10">Product Details</h1>
+            <h1 className="mt-10 text-3xl font-bold text-center text-gray-800 mb-10">{translate(lang, 'productDetails')}</h1>
             <div className="flex flex-wrap md:flex-nowrap bg-white shadow-lg rounded-lg mx-auto p-5 my-10">
                 {/* Image Section */}
                 <div className="md:w-1/3 p-2 flex flex-col items-center">
@@ -106,7 +108,7 @@ function ProductDetail() {
                         className="rounded-lg object-cover"
                     />
                     <div className="mt-2 w-full">
-                        <label htmlFor="imageFile" className="block text-sm font-medium text-gray-700">Product Image:</label>
+                        <label htmlFor="imageFile" className="block text-sm font-medium text-gray-700">{translate(lang, 'productImage')}:</label>
                         <input
                             id="imageFile"
                             name="imageFile"
@@ -130,7 +132,7 @@ function ProductDetail() {
                 <div className="md:w-1/3 p-2">
                     <div className="w-full">
                         <div className="mb-4">
-                            <label htmlFor="name" className="block text-sm font-medium text-gray-900">Name:</label>
+                            <label htmlFor="name" className="block text-sm font-medium text-gray-900">{translate(lang, 'name')}:</label>
                             <input
                                 id="name"
                                 name="name"
@@ -141,7 +143,7 @@ function ProductDetail() {
                             />
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="model" className="block text-sm font-medium text-gray-900">Model:</label>
+                            <label htmlFor="model" className="block text-sm font-medium text-gray-900">{translate(lang, 'model')}:</label>
                             <input
                                 id="model"
                                 name="model"
@@ -152,7 +154,7 @@ function ProductDetail() {
                             />
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="productCode" className="block text-sm font-medium text-gray-900">Product Code:</label>
+                            <label htmlFor="productCode" className="block text-sm font-medium text-gray-900">{translate(lang, 'productCode')}:</label>
                             <input
                                 id="productCode"
                                 name="productCode"
@@ -163,7 +165,7 @@ function ProductDetail() {
                             />
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="category" className="block text-sm font-medium text-gray-900">Category:</label>
+                            <label htmlFor="category" className="block text-sm font-medium text-gray-900">{translate(lang, 'category')}:</label>
                             <select
                                 id="category"
                                 name="category"
@@ -171,119 +173,109 @@ function ProductDetail() {
                                 value={editableProduct.category?.id || ''}
                                 onChange={handleCategoryChange}
                             >
-                                <option value="" disabled>Select a category</option>
+                                <option value="" disabled>{translate(lang, 'selectCategory')}</option>
                                 {categories.map(category => (
-                                    <option key={category.id} value={category.id}>{category.name}</option>
+                                    <option key={category.id} value={category.id}>
+                                        {category.name}
+                                    </option>
                                 ))}
                             </select>
                         </div>
-                        <div className="mb-4">
-                            <label htmlFor="current-stock" className="block text-sm font-medium text-gray-900">Current Stock:</label>
+                    </div>
+                </div>
+                {/* Additional Properties Section */}
+                <div className="md:w-1/3 p-2">
+                    <div className="mb-4">
+                        <label htmlFor="currentStock" className="block text-sm font-medium text-gray-900">{translate(lang, 'currentStock')}:</label>
+                        <input
+                            id="currentStock"
+                            name="currentStock"
+                            type="number"
+                            className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                            value={editableProduct.currentStock}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="profit" className="block text-sm font-medium text-gray-900">{translate(lang, 'profit')}:</label>
+                        <input
+                            id="profit"
+                            name="profit"
+                            type="number"
+                            className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                            value={editableProduct.profit}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="storeName" className="block text-sm font-medium text-gray-900">{translate(lang, 'storeName')}:</label>
+                        <input
+                            id="storeName"
+                            name="storeName"
+                            type="text"
+                            className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                            value={editableProduct.store?.name || ''}
+                            onChange={handleChange}
+                        />
+                    </div>
+                </div>
+            </div>
+            <div className="bg-white shadow-lg rounded-lg mx-auto p-5 my-10">
+                <h2 className="text-xl font-bold text-center text-gray-800 mb-5">{translate(lang, 'productProperties')}</h2>
+                {editableProduct.productFields.map((field, index) => (
+                    <div key={index} className="mb-4">
+                        <div className="flex">
                             <input
-                                id="current-stock"
-                                name="current-stock"
-                                type="number"
-                                className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                value={editableProduct.currentStock}
-                                disabled={true}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="profit" className="block text-sm font-medium text-gray-900">Profit:</label>
-                            <input
-                                id="profit"
-                                name="profit"
-                                type="number"
-                                className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                value={editableProduct.profit}
-                                disabled={true}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="store-name" className="block text-sm font-medium text-gray-900">Store Name:</label>
-                            <input
-                                id="store-name"
-                                name="store-name"
                                 type="text"
                                 className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                disabled={true}
-                                value={editableProduct.store.name}
-                                onChange={handleChange}
+                                value={field.name}
+                                onChange={(e) => handleFieldChange(index, 'name', e.target.value)}
+                                placeholder="Property Name"
                             />
-                        </div>
-                    </div>
-
-                    <div className="flex justify-center space-x-2 mt-4">
-                        <button
-                            className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            onClick={handleUpdate}>
-                            Update
-                        </button>
-                        <button
-                            className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                            onClick={handleDelete}>
-                            Delete
-                        </button>
-                        <button
-                            className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-500 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                            onClick={handleNavigateToTransactions}>
-                            View Transactions
-                        </button>
-                    </div>
-                </div>
-                {/* Product Properties Section */}
-                <div className="md:w-1/3 p-2">
-                    {editableProduct.productFields && (
-                        <div className="mt-4 w-full">
-                            <h3 className="text-lg font-medium text-gray-900 mb-2">Product Properties</h3>
-                            <table className="min-w-full bg-white">
-                                <thead>
-                                <tr>
-                                    <th className="py-2 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-900">Delete</th>
-                                    <th className="py-2 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-900">Name</th>
-                                    <th className="py-2 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-900">Feature</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {editableProduct.productFields.map((field, index) => (
-                                    <tr key={index}>
-                                        <td className="py-2 px-4 border-b border-gray-200 text-sm items-center">
-                                            <button
-                                                className="text-red-500 hover:text-red-700"
-                                                onClick={() => handleDeleteField(index)}>
-                                                <XMarkIcon className="h-5 w-5" />
-                                            </button>
-                                        </td>
-                                        <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                                            <input
-                                                type="text"
-                                                className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                                value={field.name}
-                                                onChange={(e) => handleFieldChange(index, 'name', e.target.value)}
-                                            />
-                                        </td>
-                                        <td className="py-2 px-4 border-b border-gray-200 text-sm">
-                                            <input
-                                                type="text"
-                                                className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                                value={field.feature}
-                                                onChange={(e) => handleFieldChange(index, 'feature', e.target.value)}
-                                            />
-                                        </td>
-                                    </tr>
-                                ))}
-                                </tbody>
-                            </table>
+                            <input
+                                type="text"
+                                className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 ml-2"
+                                value={field.feature}
+                                onChange={(e) => handleFieldChange(index, 'feature', e.target.value)}
+                                placeholder="Property Feature"
+                            />
                             <button
-                                className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                                onClick={handleAddNewProperty}>
-                                New Property
+                                className="ml-2 text-red-500 hover:text-red-700"
+                                onClick={() => handleDeleteField(index)}
+                            >
+                                <XMarkIcon className="h-5 w-5" />
                             </button>
                         </div>
-                    )}
+                    </div>
+                ))}
+                <div className="text-center">
+                    <button
+                        className="text-blue-500 hover:text-blue-700"
+                        onClick={handleAddNewProperty}
+                    >
+                        + {translate(lang, 'newProperty')}
+                    </button>
                 </div>
+            </div>
+            <div className="flex justify-center space-x-4">
+                <button
+                    className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                    onClick={handleUpdate}
+                >
+                    {translate(lang, 'update')}
+                </button>
+                <button
+                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700"
+                    onClick={handleDelete}
+                >
+                    {translate(lang, 'delete')}
+                </button>
+                <button
+                    className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-700"
+                    onClick={handleNavigateToTransactions}
+                >
+                    {translate(lang, 'viewTransactions')}
+                </button>
             </div>
         </div>
     );

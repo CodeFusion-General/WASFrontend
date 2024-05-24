@@ -203,6 +203,11 @@ export default {
     top5Category: "Top 5 Category",
     productName: "Product Name",
     viewAllProducts: "View All Products",
+    productName: "Product Name",
+    profit: "Profit",
+    viewAllProducts: "View All Products",
+    top5MostProfitableProducts: "Top 5 Most Profitable Products",
+    bottom5LeastProfitableProducts: "Bottom 5 Least Profitable Products",
   },
   tr: {
     warehouseInformationSystem: "DEPO BİLGİ SİSTEMİ",
@@ -413,5 +418,10 @@ export default {
     top5Category: "En İyi 5 Kategori",
     productName: "Ürün Adı",
     viewAllProducts: "Tüm Ürünleri Görüntüle",
+    productName: "Ürün Adı",
+    profit: "Kâr",
+    viewAllProducts: "Tüm Ürünleri Görüntüle",
+    top5MostProfitableProducts: "En Çok Kâr Getiren 5 Ürün",
+    bottom5LeastProfitableProducts: "En Az Kâr Getiren 5 Ürün",
   },
 };

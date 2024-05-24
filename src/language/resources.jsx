@@ -269,7 +269,7 @@ export default {
     companyDetails: "Şirket Detayları",
     name: "İsim",
     description: "Açıklama",
-    taxLevel: "Vergi Seviyesi",
+    taxLevel: "Vergi Levhası(İsteğe Bağlı)",
     editCompany: "Şirketi Düzenle",
     noStoresFound: "Mağaza bulunamadı.",
     saveChanges: "Değişiklikleri Kaydet",

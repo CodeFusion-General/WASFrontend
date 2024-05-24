@@ -59,9 +59,10 @@ const LanguageDropdown = () => {
                                     onClick={() => handleLanguageChange('English')}
                                     className={classNames(
                                         active ? 'bg-gray-100' : '',
-                                        'block px-4 py-2 text-sm text-gray-700 cursor-pointer'
+                                        'block px-4 py-2 text-sm text-gray-700 cursor-pointer flex items-center'
                                     )}
                                 >
+                                    <img src='src/assets/usa.png' alt="English" className="w-5 h-5 mr-2" />
                                     English
                                 </a>
                             )}
@@ -72,9 +73,10 @@ const LanguageDropdown = () => {
                                     onClick={() => handleLanguageChange('Türkçe')}
                                     className={classNames(
                                         active ? 'bg-gray-100' : '',
-                                        'block px-4 py-2 text-sm text-gray-700 cursor-pointer'
+                                        'block px-4 py-2 text-sm text-gray-700 cursor-pointer flex items-center'
                                     )}
                                 >
+                                    <img src='src/assets/tur.png' alt="Türkçe" className="w-5 h-5 mr-2" />
                                     Türkçe
                                 </a>
                             )}

@@ -2,12 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import { getStoresByUserId } from "../../../api/store/StoreApi.jsx";
 import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
 import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { getLanguage, translate } from '../../../language';
 
 function StoreList() {
     const [stores, setStores] = useState([]);
     const { setGlobalStoreId, globalStoreId } = useContext(GlobalStoreId);
     const navigate = useNavigate();
+    const lang = getLanguage();
 
     useEffect(() => {
         const fetchStores = async () => {
@@ -60,7 +62,7 @@ function StoreList() {
 
     return (
         <div className="max-w-6xl mx-auto p-5">
-            <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">All Stores</h1>
+            <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">{translate(lang, 'allStores')}</h1>
             {Array.isArray(stores) && stores.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center">
                     {stores.map((store) => (
@@ -87,18 +89,18 @@ function StoreList() {
                             <button
                                 onClick={() => handleSelectStore(store.id)}
                                 className="bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-900 transition-colors">
-                                Select
+                                {translate(lang, 'select')}
                             </button>
                         </div>
                     ))}
                 </div>
             ) : (
                 <div className="flex flex-col items-center justify-center text-center text-gray-500">
-                    <p>No stores found.</p>
+                    <p>{translate(lang, 'noStoresFound')}</p>
                     <button
                         onClick={() => navigate('/add-store')}
                         className="bg-green-600 text-white py-2 px-4 rounded hover:bg-gray-900 transition-colors mt-4">
-                        New Store
+                        {translate(lang, 'newStore')}
                     </button>
                 </div>
             )}

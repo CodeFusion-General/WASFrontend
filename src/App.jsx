@@ -38,13 +38,15 @@ import {GlobalCompanyIdProvider} from "./api/company/GlobalCompanyId.jsx";
 
 const Dashboard = () => {
     return (
-        <div>
+        <div className="flex flex-col min-h-screen">
             <Navbar />
-            <Sidebar />
-            <div className="ml-64">
-                <Outlet />
-                <Footer />
+            <div className="flex flex-1">
+                <Sidebar />
+                <div className="flex-1 ml-64 p-4">
+                    <Outlet />
+                </div>
             </div>
+            <Footer />
         </div>
     );
 };

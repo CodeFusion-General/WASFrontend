@@ -1,9 +1,10 @@
-import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { useEffect, useState, useContext } from 'react';
+import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { CiCircleCheck } from 'react-icons/ci';
 import { addAccount } from '../../../api/user/UserApi.jsx';
 import { useNavigate } from "react-router-dom";
-import {GlobalStoreId} from "../../../api/store/GlobalStoreId.jsx";
+import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
+import { getLanguage, translate } from '../../../language';
 
 export default function UserAdd(props) {
     const { type } = props;
@@ -13,6 +14,7 @@ export default function UserAdd(props) {
     const [user, setUser] = useState({ email: '', name: '', surname: '', phone: '' });
     const [photo, setPhoto] = useState(null);
     const navigate = useNavigate();
+    const lang = getLanguage();
 
     const handlePhotoChange = (event) => {
         const file = event.target.files[0];
@@ -33,7 +35,7 @@ export default function UserAdd(props) {
         event.preventDefault();
 
         if (!passwordsMatch) {
-            alert("Passwords do not match.");
+            alert(translate(lang, 'passwordsDoNotMatch'));
             return;
         }
 
@@ -45,18 +47,15 @@ export default function UserAdd(props) {
         formData.append('password', account.password);
         formData.append('phoneNo', user.phone);
         formData.append('roles', type.toString().toUpperCase());
-        formData.append('isTelegram', false)
+        formData.append('isTelegram', false);
         if(globalStoreId !== null || type === 'Employee'){
             formData.append('storeIds', globalStoreId);
-        }
-        else if(type === 'Boss') {
-            formData.append('storeIds', "")
-        }
-        else {
-            alert("Store is not defined");
+        } else if(type === 'Boss') {
+            formData.append('storeIds', "");
+        } else {
+            alert(translate(lang, 'storeNotDefined'));
             return;
         }
-
 
         const fileInput = document.getElementById('photoInput');
         if (fileInput.files.length > 0) {
@@ -66,22 +65,21 @@ export default function UserAdd(props) {
         try {
             const result = await addAccount(formData);
             if (type === 'Boss') {
-                alert("Account registered successfully. Continue with the company.");
+                alert(translate(lang, 'accountRegisteredSuccess') + " " + translate(lang, 'continueWithCompany'));
                 navigate(`/new-company/${result.id}`);
-            }
-            else {
-                alert("Account registered successfully.");
+            } else {
+                alert(translate(lang, 'accountRegisteredSuccess'));
                 navigate(`/`);
             }
         } catch (error) {
             console.error("Error while registering the account:", error);
-            alert("Failed to register account. Please try again later.");
+            alert(translate(lang, 'accountRegisterError'));
         }
     };
 
     useEffect(() => {
         if(globalStoreId === null && type === 'Employee'){
-            alert("You have to choose a store first.");
+            alert(translate(lang, 'chooseStoreFirst'));
             navigate('/stores');
         }
     }, [globalStoreId]);
@@ -94,14 +92,14 @@ export default function UserAdd(props) {
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="p-5 my-10 w-full max-w-4xl bg-white rounded-lg shadow-lg ">
                 <h2 className="text-2xl font-bold mb-6 text-gray-800">
-                    {type === 'Boss' ? "Register" : "New Employee"}
+                    {type === 'Boss' ? translate(lang, 'register') : translate(lang, 'newEmployee')}
                 </h2>
                 <form className="space-y-6" onSubmit={handleRegister}>
                     <div className="product-fields">
                         <div className="field-pair">
                             <InputField
                                 id="username"
-                                label="Username"
+                                label={translate(lang, 'username')}
                                 name="username"
                                 value={account.username}
                                 onChange={e => setAccount(prevState => ({
@@ -111,7 +109,7 @@ export default function UserAdd(props) {
                             />
                             <InputField
                                 id="password"
-                                label="Password"
+                                label={translate(lang, 'password')}
                                 name="password"
                                 type="password"
                                 value={account.password}
@@ -124,7 +122,7 @@ export default function UserAdd(props) {
                         <div className="field-pair">
                             <InputField
                                 id="password-again"
-                                label="Password Again"
+                                label={translate(lang, 'passwordAgain')}
                                 name="password_again"
                                 type="password"
                                 value={account.password_again}
@@ -136,7 +134,7 @@ export default function UserAdd(props) {
                             />
                             <InputField
                                 id="phone"
-                                label="Phone"
+                                label={translate(lang, 'phone')}
                                 name="phone"
                                 value={user.phone}
                                 onChange={e => setUser(prevState => ({
@@ -147,12 +145,12 @@ export default function UserAdd(props) {
                         </div>
                     </div>
 
-                    <h2 className="text-lg font-semibold leading-7 text-gray-900">Personal Information</h2>
+                    <h2 className="text-lg font-semibold leading-7 text-gray-900">{translate(lang, 'personalInformation')}</h2>
                     <div className="product-fields">
                         <div className="field-pair">
                             <InputField
                                 id="first-name"
-                                label="First name"
+                                label={translate(lang, 'firstName')}
                                 name="first-name"
                                 value={user.name}
                                 onChange={e => setUser(prevState => ({
@@ -162,7 +160,7 @@ export default function UserAdd(props) {
                             />
                             <InputField
                                 id="last-name"
-                                label="Last name"
+                                label={translate(lang, 'lastName')}
                                 name="last-name"
                                 value={user.surname}
                                 onChange={e => setUser(prevState => ({
@@ -174,7 +172,7 @@ export default function UserAdd(props) {
                         <div className="field-pair">
                             <InputField
                                 id="email"
-                                label="Email address"
+                                label={translate(lang, 'email')}
                                 name="email"
                                 type="email"
                                 value={user.email}
@@ -186,7 +184,7 @@ export default function UserAdd(props) {
                             />
                             <div className="flex items-center gap-x-3 relative" style={{ left: '-7rem' }}>
                                 <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Photo
+                                    {translate(lang, 'photo')}
                                 </label>
                                 <div className="mt-2 flex items-center gap-x-3">
                                     {photo ? (
@@ -199,7 +197,7 @@ export default function UserAdd(props) {
                                         className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                                         onClick={triggerFileInput}
                                     >
-                                        Change
+                                        {translate(lang, 'changePhoto')}
                                     </button>
                                     <input
                                         type="file"
@@ -217,7 +215,7 @@ export default function UserAdd(props) {
                             type="submit"
                             className="py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-md"
                         >
-                            Register
+                            {translate(lang, 'registerButton')}
                         </button>
                     </div>
                 </form>

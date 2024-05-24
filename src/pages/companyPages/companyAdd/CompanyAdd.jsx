@@ -1,10 +1,10 @@
-import {useState} from 'react';
-import {useParams} from "react-router-dom";
-import {addCompany} from "../../../api/company/CompanyApi.jsx";
-import {useNavigate} from "react-router-dom";
+import { useState } from 'react';
+import { useParams, useNavigate } from "react-router-dom";
+import { addCompany } from "../../../api/company/CompanyApi.jsx";
+import {getLanguage, translate} from '../../../language';
 
 export default function CompanyAdd() {
-    const {bossId} = useParams();
+    const { bossId } = useParams();
     const [image, setImage] = useState(null);
     const [photo, setPhoto] = useState(null);
     const [company, setCompany] = useState({
@@ -14,6 +14,7 @@ export default function CompanyAdd() {
         userId: bossId
     });
     const navigate = useNavigate();
+    const lang = getLanguage();
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -32,12 +33,12 @@ export default function CompanyAdd() {
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="p-5 my-10 w-full max-w-xl bg-white rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold mb-6 text-gray-800">
-                    Company Registration
+                    {translate(lang, 'companyRegistration')} {/* Güncellenen satır */}
                 </h2>
                 <form className="space-y-6" onSubmit={handleRegister}>
                     <InputField
                         id="name"
-                        label="Name"
+                        label={translate(lang, 'name')}
                         name="name"
                         value={company.name}
                         onChange={e => setCompany(prevState => ({
@@ -47,7 +48,7 @@ export default function CompanyAdd() {
                     />
                     <InputField
                         id="description"
-                        label="Description"
+                        label={translate(lang, 'description')}
                         name="description"
                         as="textarea"
                         value={company.description}
@@ -58,7 +59,7 @@ export default function CompanyAdd() {
                     />
                     <InputField
                         id="tax-level"
-                        label="Tax Level"
+                        label={translate(lang, 'taxLevel')}
                         name="tax-level"
                         value={company.taxLevel}
                         onChange={e => setCompany(prevState => ({
@@ -68,7 +69,7 @@ export default function CompanyAdd() {
                     />
                     <div className="w-full mt-8">
                         <label htmlFor="imageFile" className="block mb-2 text-sm font-medium text-gray-700">
-                            Company Image:
+                            {translate(lang, 'companyImage')}
                         </label>
                         <input
                             id="imageFile"
@@ -92,7 +93,7 @@ export default function CompanyAdd() {
                             <img
                                 src={photo}
                                 className="rounded-lg w-full object-cover mt-2"
-                                style={{maxHeight: '400px'}}
+                                style={{ maxHeight: '400px' }}
                             />
                         )}
                     </div>
@@ -101,7 +102,7 @@ export default function CompanyAdd() {
                             type="submit"
                             className="py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-md"
                         >
-                            Register
+                            {translate(lang, 'register')}
                         </button>
                     </div>
                 </form>

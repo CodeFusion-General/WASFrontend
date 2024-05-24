@@ -3,11 +3,13 @@ import {GlobalCompanyId} from "../../../api/company/GlobalCompanyId.jsx";
 import {useNavigate} from "react-router-dom";
 import {decodeUserToken} from "../../../api/authentication/AuthenticationApi.jsx";
 import {getAllCompanies} from "../../../api/company/CompanyApi.jsx";
+import {getLanguage, translate} from '../../../language';
 
 function CompanyList() {
     const [companies, setCompanies] = useState();
     const { setGlobalCompanyId, globalCompanyId } = useContext(GlobalCompanyId);
     const navigate = useNavigate();
+    const lang = getLanguage();
 
     useEffect(() => {
         const fetchCompany = async () => {
@@ -25,8 +27,6 @@ function CompanyList() {
         fetchCompany();
     }, []);
 
-
-
     const handleSelectCompany = (storeId) => {
         setGlobalCompanyId(storeId);
         navigate('/company-detail');
@@ -34,7 +34,7 @@ function CompanyList() {
 
     return (
         <div className="max-w-6xl mx-auto p-5">
-            <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">All Stores</h1>
+            <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">{translate(lang, 'allStores')}</h1> {/* Güncellenen satır */}
             {Array.isArray(companies) && companies.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center">
                     {companies.map((company) => (
@@ -61,14 +61,14 @@ function CompanyList() {
                             <button
                                 onClick={() => handleSelectCompany(company.id)}
                                 className="bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-900 transition-colors">
-                                Select
+                                {translate(lang, 'select')} {/* Güncellenen satır */}
                             </button>
                         </div>
                     ))}
                 </div>
             ) : (
                 <div className="flex flex-col items-center justify-center text-center text-gray-500">
-                    <p>No company found.</p>
+                    <p>{translate(lang, 'noCompanyFound')}</p> {/* Güncellenen satır */}
                 </div>
             )}
         </div>

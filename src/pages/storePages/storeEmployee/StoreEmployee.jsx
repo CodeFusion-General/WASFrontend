@@ -1,8 +1,10 @@
+
 import { useState, useEffect, useContext } from 'react';
 import { getUsersByStoreId, updateUser } from "../../../api/user/UserApi.jsx";
 import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
 import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
 import { useNavigate } from "react-router-dom";
+import { getLanguage, translate } from '../../../language';
 
 const placeholderImage = 'src/assets/user.webp';
 const roles = {
@@ -18,7 +20,7 @@ const StoreEmployee = () => {
     const { globalStoreId } = useContext(GlobalStoreId);
     const [currentUserRole, setCurrentUserRole] = useState(null);
     const navigate = useNavigate();
-
+    const lang = getLanguage();
 
     useEffect(() => {
         const fetchEmployees = async () => {
@@ -41,7 +43,7 @@ const StoreEmployee = () => {
                     console.error('Error fetching employees:', error);
                 }
             } else {
-                alert("You have to choose a store first.");
+                alert(translate(lang, 'chooseStoreAlert'));
                 navigate('/stores');
             }
         };
@@ -75,19 +77,18 @@ const StoreEmployee = () => {
         }
     };
 
-
     return (
         <div className="container mx-auto my-8 p-8 bg-white shadow-lg max-w-6xl">
             <div className="overflow-x-auto relative">
                 <table className="w-full text-sm text-left text-gray-500">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
-                        <th scope="col" className="py-3 px-6">Photo</th>
-                        <th scope="col" className="py-3 px-6">Name</th>
-                        <th scope="col" className="py-3 px-6">Surname</th>
-                        <th scope="col" className="py-3 px-6">Phone</th>
-                        <th scope="col" className="py-3 px-6">Role</th>
-                        {Object.keys(editingRoles).length > 0 && <th scope="col" className="py-3 px-6">Actions</th>}
+                        <th scope="col" className="py-3 px-6">{translate(lang, 'photo')}</th>
+                        <th scope="col" className="py-3 px-6">{translate(lang, 'name')}</th>
+                        <th scope="col" className="py-3 px-6">{translate(lang, 'surname')}</th>
+                        <th scope="col" className="py-3 px-6">{translate(lang, 'phone')}</th>
+                        <th scope="col" className="py-3 px-6">{translate(lang, 'role')}</th>
+                        {Object.keys(editingRoles).length > 0 && <th scope="col" className="py-3 px-6">{translate(lang, 'actions')}</th>}
                     </tr>
                     </thead>
                     <tbody>
@@ -129,7 +130,7 @@ const StoreEmployee = () => {
                                         onClick={() => handleSave(user.id)}
                                         className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
                                     >
-                                        Save
+                                        {translate(lang, 'save')}
                                     </button>
                                 </td>
                             )}

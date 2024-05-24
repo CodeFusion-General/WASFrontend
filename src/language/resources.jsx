@@ -200,9 +200,15 @@ export default {
     storeDashboard: "Store Dashboard",
     storeDashboardError: "Error: Store ID is not available.",
     dailyTotalTransactions: "Daily Total Transactions",
-    top5Category: "Top 5 Category",
     top5MostProfitableProducts: "Top 5 Most Profitable Products",
     bottom5LeastProfitableProducts: "Bottom 5 Least Profitable Products",
+    top5Category: "Top 5 Most Profitable Categories",
+    totalProfit: "Total Profit",
+    errorFetchingCategories: "Error fetching top 5 most profitable categories: ",
+    total: "Total",
+    dailyTotalTransaction: "Daily Total Transaction",
+    productName: "Product Name",
+    viewAllProducts: "View All Products",
   },
   tr: {
     warehouseInformationSystem: "DEPO BİLGİ SİSTEMİ",
@@ -410,8 +416,15 @@ export default {
     storeDashboard: "Mağaza Paneli",
     storeDashboardError: "Hata: Mağaza kimliği mevcut değil.",
     dailyTotalTransactions: "Günlük Toplam İşlemler",
-    top5Category: "En İyi 5 Kategori",
     top5MostProfitableProducts: "En Çok Kâr Getiren 5 Ürün",
     bottom5LeastProfitableProducts: "En Az Kâr Getiren 5 Ürün",
+    top5Category: "En Karlı 5 Kategori",
+    totalProfit: "Toplam Kar",
+    errorFetchingCategories: "En karlı 5 kategoriyi getirirken hata oluştu: ",
+    dailyTotalTransaction: "Günlük Toplam İşlem",
+    total: "Toplam",
+    productName: "Ürün Adı",
+    viewAllProducts: "Tüm Ürünleri Görüntüle"
+
   },
 };

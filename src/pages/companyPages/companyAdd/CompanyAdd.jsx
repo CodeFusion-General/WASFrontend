@@ -21,10 +21,11 @@ export default function CompanyAdd() {
         try {
             const response = await addCompany(company, image);
             if (response) {
-                alert("Company added successfully.");
+                alert(translate(lang, 'companyAddSuccess'));
                 navigate('/');
             }
         } catch (error) {
+            alert(translate(lang, 'companyAddFailed'));
             console.error("Error adding the company:", error);
         }
     }

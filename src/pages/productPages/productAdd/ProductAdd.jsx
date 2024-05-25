@@ -5,12 +5,13 @@ import { addCategory, getCategoriesByStoreId } from "../../../api/category/Categ
 import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
 import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
 import { useNavigate } from 'react-router-dom';
-import {getLanguage, translate} from '../../../language';
+import { getLanguage, translate } from '../../../language';
 
 function ProductAdd({ onClose }) {
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
     const [photo, setPhoto] = useState(null);
+    const [photoError, setPhotoError] = useState('');
     const [store, setStore] = useState(null);
     const { globalStoreId } = useContext(GlobalStoreId);
     const [product, setProduct] = useState({
@@ -24,7 +25,7 @@ function ProductAdd({ onClose }) {
     });
     const [newCategory, setNewCategory] = useState('');
     const [showNewCategoryInput, setShowNewCategoryInput] = useState(false);
-    const lang = getLanguage(); // Eklenen satır
+    const lang = getLanguage();
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -140,8 +141,24 @@ function ProductAdd({ onClose }) {
         setShowNewCategoryInput(false);
     };
 
+    const handlePhotoChange = (e) => {
+        const file = e.target.files[0];
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        if (file && file.size > maxSize) {
+            setPhotoError('File size exceeds the 5MB limit.');
+            setPhoto(null);
+        } else {
+            setPhotoError('');
+            setPhoto(file);
+        }
+    };
+
     const handleSubmit = async () => {
         try {
+            if (photoError) {
+                alert(photoError);
+                return;
+            }
             const photoData = document.getElementById('imageFile').files[0];
             console.log("Product data", product);
             const result = await addProduct(product, photoData);
@@ -261,8 +278,9 @@ function ProductAdd({ onClose }) {
                         name="imageFile"
                         type="file"
                         className="w-full text-sm text-gray-900 border rounded-lg bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                        onChange={e => setPhoto(e.target.files[0])}
+                        onChange={handlePhotoChange}
                     />
+                    {photoError && <p className="text-red-500 text-sm mt-2">{photoError}</p>}
                 </div>
                 <div className="flex justify-end">
                     <button

@@ -209,6 +209,15 @@ export default {
     dailyTotalTransaction: "Daily Total Transaction",
     productName: "Product Name",
     viewAllProducts: "View All Products",
+    loginFailedUserNotFound: "User not found. Please check your username.",
+    loginFailedPasswordWrong: "Incorrect password. Please try again.",
+    continueWithCompany: "Continue with Company.",
+    companyAddSuccess: "Company added successfully!",
+    companyAddError: "Failed to add company. Please try again later.",
+    companyFetchError: "Failed to fetch company data. Please log in again.",
+    companyIdError: "Company ID not found. Please log in again.",
+    companyUpdateSuccess: "Company updated successfully!",
+    companyUpdateError: "Failed to update company. Please try again.",
   },
   tr: {
     warehouseInformationSystem: "DEPO BİLGİ SİSTEMİ",
@@ -424,7 +433,15 @@ export default {
     dailyTotalTransaction: "Günlük Toplam İşlem",
     total: "Toplam",
     productName: "Ürün Adı",
-    viewAllProducts: "Tüm Ürünleri Görüntüle"
-
+    viewAllProducts: "Tüm Ürünleri Görüntüle",
+    loginFailedUserNotFound: "Kullanıcı bulunamadı. Lütfen kullanıcı adınızı kontrol edin.",
+    loginFailedPasswordWrong: "Yanlış şifre. Lütfen tekrar deneyin.",
+    continueWithCompany: "Şirket ile Devam Edin.",
+    companyAddSuccess: "Şirket başarıyla eklendi!",
+    companyAddError: "Şirket eklenemedi. Lütfen daha sonra tekrar deneyin.",
+    companyFetchError: "Şirket verileri alınamadı. Lütfen tekrar giriş yapın.",
+    companyIdError: "Şirket Kimliği bulunamadı. Lütfen tekrar giriş yapın.",
+    companyUpdateSuccess: "Şirket başarıyla güncellendi!",
+    companyUpdateError: "Şirket güncellenemedi. Lütfen tekrar deneyin.",
   },
 };

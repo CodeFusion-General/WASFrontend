@@ -19,6 +19,7 @@ function CompanyList() {
                     const response = await getAllCompanies();
                     setCompanies(response.data);
                 } catch (error) {
+                    alert(translate(lang, 'companyFetchError'));
                     console.error("Failed to get company.", error);
                 }
             }

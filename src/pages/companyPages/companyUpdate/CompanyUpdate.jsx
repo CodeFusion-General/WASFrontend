@@ -24,16 +24,15 @@ function CompanyUpdate() {
                     const response = await getCompanyById(decodeUserToken().companyId || globalCompanyId);
                     setCompany(response.data);
                     if (response.data.resourceFile && response.data.resourceFile.data) {
-                        console.log("response", response.data)
                         setImageUrl(`data:image/jpeg;base64,${response.data.resourceFile.data}`);
                     }
                 } catch (error) {
                     console.error("Error fetching company data:", error);
-                    alert('Failed to fetch company data. Please try again.');
+                    alert(translate(lang, 'companyFetchError'));
                     navigate('/companies');
                 }
             } else {
-                alert('User not authenticated. Please log in.');
+                alert(translate(lang, 'companyIdError'));
                 navigate('/login');
             }
         };
@@ -64,11 +63,11 @@ function CompanyUpdate() {
         e.preventDefault();
         try {
             await updateCompany(company, photo);
-            alert('Company updated successfully!');
+            alert(translate(lang, 'companyUpdateSuccess'));
             navigate('/companies');
         } catch (error) {
+            alert(translate(lang, 'companyUpdateFailed'));
             console.error("Error updating company:", error);
-            alert('Failed to update company. Please try again.');
         }
     };
 

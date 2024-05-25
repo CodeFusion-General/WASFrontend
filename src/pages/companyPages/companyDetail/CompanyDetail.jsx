@@ -20,12 +20,12 @@ function CompanyDetail() {
                     const response = await getCompanyById(decodedToken.companyId || globalCompanyId);
                     setCompany(response.data);
                 } catch (error) {
+                    alert(translate(lang, 'companyFetchError'));
                     console.error("Error fetching user data:", error);
-                    alert('Failed to fetch company data. Please log in again.');
                     navigate('/login');
                 }
             } else {
-                alert('Company ID not found. Please log in again.');
+                alert(translate(lang, 'companyIdError'));
                 navigate('/login');
             }
         };

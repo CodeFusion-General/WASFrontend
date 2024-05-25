@@ -117,8 +117,12 @@ function ProductAdd({ onClose }) {
             },
             prototypes: product.productFields.map(field => ({ name: field.name, isDelete: false }))
         };
-
-        console.log("New Category Object:", newCategoryObj);  // Debugging: Log the newCategoryObj
+        const newCategoryObj1 = {
+            name: newCategory,
+            storeId: storeId,
+            prototypes: product.productFields.map(field => ({ name: field.name, isDelete: false })),
+            products: []
+        };
 
         addCategory(newCategoryObj)
             .then(() => alert("Category added successfully"))
@@ -126,7 +130,7 @@ function ProductAdd({ onClose }) {
                 console.error("Failed to add category", error);
             });
 
-        setCategories([...categories, newCategoryObj]);
+        setCategories([...categories, newCategoryObj1]);
         setProduct({
             ...product,
             category: newCategoryObj.id.toString(),

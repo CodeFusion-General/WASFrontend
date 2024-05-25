@@ -15,9 +15,9 @@ import { getLanguage, translate } from '../../language';
 const token = decodeUserToken() || { roles: [] };
 const navigation = [
     { name: translate(getLanguage(),'dashboard'), href: token.roles[0] === 'BOSS' ? '/boss-dashboard' : '/store', current: false },
-    ...(token.roles[0] === 'MANAGER' || token.roles[0] === 'BOSS' ? [{ name: translate(getLanguage(),'team'), href: '/store-employees', current: false }] : []),
-    ...(token.roles[0] === 'BOSS' ? [{ name: translate(getLanguage(),'newStore'), href: '/add-store', current: false }] : []),
-    ...(token.roles[0] === 'BOSS' ? [{ name: translate(getLanguage(),'newEmployee'), href: '/employee-register', current: false }] : []),
+    ...((token.roles[0] === 'MANAGER' || token.roles[0] === 'BOSS'|| token.roles[0] === 'ADMIN') ? [{ name: translate(getLanguage(),'team'), href: '/store-employees', current: false }] : []),
+    ...((token.roles[0] === 'BOSS'|| token.roles[0] === 'ADMIN') ? [{ name: translate(getLanguage(),'newStore'), href: '/add-store', current: false }] : []),
+    ...((token.roles[0] === 'BOSS' || token.roles[0] === 'ADMIN') ? [{ name: translate(getLanguage(),'newEmployee'), href: '/employee-register', current: false }] : []),
     ...(token.roles[0] === 'ADMIN' ? [{ name: translate(getLanguage(),'newBoss'), href: '/register', current: false }] : []),
 ];
 

@@ -35,7 +35,7 @@ const Sidebar = () => {
                                 {translate(getLanguage(), 'home')}
                             </Link>
                         </li>
-                        {(userRole === 'BOSS') &&
+                        {(userRole === 'BOSS' || userRole == 'ADMIN') &&
                             <li className="px-6 py-2 border-b border-gray-700 flex items-center">
                                 <FaStore className="mr-4"/> {/* Stores icon */}
                                 <Link to="/stores" className="flex-grow text-white hover:text-blue-500">

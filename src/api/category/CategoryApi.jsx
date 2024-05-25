@@ -70,8 +70,6 @@ const getTop5MostProfitableCategory = async (storeId) => {
 const addCategory = async (category) => {
     const url = `${API_BASE_URL}/category/add`;
     
-    console.log("Category Data Sent to API:", category);  // Debugging: Log the category data
-
     try {
         const response = await axios.post(url, category, { headers: getHeaders() });
         if (response.status === 201) {

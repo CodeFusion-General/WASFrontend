@@ -1,11 +1,8 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUserById, updateUser } from '../../../api/user/UserApi';
 import { decodeUserToken } from '../../../api/authentication/AuthenticationApi';
-import Cookies from 'js-cookie';
 import { getLanguage, translate } from '../../../language';
-
 
 const placeholderImage = 'src/assets/user.webp';
 
@@ -23,7 +20,6 @@ function UserUpdate() {
                     const response = await getUserById(decodedToken.userId);
                     setUser(response.data);
                     if (response.data.resourceFile && response.data.resourceFile.data) {
-                        console.log("response", response.data)
                         setImageUrl(`data:image/jpeg;base64,${response.data.resourceFile.data}`);
                     }
                 } catch (error) {
@@ -60,6 +56,10 @@ function UserUpdate() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (user.phoneNo.length < 9 || user.phoneNo.length > 13) {
+            alert(translate(lang, 'phoneLengthError'));
+            return;
+        }
         try {
             await updateUser(user.id, user, user.file);
             alert(translate(lang, 'profileUpdated'));
@@ -74,24 +74,28 @@ function UserUpdate() {
         <div className="max-w-6xl mx-auto p-5 bg-white shadow-lg rounded-lg mt-16">
             <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">{translate(lang, 'editProfile')}</h1>
             <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg p-6 mb-6">
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">{translate(lang, 'name')}</label>
-                    <input type="text" id="name" name="name" value={user.name} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="name">{translate(lang, 'name')}</label>
+                        <input type="text" id="name" name="name" value={user.name} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                    </div>
+                    <div>
+                        <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="surname">{translate(lang, 'surname')}</label>
+                        <input type="text" id="surname" name="surname" value={user.surname} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                    </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="email">{translate(lang, 'email')}</label>
+                        <input type="email" id="email" name="email" value={user.email} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                    </div>
+                    <div>
+                        <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="phoneNo">{translate(lang, 'phone')}</label>
+                        <input type="text" id="phoneNo" name="phoneNo" value={user.phoneNo} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                    </div>
                 </div>
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="surname">{translate(lang, 'surname')}</label>
-                    <input type="text" id="surname" name="surname" value={user.surname} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">{translate(lang, 'email')}</label>
-                    <input type="email" id="email" name="email" value={user.email} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phoneNo">{translate(lang, 'phone')}</label>
-                    <input type="text" id="phoneNo" name="phoneNo" value={user.phoneNo} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="file">{translate(lang, 'profilePicture')}</label>
+                    <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="file">{translate(lang, 'profilePicture')}</label>
                     <input type="file" id="file" name="file" onChange={handleFileChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                     {imageUrl && (
                         <div className="mt-2">

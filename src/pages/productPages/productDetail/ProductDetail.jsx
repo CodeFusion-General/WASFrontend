@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect, useContext} from 'react';
 import { deleteProduct, updateProduct, getProductById } from "../../../api/product/ProductApi.jsx";
-import { getAllCategories } from "../../../api/category/CategoryApi.jsx";
+import { getCategoriesByStoreId } from "../../../api/category/CategoryApi.jsx";
 import { useNavigate, useParams } from "react-router-dom";
+import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {getLanguage, translate} from '../../../language';
+import {decodeUserToken} from "../../../api/authentication/AuthenticationApi.jsx";
 
 const placeholderImage = 'src/assets/product.png';
 
@@ -13,6 +15,7 @@ function ProductDetail() {
     const [categories, setCategories] = useState([]);
     const [imageUrl, setImageUrl] = useState(placeholderImage);
     const navigate = useNavigate();
+    const { globalStoreId } = useContext(GlobalStoreId);
     const lang = getLanguage(); // Eklenen satır
 
     useEffect(() => {
@@ -25,7 +28,7 @@ function ProductDetail() {
                     setImageUrl(`data:image/jpeg;base64,${productResponse.resourceFile.data}`);
                 }
 
-                const categoryResponse = await getAllCategories();
+                const categoryResponse = await getCategoriesByStoreId(decodeUserToken().storeId || globalStoreId);
                 setCategories(categoryResponse.data);
             } catch (error) {
                 console.error("Error fetching data:", error);

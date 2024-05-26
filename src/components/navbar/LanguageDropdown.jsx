@@ -2,6 +2,8 @@ import { Fragment, useState, useEffect } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import usa from '../../assets/usa.png';
+import tur from '../../assets/tur.png';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -62,7 +64,7 @@ const LanguageDropdown = () => {
                                         'block px-4 py-2 text-sm text-gray-700 cursor-pointer flex items-center'
                                     )}
                                 >
-                                    <img src='src/assets/usa.png' alt="English" className="w-5 h-5 mr-2" />
+                                    <img src={usa} alt="English" className="w-5 h-5 mr-2" />
                                     English
                                 </a>
                             )}
@@ -76,7 +78,7 @@ const LanguageDropdown = () => {
                                         'block px-4 py-2 text-sm text-gray-700 cursor-pointer flex items-center'
                                     )}
                                 >
-                                    <img src='src/assets/tur.png' alt="Türkçe" className="w-5 h-5 mr-2" />
+                                    <img src={tur} alt="Türkçe" className="w-5 h-5 mr-2" />
                                     Türkçe
                                 </a>
                             )}

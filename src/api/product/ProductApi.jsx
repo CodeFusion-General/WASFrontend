@@ -62,6 +62,21 @@ const getAllProducts = async () => {
     }
 };
 
+const getProductsByCategoryId = async (categoryId) => {
+    const url = `${API_BASE_URL}/product/category/${categoryId}`;
+
+    try {
+        const response = await axios.get(url, { headers: getHeaders() });
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error(`Error getting products with categoryId: ${categoryId}`);
+        }
+    } catch (error) {
+        console.error("Error in getProductsByCategoryId:", error);
+    }
+}
+
 const getProductById = async (id) => {
     const url = `${API_BASE_URL}/product/getProductById/${id}`;
 
@@ -170,6 +185,7 @@ export
     getProductsByStoreId,
     getAllProducts,
     getProductById,
+    getProductsByCategoryId,
     //add methods
     addProduct,
     //update methods

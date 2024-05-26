@@ -15,9 +15,9 @@ function CompanyDetail() {
     useEffect(() => {
         const fetchCompany = async () => {
             const decodedToken = decodeUserToken();
-            if ((decodedToken && decodedToken.companyId) || globalCompanyId) {
+            if ((decodedToken && decodedToken.companyId) || globalCompanyId.id) {
                 try {
-                    const response = await getCompanyById(decodedToken.companyId || globalCompanyId);
+                    const response = await getCompanyById(decodedToken.companyId || globalCompanyId.id);
                     setCompany(response.data);
                 } catch (error) {
                     alert(translate(lang, 'companyFetchError'));

@@ -52,6 +52,17 @@ const getAllCategories = async () => {
     )
 }
 
+const getCategoriesSummary = async (storeId) => {
+    const url = `${API_BASE_URL}/category/getall/summaries/${storeId}`;
+    console.log(storeId)
+    return apiCall(
+        url,
+        { headers: getHeaders() },
+        'Unexpected response status while getting categories summary.'
+    );
+
+}
+
 const getCategoriesByStoreId = async (storeId) => {
     const url = `${API_BASE_URL}/category/store/${storeId}/categories`
      
@@ -69,7 +80,14 @@ const getTop5MostProfitableCategory = async (storeId) => {
         'Unexpected response status while getting top 5 most profitable categories.'
     );
 };
-
+const getCategoryById = async (categoryId) => {
+    const url = `${API_BASE_URL}/category/${categoryId}`;
+    return apiCall(
+        url,
+        { headers: getHeaders() },
+        'Unexpected response status while getting category by id.'
+    );
+};
 const addCategory = async (category) => {
     const url = `${API_BASE_URL}/category/add`;
     
@@ -88,7 +106,9 @@ const addCategory = async (category) => {
 
 export {
     getAllCategories,
+    getCategoriesSummary,
     getCategoriesByStoreId,
     getTop5MostProfitableCategory,
+    getCategoryById,
     addCategory
 }

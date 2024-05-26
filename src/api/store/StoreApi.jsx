@@ -70,6 +70,15 @@ const getStoresByUserId = async (storeId) => {
     );
 };
 
+const getStoresByCompanyId = async (companyId) => {
+    const url = `${API_BASE_URL}/store/getStoreByCompanyId/${companyId}`;
+    return apiCall(
+        url,
+        { headers: getHeaders() },
+        `Unexpected response status while getting stores by company id.`
+    );
+}
+
 const getTop3StoresByProfitForUser = async (userId) => {
     const url = `${API_BASE_URL}/store/top3StoresByProfit/${userId}`;
     return apiCall(
@@ -182,6 +191,7 @@ export {
     getStoreById,
     getAllStores,
     getStoresByUserId,
+    getStoresByCompanyId,
     getTop5MostProfitableProducts,
     getTop3StoresByProfitForUser,
     //add methods

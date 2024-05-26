@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { getTop3EmployeesByStoreProfit } from '../../../api/user/UserApi';
 import { getLanguage, translate } from '../../../language';

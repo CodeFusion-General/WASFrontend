@@ -31,9 +31,11 @@ import CompanyAdd from "./pages/companyPages/companyAdd/CompanyAdd.jsx";
 import CompanyDetail from "./pages/companyPages/companyDetail/CompanyDetail.jsx";
 import CompanyList from "./pages/companyPages/companyList/CompanyList.jsx";
 import CompanyUpdate from "./pages/companyPages/companyUpdate/CompanyUpdate.jsx";
+import CategoryList from "./pages/categoryPages/CategoryList.jsx";
 //global
 import {GlobalStoreIdProvider} from "./api/store/GlobalStoreId.jsx";
 import {GlobalCompanyIdProvider} from "./api/company/GlobalCompanyId.jsx";
+
 
 
 const Dashboard = () => {
@@ -42,11 +44,13 @@ const Dashboard = () => {
             <Navbar />
             <div className="flex flex-1">
                 <Sidebar />
-                <div className="flex-1 ml-64 p-4">
+                <div className="flex-1 ml-64">
                     <Outlet />
                 </div>
             </div>
-            <Footer />
+            <div className="ml-64">
+                <Footer />
+            </div>
         </div>
     );
 };
@@ -95,6 +99,14 @@ const router = createBrowserRouter([
                 path: "/product-list",
                 element: <EmployeeRouter
                     element={<ProductsList />}
+                />,
+            },
+            {
+                path: "/product-list/category/:categoryId",
+                element: <EmployeeRouter
+                    element={<ProductsList
+                        type="category"
+                    />}
                 />,
             },
             {
@@ -185,6 +197,12 @@ const router = createBrowserRouter([
                     element={<CompanyUpdate />}
                 />,
             },
+            {
+                path: "/categories",
+                element: <EmployeeRouter
+                    element={<CategoryList />}
+                />
+            }
         ],
     },
     {

@@ -37,7 +37,7 @@ function TransactionAdd() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (transaction.phone.length < 9 || transaction.phone.length > 13) {
-            alert('Phone number must be between 9 to 13 characters long.');
+            alert(translate(lang, 'phoneLengthError'));
             return;
         }
         console.log("Submitting transaction:", transaction); // Debugging line

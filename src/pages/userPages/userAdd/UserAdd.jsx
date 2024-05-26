@@ -84,7 +84,7 @@ export default function UserAdd(props) {
             alert(translate(lang, 'chooseStoreFirst'));
             navigate('/stores');
         }
-    }, [globalStoreId]);
+    }, []);
 
     useEffect(() => {
         setPasswordsMatch(account.password && account.password_again && account.password === account.password_again);

@@ -5,6 +5,7 @@ import { addAccount } from '../../../api/user/UserApi.jsx';
 import { useNavigate } from "react-router-dom";
 import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
 import { getLanguage, translate } from '../../../language';
+import {decodeUserToken} from "../../../api/authentication/AuthenticationApi.jsx";
 
 export default function UserAdd(props) {
     const { type } = props;
@@ -48,6 +49,7 @@ export default function UserAdd(props) {
         formData.append('phoneNo', user.phone);
         formData.append('roles', type.toString().toUpperCase());
         formData.append('isTelegram', false);
+        formData.append('ownerId',decodeUserToken().userId )
         if(globalStoreId !== null || type === 'Employee'){
             formData.append('storeIds', globalStoreId);
         } else if(type === 'Boss') {

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { getTop3EmployeesByStoreProfit } from '../../../api/user/UserApi';
 import { getLanguage, translate } from '../../../language';
+import {decodeUserToken} from "../../../api/authentication/AuthenticationApi.jsx";
 
 const Top3Employee = () => {
     const [employees, setEmployees] = useState([]);
@@ -11,7 +12,7 @@ const Top3Employee = () => {
     useEffect(() => {
         const fetchEmployeeData = async () => {
             try {
-                const response = await getTop3EmployeesByStoreProfit();
+                const response = await getTop3EmployeesByStoreProfit(decodeUserToken().userId);
                 setEmployees(response.data);
                 setLoading(false);
             } catch (error) {

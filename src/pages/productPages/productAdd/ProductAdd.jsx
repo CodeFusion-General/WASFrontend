@@ -107,7 +107,7 @@ function ProductAdd({ onClose }) {
         }
     };
 
-    const handleAddCategory = () => {
+    const handleAddCategory = async () => {
         const storeId = parseInt(decodeUserToken().storeId || globalStoreId, 10);
         const newCategoryObj = {
             category: {
@@ -118,28 +118,25 @@ function ProductAdd({ onClose }) {
             },
             prototypes: product.productFields.map(field => ({ name: field.name, isDelete: false }))
         };
-        const newCategoryObj1 = {
-            name: newCategory,
-            storeId: storeId,
-            prototypes: product.productFields.map(field => ({ name: field.name, isDelete: false })),
-            products: []
-        };
 
-        addCategory(newCategoryObj)
-            .then(() => alert(translate(lang, 'categoryAdded')))
-            .catch((error) => {
-                console.error("Failed to add category", error);
-            });
-
-        setCategories([...categories, newCategoryObj1]);
-        setProduct({
-            ...product,
-            category: newCategoryObj.id.toString(),
-            productFields: []
-        });
-        setNewCategory('');
-        setShowNewCategoryInput(false);
+        try {
+            await addCategory(newCategoryObj);
+            alert(translate(lang, 'categoryAdded'));
+            // Refetch categories after adding the new category
+            const categoryData = await getCategoriesByStoreId(decodeUserToken().storeId || globalStoreId);
+            setCategories(categoryData.data);
+            setProduct(prev => ({
+                ...prev,
+                category: '', // reset the category selection if needed
+                productFields: []
+            }));
+            setNewCategory('');
+            setShowNewCategoryInput(false);
+        } catch (error) {
+            console.error("Failed to add category", error);
+        }
     };
+
 
     const handlePhotoChange = (e) => {
         const file = e.target.files[0];
@@ -159,12 +156,11 @@ function ProductAdd({ onClose }) {
                 alert(photoError);
                 return;
             }
-            const photoData = document.getElementById('imageFile').files[0];
-            console.log("Product data", product);
-            const result = await addProduct(product, photoData);
-            console.log("Product added successfully", result);
+            await addProduct(product, photo);
+            alert(translate(lang, 'productAdded'));
             navigate('/product-list');
         } catch (error) {
+            alert(translate(lang, 'productAddFailed'));
             console.error("Failed to add product", error);
         }
     };
@@ -221,7 +217,8 @@ function ProductAdd({ onClose }) {
                 </div>
                 {showNewCategoryInput && (
                     <div className="mt-6 mb-4">
-                        <label htmlFor="newCategory" className="block text-sm font-medium text-gray-700 mb-2">{translate(lang, 'newCategory')}</label>
+                        <label htmlFor="newCategory"
+                               className="block text-sm font-medium text-gray-700 mb-2">{translate(lang, 'newCategory')}</label>
                         <div className="flex items-center">
                             <input
                                 id="newCategory"
@@ -272,7 +269,8 @@ function ProductAdd({ onClose }) {
                     </button>
                 </div>
                 <div className="mt-6 mb-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">{translate(lang, 'productImage')}</label>
+                    <label
+                        className="block text-sm font-medium text-gray-700 mb-2">{translate(lang, 'productImage')}</label>
                     <input
                         id="imageFile"
                         name="imageFile"
@@ -281,6 +279,15 @@ function ProductAdd({ onClose }) {
                         onChange={handlePhotoChange}
                     />
                     {photoError && <p className="text-red-500 text-sm mt-2">{photoError}</p>}
+                    {photo && (
+                        <div className="mt-4">
+                            <img
+                                src={URL.createObjectURL(photo)}
+                                alt="Product Preview"
+                                className="object-cover border rounded-lg"
+                            />
+                        </div>
+                    )}
                 </div>
                 <div className="flex justify-end">
                     <button
@@ -301,7 +308,7 @@ function ProductAdd({ onClose }) {
     );
 }
 
-function InputField({ id, label, name, value, onChange, enabled = true, isSelect = false, options = [] }) {
+function InputField({id, label, name, value, onChange, enabled = true, isSelect = false, options = []}) {
     return (
         <div className="w-full mb-4 mr-3">
             <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-2">{label}</label>

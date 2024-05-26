@@ -72,8 +72,8 @@ const getAllUsers = async () => {
     return apiCall(url, { headers: getHeaders() }, "Error getting all users:");
 };
 
-const getTop3EmployeesByStoreProfit = async () => {
-    const url = `${API_BASE_URL}/user/top3EmployeesByStoreProfit`;
+const getTop3EmployeesByStoreProfit = async (ownerId) => {
+    const url = `${API_BASE_URL}/user/top3EmployeesByStoreProfit/${ownerId}`;
     return apiCall(
         url,
         { headers: getHeaders() },
@@ -88,6 +88,7 @@ const addAccount = async (formData) => {
         const response = await axios.post(url, formData, {
             headers: getHeaders(true)
         });
+
 
         if (response.status === 201) {
             return response.data;

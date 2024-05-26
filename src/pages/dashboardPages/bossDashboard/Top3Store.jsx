@@ -20,12 +20,12 @@ const Top3Store = () => {
     const [stores, setStores] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const userId = decodeUserToken().userId;
+    const companyId = decodeUserToken().companyId;
 
     useEffect(() => {
         const fetchStoreData = async () => {
             try {
-                const response = await getTop3StoresByProfitForUser(userId);
+                const response = await getTop3StoresByProfitForUser(companyId);
                 setStores(response.data);
                 setLoading(false);
             } catch (error) {
@@ -35,7 +35,7 @@ const Top3Store = () => {
         };
 
         fetchStoreData();
-    }, [userId]);
+    }, [companyId]);
 
     if (loading) {
         return <div>Loading...</div>;

@@ -57,6 +57,7 @@ function StoreAdd() {
       return;
     }
 
+
     const formData = new FormData();
     formData.append("name", store.name);
     formData.append("address", store.address);

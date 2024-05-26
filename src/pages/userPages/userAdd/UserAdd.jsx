@@ -1,11 +1,11 @@
-import { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { CiCircleCheck } from 'react-icons/ci';
 import { addAccount } from '../../../api/user/UserApi.jsx';
 import { useNavigate } from "react-router-dom";
 import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
 import { getLanguage, translate } from '../../../language';
-import {decodeUserToken} from "../../../api/authentication/AuthenticationApi.jsx";
+import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
 
 export default function UserAdd(props) {
     const { type } = props;
@@ -35,8 +35,15 @@ export default function UserAdd(props) {
     const handleRegister = async (event) => {
         event.preventDefault();
 
+
+
         if (!passwordsMatch) {
             alert(translate(lang, 'passwordsDoNotMatch'));
+            return;
+        }
+
+        if (user.phone.length < 9 || user.phone.length > 13) {
+            alert(translate(lang, 'phoneLengthError'));
             return;
         }
 
@@ -49,15 +56,17 @@ export default function UserAdd(props) {
         formData.append('phoneNo', user.phone);
         formData.append('roles', type.toString().toUpperCase());
         formData.append('isTelegram', false);
-        formData.append('ownerId',decodeUserToken().userId )
-        if(globalStoreId !== null || type === 'Employee'){
+        formData.append('ownerId', decodeUserToken().userId);
+        if (globalStoreId !== null || type === 'Employee') {
             formData.append('storeIds', globalStoreId);
-        } else if(type === 'Boss') {
+        } else if (type === 'Boss') {
             formData.append('storeIds', "");
         } else {
             alert(translate(lang, 'storeNotDefined'));
             return;
         }
+
+
 
         const fileInput = document.getElementById('photoInput');
         if (fileInput.files.length > 0) {
@@ -80,7 +89,7 @@ export default function UserAdd(props) {
     };
 
     useEffect(() => {
-        if(globalStoreId === null && type === 'Employee'){
+        if (globalStoreId === null && type === 'Employee') {
             alert(translate(lang, 'chooseStoreFirst'));
             navigate('/stores');
         }
@@ -92,7 +101,7 @@ export default function UserAdd(props) {
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="p-5 my-10 w-full max-w-4xl bg-white rounded-lg shadow-lg ">
+            <div className="p-5 my-10 w-full max-w-4xl bg-white rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold mb-6 text-gray-800">
                     {type === 'Boss' ? translate(lang, 'register') : translate(lang, 'newEmployee')}
                 </h2>
@@ -139,6 +148,10 @@ export default function UserAdd(props) {
                                 label={translate(lang, 'phone')}
                                 name="phone"
                                 value={user.phone}
+                                minLength="9"
+                                maxLength="13"
+                                className="block w-full mt-1"
+                                required
                                 onChange={e => setUser(prevState => ({
                                     ...prevState,
                                     phone: e.target.value

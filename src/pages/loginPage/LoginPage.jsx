@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FaUser, FaLock } from "react-icons/fa";
 import { login } from '../../api/authentication/AuthenticationApi.jsx';
 import logo from '../../assets/wislogo.png';
+import background from '../../assets/WASBackground.jpg';
 import 'tailwindcss/tailwind.css';
 import { getLanguage, translate } from '../../language';
 
@@ -27,7 +28,10 @@ const LoginPage = () => {
   };
 
   return (
-      <section className="bg-gray-100 min-h-screen flex box-border justify-center items-center font-roboto-slab" style={{ backgroundImage: `url('src/assets/WASBackground.jpg')` }}>
+      <section
+          className="bg-gray-100 min-h-screen flex box-border justify-center items-center font-roboto-slab"
+          style={{ backgroundImage: `url(${background})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      >
         <div className="bg-white/60 border border-gray-300 backdrop-blur-md shadow-lg rounded-2xl flex max-w-4xl p-5 items-center">
           <div className="md:w-1/2 px-12">
             <h2 className="font-bold text-3xl text-[#2C2C2C]">{translate(getLanguage(), 'login')}</h2>

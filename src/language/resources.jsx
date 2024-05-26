@@ -218,6 +218,7 @@ export default {
     companyIdError: "Company ID not found. Please log in again.",
     companyUpdateSuccess: "Company updated successfully!",
     companyUpdateError: "Failed to update company. Please try again.",
+    sessionExpired: "Session expired. Please log in again.",
   },
   tr: {
     warehouseInformationSystem: "DEPO BİLGİ SİSTEMİ",
@@ -443,5 +444,6 @@ export default {
     companyIdError: "Şirket Kimliği bulunamadı. Lütfen tekrar giriş yapın.",
     companyUpdateSuccess: "Şirket başarıyla güncellendi!",
     companyUpdateError: "Şirket güncellenemedi. Lütfen tekrar deneyin.",
+    sessionExpired: "Oturum süresi doldu. Lütfen tekrar giriş yapın.",
   },
 };

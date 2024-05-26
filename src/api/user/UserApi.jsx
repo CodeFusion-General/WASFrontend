@@ -1,13 +1,15 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-
+import {getLanguage, translate} from '../../language';
 const API_BASE_URL = "http://localhost:8080";
 
 //#region Fun
 
+const lang = getLanguage();
+
 const checkResponseStatusCode = (status) => {
     if (status === 403) {
-        alert("You must log in to perform this action.");
+        alert(translate(lang, 'sessionExpired'));
         Cookies.remove('user_token');
         window.location.href = `http://localhost:5173/login`;
         return false;

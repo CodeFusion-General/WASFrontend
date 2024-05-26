@@ -126,7 +126,7 @@ function ProductAdd({ onClose }) {
         };
 
         addCategory(newCategoryObj)
-            .then(() => alert("Category added successfully"))
+            .then(() => alert(translate(lang, 'categoryAdded')))
             .catch((error) => {
                 console.error("Failed to add category", error);
             });

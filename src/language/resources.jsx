@@ -219,6 +219,8 @@ export default {
     companyUpdateSuccess: "Company updated successfully!",
     companyUpdateError: "Failed to update company. Please try again.",
     sessionExpired: "Session expired. Please log in again.",
+    categoryAdded: "Category added successfully!",
+    phoneLenghtError: "Phone number must be between 9 and 13 characters.",
   },
   tr: {
     warehouseInformationSystem: "DEPO BİLGİ SİSTEMİ",
@@ -445,5 +447,7 @@ export default {
     companyUpdateSuccess: "Şirket başarıyla güncellendi!",
     companyUpdateError: "Şirket güncellenemedi. Lütfen tekrar deneyin.",
     sessionExpired: "Oturum süresi doldu. Lütfen tekrar giriş yapın.",
+    categoryAdded: "Kategori başarıyla eklendi!",
+    phoneLenghtError: "Telefon numarası 9 ile 13 karakter arasında olmalıdır.",
   },
 };

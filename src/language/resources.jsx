@@ -227,6 +227,8 @@ export default {
     productsByCategory: "Products by Category: ",
     seeProducts: "See Products",
     categories: "Categories",
+    transactionAddSuccess: "Transaction added successfully!",
+    transactionAddError: "Failed to add transaction. Please try again.",
   },
   tr: {
     warehouseInformationSystem: "DEPO BİLGİ SİSTEMİ",

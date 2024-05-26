@@ -29,7 +29,7 @@ const ProfitChart = (props) => {
     labels: [],
     datasets: [
       {
-        label: "Total",
+        label: translate(getLanguage(), "total"),
         data: [],
         backgroundColor: "rgba(75, 192, 192, 0.6)",
         borderColor: "rgba(75, 192, 192, 1)",
@@ -56,7 +56,7 @@ const ProfitChart = (props) => {
           labels,
           datasets: [
             {
-              label: "Total",
+              label: translate(getLanguage(), "total"),
               data: totalData,
               backgroundColor: "rgba(75, 192, 192, 0.6)",
               borderColor: "rgba(75, 192, 192, 1)",
@@ -82,7 +82,7 @@ const ProfitChart = (props) => {
       },
       title: {
         display: true,
-        text: "Daily Total Transactions",
+        text: translate(getLanguage(), "dailyTotalTransactions"),
       },
     },
   };

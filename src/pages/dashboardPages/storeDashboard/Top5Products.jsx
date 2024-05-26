@@ -13,6 +13,7 @@ const Top5Products = (props) => {
   const navigate = useNavigate();
 
   const lang = getLanguage();
+  const currency = translate(lang, 'currency'); // Para birimini çeviriyi burada alın
 
   useEffect(() => {
     const fetchData = async () => {
@@ -88,8 +89,8 @@ const Top5Products = (props) => {
                   <td className="py-3 px-5 border-b">{product.name}</td>
                   <td className="py-3 px-5 border-b">
                     {product.profit >= 0
-                        ? `$${product.profit.toFixed(2)}`
-                        : `-$${Math.abs(product.profit).toFixed(2)}`}
+                        ? `${currency}${product.profit.toFixed(2)}`
+                        : `-${currency}${Math.abs(product.profit).toFixed(2)}`}
                   </td>
                 </tr>
             ))}

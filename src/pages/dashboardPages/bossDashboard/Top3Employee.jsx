@@ -63,7 +63,7 @@ const Top3Employee = () => {
                 beginAtZero: true,
                 ticks: {
                     callback: function(value) {
-                        return '$' + value.toLocaleString();
+                        return translate(getLanguage(), 'currency') + value.toLocaleString();
                     },
                 },
             },
@@ -80,7 +80,7 @@ const Top3Employee = () => {
                             label += ': ';
                         }
                         if (context.parsed.y !== null) {
-                            label += '$' + context.parsed.y.toLocaleString();
+                            label += translate(getLanguage(), 'currency') + context.parsed.y.toLocaleString();
                         }
                         return label;
                     },

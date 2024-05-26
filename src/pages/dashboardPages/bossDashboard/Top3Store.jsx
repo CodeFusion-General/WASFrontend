@@ -73,7 +73,7 @@ const Top3Store = () => {
                             label += ': ';
                         }
                         if (context.raw !== null) {
-                            label += '$' + context.raw.toLocaleString();
+                            label += translate(getLanguage(), 'currency') + context.raw.toLocaleString();
                         }
                         return label;
                     },

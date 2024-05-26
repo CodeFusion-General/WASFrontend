@@ -207,7 +207,7 @@ function Navbar() {
                                                         )}
                                                     </Menu.Item>
                                                 ))}
-                                                {notifications.length > 3 && (
+                                                {notifications.length > 2 && (
                                                     <div
                                                         className="px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100"
                                                         onClick={viewAllNotifications}

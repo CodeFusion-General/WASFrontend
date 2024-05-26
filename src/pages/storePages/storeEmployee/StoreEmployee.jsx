@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useContext } from 'react';
 import { getUsersByStoreId, updateUser } from "../../../api/user/UserApi.jsx";
 import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
@@ -18,7 +17,7 @@ const StoreEmployee = () => {
     const [employees, setEmployees] = useState([]);
     const [editingRoles, setEditingRoles] = useState({});
     const { globalStoreId } = useContext(GlobalStoreId);
-    const [currentUserRole, setCurrentUserRole] = useState(null);
+    const currentUserRole = decodeUserToken().roles[0];
     const navigate = useNavigate();
     const lang = getLanguage();
 
@@ -51,6 +50,7 @@ const StoreEmployee = () => {
     }, [globalStoreId]);
 
     const handleRoleChange = (id, newRole) => {
+        console.log(`Role change triggered for user ${id} to ${newRole}`);
         setEditingRoles(prev => ({ ...prev, [id]: newRole }));
     };
 
@@ -118,7 +118,10 @@ const StoreEmployee = () => {
                                             ))}
                                         </select>
                                     ) : (
-                                        <span onClick={() => handleRoleChange(user.id, user.role)}>{user.role}</span>
+                                        <span onClick={() => {
+                                            console.log(`Span clicked for user ${user.id}`);
+                                            handleRoleChange(user.id, user.role);
+                                        }}>{user.role}</span>
                                     )
                                 ) : (
                                     <span>{user.role}</span>

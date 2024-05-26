@@ -29,6 +29,7 @@ const Top5Category = (props) => {
     const [error, setError] = useState(null);
 
     const lang = getLanguage();
+    const currency = translate(lang, 'currency'); // Para birimi çevirisini burada alın
 
     console.log("StoreId: category", storeId);
 
@@ -82,6 +83,21 @@ const Top5Category = (props) => {
                 beginAtZero: true,
             },
         },
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        label += `${currency}${context.parsed.y.toFixed(2)}`;
+                        return label;
+                    }
+                }
+            }
+        }
     };
 
     return (

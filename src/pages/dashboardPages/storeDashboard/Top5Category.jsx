@@ -23,6 +23,7 @@ const BORDER_COLORS = [
 ];
 
 const Top5Category = (props) => {
+    // eslint-disable-next-line react/prop-types
     const { storeId } = props;
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);

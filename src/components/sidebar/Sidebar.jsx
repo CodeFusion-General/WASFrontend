@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FaBox, FaHome, FaStore, FaBuilding } from 'react-icons/fa';
+import { FaBox, FaHome, FaStore, FaBuilding, FaList } from 'react-icons/fa';
 import logo from '../../assets/logowis.png';
 import { useEffect, useState } from "react";
 import { decodeUserToken } from "../../api/authentication/AuthenticationApi.jsx";
@@ -51,6 +51,12 @@ const Sidebar = () => {
                                 </Link>
                             </li>
                         }
+                        <li className="px-6 py-2 border-b border-gray-700 flex items-center">
+                            <FaList className="mr-4"/> {/* Category icon */}
+                            <Link to="/categories" className="flex-grow text-white hover:text-blue-500">
+                                {translate(getLanguage(), 'categories')}
+                            </Link>
+                        </li>
                         <li className="px-6 py-2 border-b border-gray-700 flex items-center">
                             <FaBox className="mr-4"/> {/* Products icon */}
                             <Link to="/product-list" className="flex-grow text-white hover:text-blue-500">

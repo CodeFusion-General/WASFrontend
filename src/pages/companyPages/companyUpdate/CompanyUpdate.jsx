@@ -21,7 +21,7 @@ function CompanyUpdate() {
             const decodedToken = decodeUserToken();
             if (decodedToken) {
                 try {
-                    const response = await getCompanyById(decodeUserToken().companyId || globalCompanyId);
+                    const response = await getCompanyById(decodeUserToken().companyId || globalCompanyId.id);
                     setCompany(response.data);
                     if (response.data.resourceFile && response.data.resourceFile.data) {
                         setImageUrl(`data:image/jpeg;base64,${response.data.resourceFile.data}`);

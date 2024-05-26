@@ -9,6 +9,7 @@ import {getLanguage, translate} from '../../../language';
 function StoreAdd() {
   const { globalCompanyId } = useContext(GlobalCompanyId);
   const [companyId, setCompanyId] = useState();
+  const [userId, setUserId] = useState();
   const navigate = useNavigate();
   const [store, setStore] = useState({
     name: "",
@@ -25,11 +26,11 @@ function StoreAdd() {
     } else if(decodeUserToken().roles[0] === "BOSS") {
       setCompanyId(decodeUserToken().companyId);
     } else {
-      setCompanyId(globalCompanyId);
+      setUserId(globalCompanyId.userId);
+      setCompanyId(globalCompanyId.id);
     }
   }, [globalCompanyId, navigate]);
 
-  const userId = decodeUserToken().userId;
   const [photo, setPhoto] = useState(null);
 
   const handlePhotoChange = (event) => {
@@ -67,6 +68,7 @@ function StoreAdd() {
       const result = await addStore(formData);
       console.log(result);
       alert(translate(lang, 'storeAdded'));
+      navigate("/stores");
     } catch (error) {
       console.error("Error while adding the store:", error);
       alert(translate(lang, 'storeAddFailed'));

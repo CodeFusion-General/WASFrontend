@@ -229,6 +229,8 @@ export default {
     categories: "Categories",
     transactionAddSuccess: "Transaction added successfully!",
     transactionAddError: "Failed to add transaction. Please try again.",
+    productAdded: "Product added successfully!",
+    productAddError: "Failed to add product. Please try again.",
   },
   tr: {
     warehouseInformationSystem: "DEPO BİLGİ SİSTEMİ",
@@ -465,5 +467,7 @@ export default {
     categories: "Kategoriler",
     transactionAddSuccess: "İşlem başarıyla eklendi!",
     transactionAddError: "İşlem eklenemedi. Lütfen tekrar deneyin.",
+    productAdded: "Ürün başarıyla eklendi!",
+    productAddError: "Ürün eklenemedi. Lütfen tekrar deneyin.",
   },
 };

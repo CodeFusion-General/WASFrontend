@@ -24,7 +24,8 @@ function StoreAdd() {
       alert(translate(lang, 'pleaseSelectACompany'));
       navigate("/companies");
     } else if(decodeUserToken().roles[0] === "BOSS") {
-      setCompanyId(decodeUserToken().companyId);
+        setUserId(decodeUserToken().userId);
+        setCompanyId(decodeUserToken().companyId);
     } else {
       setUserId(globalCompanyId.userId);
       setCompanyId(globalCompanyId.id);

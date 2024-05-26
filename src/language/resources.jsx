@@ -463,5 +463,7 @@ export default {
     productsByCategory: "Kategoriye Göre Ürünler: ",
     seeProducts: "Ürünleri Görüntüle",
     categories: "Kategoriler",
+    transactionAddSuccess: "İşlem başarıyla eklendi!",
+    transactionAddError: "İşlem eklenemedi. Lütfen tekrar deneyin.",
   },
 };

@@ -48,7 +48,7 @@ const Dashboard = () => {
                     <Outlet />
                 </div>
             </div>
-            <div className="ml-64">
+            <div className="ml-64 mt-6">
                 <Footer />
             </div>
         </div>

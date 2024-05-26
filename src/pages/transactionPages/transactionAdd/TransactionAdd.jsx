@@ -7,6 +7,7 @@ function TransactionAdd() {
     const { productId } = useParams();
     const navigate = useNavigate();
     const lang = getLanguage();
+    const [image, setImage] = useState(null);
 
     const getCurrentDate = () => {
         const today = new Date();
@@ -40,9 +41,14 @@ function TransactionAdd() {
             alert(translate(lang, 'phoneLengthError'));
             return;
         }
-        console.log("Submitting transaction:", transaction); // Debugging line
-        await addTransaction(transaction, photo);
-        navigate(`/transactions/${productId}`);
+        try {
+            await addTransaction(transaction, image);
+            alert(translate(lang, 'transactionAddSuccess'));
+            navigate(`/transactions/${productId}`);
+        } catch (error) {
+            console.error('Failed to add transaction:', error);
+            alert(translate(lang, 'transactionAddError'));
+        }
     };
 
     return (
@@ -115,7 +121,7 @@ function TransactionAdd() {
                                     setPhoto(e.target.result);
                                 };
                                 reader.readAsDataURL(file);
-                                setPhoto(file)
+                                setImage(file)
                             }
                         }}
                     />

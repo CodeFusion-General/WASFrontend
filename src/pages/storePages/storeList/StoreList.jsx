@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { getStoresByUserId } from "../../../api/store/StoreApi.jsx";
+import { getStoresByCompanyId } from "../../../api/store/StoreApi.jsx";
 import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
 import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
+import { GlobalCompanyId } from "../../../api/company/GlobalCompanyId.jsx";
 import { useNavigate } from "react-router-dom";
 import { getLanguage, translate } from '../../../language';
 
 function StoreList() {
     const [stores, setStores] = useState([]);
     const { setGlobalStoreId, globalStoreId } = useContext(GlobalStoreId);
+    const { globalCompanyId } = useContext(GlobalCompanyId);
     const navigate = useNavigate();
     const lang = getLanguage();
 
@@ -16,22 +18,43 @@ function StoreList() {
             const decodedToken = decodeUserToken();
             if (decodedToken) {
                 try {
-                    const response = await getStoresByUserId(decodedToken.userId);
-                    const storesWithBase64 = await Promise.all(
-                        response.data.map(async (store) => {
-                            if (store.resourceFile && store.resourceFile.data) {
-                                const binaryData = new Uint8Array(atob(store.resourceFile.data).split("").map(char => char.charCodeAt(0)));
-                                const blob = new Blob([binaryData], { type: 'application/octet-stream' });
-                                const base64String = await convertToBase64(blob);
-                                return {
-                                    ...store,
-                                    base64String,
-                                };
-                            }
-                            return store;
-                        })
-                    );
-                    setStores(storesWithBase64);
+                    if (decodedToken.roles[0] === "ADMIN") {
+                        const response = await getStoresByCompanyId(globalCompanyId.id);
+                        const storesWithBase64 = await Promise.all(
+                            response.data.map(async (store) => {
+                                if (store.resourceFile && store.resourceFile.data) {
+                                    const binaryData = new Uint8Array(atob(store.resourceFile.data).split("").map(char => char.charCodeAt(0)));
+                                    const blob = new Blob([binaryData], { type: 'application/octet-stream' });
+                                    const base64String = await convertToBase64(blob);
+                                    return {
+                                        ...store,
+                                        base64String,
+                                    };
+                                }
+                                return store;
+                            })
+                        );
+                        setStores(storesWithBase64);
+                    }
+                    else {
+                        const response = await getStoresByCompanyId(decodedToken.companyId);
+                        const storesWithBase64 = await Promise.all(
+                            response.data.map(async (store) => {
+                                if (store.resourceFile && store.resourceFile.data) {
+                                    const binaryData = new Uint8Array(atob(store.resourceFile.data).split("").map(char => char.charCodeAt(0)));
+                                    const blob = new Blob([binaryData], { type: 'application/octet-stream' });
+                                    const base64String = await convertToBase64(blob);
+                                    return {
+                                        ...store,
+                                        base64String,
+                                    };
+                                }
+                                return store;
+                            })
+                        );
+                        setStores(storesWithBase64);
+                    }
+
                 } catch (error) {
                     console.error("Failed to get stores.", error);
                 }

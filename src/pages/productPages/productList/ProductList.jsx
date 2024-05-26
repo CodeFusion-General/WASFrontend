@@ -1,15 +1,19 @@
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getProductsByStoreId } from "../../../api/product/ProductApi.jsx";
+import { useNavigate, useParams } from 'react-router-dom';
+import { getProductsByStoreId, getProductsByCategoryId } from "../../../api/product/ProductApi.jsx";
+import { getCategoryById } from "../../../api/category/CategoryApi.jsx";
 import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
 import { GlobalStoreId } from "../../../api/store/GlobalStoreId.jsx";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import {getLanguage, translate} from '../../../language';
 
-function ProductList() {
+function ProductList(props) {
+    const { type } = props;
+    const { categoryId } = useParams();
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
+    const [category, setCategory] = useState(null);
     const [globalFilter, setGlobalFilter] = useState('');
     const { globalStoreId } = useContext(GlobalStoreId);
     const lang = getLanguage();
@@ -17,21 +21,28 @@ function ProductList() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await getProductsByStoreId(decodeUserToken().storeId || globalStoreId);
-                setProducts(response || []);
+                if (type === "category" && categoryId) {
+                    const categoryResponse = await getCategoryById(categoryId);
+                    setCategory(categoryResponse.data);
+                    const productResponse = await getProductsByCategoryId(categoryId);
+                    setProducts(productResponse || []);
+                } else {
+                    const storeId = decodeUserToken().storeId || globalStoreId;
+                    if (storeId) {
+                        const response = await getProductsByStoreId(storeId);
+                        setProducts(response || []);
+                    } else {
+                        alert(translate(lang, 'chooseStoreFirst'));
+                        navigate('/stores');
+                    }
+                }
             } catch (error) {
-                console.error("Error in getProductsByStoreId:", error);
+                console.error("Error fetching products:", error);
                 setProducts([]);
             }
         };
-        if (decodeUserToken().storeId || globalStoreId){
-            fetchProducts();
-        }
-        else {
-            alert(translate(lang, 'chooseStoreFirst'));
-            navigate('/stores');
-        }
-    }, []);
+        fetchProducts();
+    }, [type, categoryId, globalStoreId, lang, navigate]);
 
     const handleAddProductClick = () => {
         navigate('/add-product');
@@ -67,7 +78,11 @@ function ProductList() {
 
     return (
         <div className="max-w-6xl mx-auto p-5 bg-white shadow-lg rounded-lg mt-16">
-            <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">{translate(lang, 'allProducts')}</h1>
+            <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">
+                {type === "category" ?
+                    (category ? translate(lang, "productsByCategory") + category.name : translate(lang, "loadingCategory")) :
+                    translate(lang, 'allProducts')}
+            </h1>
             <div className="flex justify-between items-center gap-4 mb-6">
                 <>
                     <input

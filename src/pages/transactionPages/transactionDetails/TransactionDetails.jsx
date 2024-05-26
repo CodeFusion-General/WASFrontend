@@ -1,14 +1,12 @@
-
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getTransactionById, updateTransaction, deleteTransaction } from '../../../api/transaction/TransactionApi.jsx';
+import { getTransactionById, deleteTransaction } from '../../../api/transaction/TransactionApi.jsx';
 import placeholderImage from '../../../assets/transaction.png';
 import { getLanguage, translate } from '../../../language';
 
 function TransactionDetails() {
     const { transactionId } = useParams();
     const [transaction, setTransaction] = useState(null);
-    const [editableTransaction, setEditableTransaction] = useState(null);
     const [imageUrl, setImageUrl] = useState(placeholderImage);
     const navigate = useNavigate();
     const lang = getLanguage();
@@ -17,22 +15,15 @@ function TransactionDetails() {
         const fetchTransaction = async () => {
             const data = await getTransactionById(transactionId);
             setTransaction(data);
-            setEditableTransaction(data);
             setImageUrl(data.resourceFile?.data ? `data:image/jpeg;base64,${data.resourceFile.data}` : placeholderImage);
         };
         fetchTransaction();
     }, [transactionId]);
 
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        const newValue = type === 'checkbox' ? checked : value;
-        setEditableTransaction({ ...editableTransaction, [name]: type === 'radio' ? value === 'true' : newValue });
-    };
-
     const handleDelete = async () => {
         if (window.confirm(translate(lang, 'deleteConfirmation'))) {
             await deleteTransaction(transactionId);
-            navigate(`/transactions/${editableTransaction.product.id}`);
+            navigate(`/transactions/${transaction.product.id}`);
         }
     };
 
@@ -50,26 +41,6 @@ function TransactionDetails() {
                             alt="transaction image"
                             className="rounded-lg object-cover"
                         />
-                        <div className="mt-2 w-full">
-                            <label htmlFor="imageFile" className="block text-sm font-medium text-gray-700">{translate(lang, 'productImage')}</label>
-                            <input
-                                id="imageFile"
-                                name="imageFile"
-                                type="file"
-                                className="form-input mt-1 block w-full border border-gray-300 rounded-md"
-                                onChange={(event) => {
-                                    const file = event.target.files[0];
-                                    if (file) {
-                                        const newImageUrl = URL.createObjectURL(file);
-                                        setEditableTransaction({
-                                            ...editableTransaction,
-                                            imageFile: file
-                                        });
-                                        setImageUrl(newImageUrl); // Update the image URL to display the selected photo
-                                    }
-                                }}
-                            />
-                        </div>
                     </div>
                     {/* General Properties Section */}
                     <div className="md:w-1/2 p-2">
@@ -81,8 +52,8 @@ function TransactionDetails() {
                                         id="buying"
                                         name="isBuying"
                                         value={true}
-                                        checked={editableTransaction.isBuying === true}
-                                        onChange={handleChange}
+                                        checked={transaction.isBuying === true}
+                                        readOnly
                                         className="mr-2"
                                     />
                                     <label htmlFor="buying" className="mr-4">{translate(lang, 'buying')}</label>
@@ -91,8 +62,8 @@ function TransactionDetails() {
                                         id="selling"
                                         name="isBuying"
                                         value={false}
-                                        checked={editableTransaction.isBuying === false}
-                                        onChange={handleChange}
+                                        checked={transaction.isBuying === false}
+                                        readOnly
                                         className="mr-2"
                                     />
                                     <label htmlFor="selling">{translate(lang, 'selling')}</label>
@@ -103,8 +74,8 @@ function TransactionDetails() {
                                 <input
                                     type="date"
                                     name="date"
-                                    value={editableTransaction.date}
-                                    onChange={handleChange}
+                                    value={transaction.date}
+                                    readOnly
                                     className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                 />
                             </div>
@@ -113,8 +84,8 @@ function TransactionDetails() {
                                 <input
                                     type="number"
                                     name="quantity"
-                                    value={editableTransaction.quantity}
-                                    onChange={handleChange}
+                                    value={transaction.quantity}
+                                    readOnly
                                     className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                 />
                             </div>
@@ -124,8 +95,8 @@ function TransactionDetails() {
                                     type="number"
                                     step="0.01"
                                     name="price"
-                                    value={editableTransaction.price}
-                                    onChange={handleChange}
+                                    value={transaction.price}
+                                    readOnly
                                     className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                 />
                             </div>
@@ -134,8 +105,8 @@ function TransactionDetails() {
                                 <input
                                     type="text"
                                     name="fullName"
-                                    value={editableTransaction.fullName}
-                                    onChange={handleChange}
+                                    value={transaction.fullName}
+                                    readOnly
                                     className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                 />
                             </div>
@@ -144,8 +115,8 @@ function TransactionDetails() {
                                 <input
                                     type="text"
                                     name="address"
-                                    value={editableTransaction.address}
-                                    onChange={handleChange}
+                                    value={transaction.address}
+                                    readOnly
                                     className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                 />
                             </div>
@@ -154,8 +125,8 @@ function TransactionDetails() {
                                 <input
                                     type="text"
                                     name="phone"
-                                    value={editableTransaction.phone}
-                                    onChange={handleChange}
+                                    value={transaction.phone}
+                                    readOnly
                                     className="block w-full border border-gray-300 rounded-md py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                 />
                             </div>
@@ -169,7 +140,7 @@ function TransactionDetails() {
                             </button>
                             <button
                                 className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-                                onClick={() => navigate(`/transactions/${editableTransaction.product.id}`)}>
+                                onClick={() => navigate(`/transactions/${transaction.product.id}`)}>
                                 {translate(lang, 'back')}
                             </button>
                         </div>

@@ -4,7 +4,7 @@ import { GlobalCompanyId } from "../../../api/company/GlobalCompanyId.jsx";
 import { useNavigate } from "react-router-dom";
 import { addStore } from "../../../api/store/StoreApi.jsx";
 import { decodeUserToken } from "../../../api/authentication/AuthenticationApi.jsx";
-import {getLanguage, translate} from '../../../language';
+import { getLanguage, translate } from '../../../language';
 
 function StoreAdd() {
   const { globalCompanyId } = useContext(GlobalCompanyId);
@@ -20,7 +20,7 @@ function StoreAdd() {
   const lang = getLanguage();
 
   useEffect(() => {
-    if(decodeUserToken().roles[0] === "ADMIN" && !globalCompanyId){
+    if (decodeUserToken().roles[0] === "ADMIN" && !globalCompanyId) {
       alert(translate(lang, 'pleaseSelectACompany'));
       navigate("/companies");
     } else if(decodeUserToken().roles[0] === "BOSS") {
@@ -51,6 +51,11 @@ function StoreAdd() {
 
   const handleAdd = async (event) => {
     event.preventDefault();
+
+    if (store.storePhoneNo.length < 9 || store.storePhoneNo.length > 13) {
+      alert(translate(lang, 'phoneLengthError'));
+      return;
+    }
 
     const formData = new FormData();
     formData.append("name", store.name);
@@ -139,18 +144,18 @@ function StoreAdd() {
                     {translate(lang, 'address')}
                   </label>
                   <div className="mt-2">
-                                    <textarea
-                                        name="address"
-                                        id="address"
-                                        rows="3"
-                                        onChange={(e) =>
-                                            setStore((prevState) => ({
-                                              ...prevState,
-                                              address: e.target.value,
-                                            }))
-                                        }
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    />
+                  <textarea
+                      name="address"
+                      id="address"
+                      rows="3"
+                      onChange={(e) =>
+                          setStore((prevState) => ({
+                            ...prevState,
+                            address: e.target.value,
+                          }))
+                      }
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
                   </div>
                 </div>
 
@@ -162,18 +167,18 @@ function StoreAdd() {
                     {translate(lang, 'description')}
                   </label>
                   <div className="mt-2">
-                                    <textarea
-                                        name="description"
-                                        id="description"
-                                        rows="3"
-                                        onChange={(e) =>
-                                            setStore((prevState) => ({
-                                              ...prevState,
-                                              description: e.target.value,
-                                            }))
-                                        }
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    />
+                  <textarea
+                      name="description"
+                      id="description"
+                      rows="3"
+                      onChange={(e) =>
+                          setStore((prevState) => ({
+                            ...prevState,
+                            description: e.target.value,
+                          }))
+                      }
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
                   </div>
                 </div>
 

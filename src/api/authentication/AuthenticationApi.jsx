@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import {jwtDecode} from 'jwt-decode';
 
-const API_BASE_URL = "http://localhost:8080";
+const API_BASE_URL = "http://13.50.13.151";
 
 const login = async (username, password) => {
     console.log(username, password)

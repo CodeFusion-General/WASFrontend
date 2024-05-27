@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import axios from "axios";
 import {getLanguage, translate} from '../../language';
-const API_BASE_URL = "http://localhost:8080";
+const API_BASE_URL = "http://13.50.13.151";
 
 const lang = getLanguage();
 //#region Fun
